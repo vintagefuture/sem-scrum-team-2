@@ -1,1 +1,1 @@
-# Group repository for Scrum Team Two
+# Scrum Team Two's Group repository
