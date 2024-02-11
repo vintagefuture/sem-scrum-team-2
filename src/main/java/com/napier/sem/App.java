@@ -1,6 +1,12 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 
 public class App
 {
@@ -69,15 +75,52 @@ public class App
         }
     }
 
-    public static void main(String[] args)
-    {
+    public List<Country> worldPopulationReport() {
+        List<Country> countries = new ArrayList<>();
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT  Name, Population "
+                            + "FROM country "
+                            + "ORDER BY Population DESC";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Iterate over the ResultSet to fetch data for all countries
+            while (rset.next()) {
+                Country country = new Country();
+                country.name = rset.getString("Name");
+                country.population = rset.getInt("Population");
+                countries.add(country);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country population report");
+        }
+        return countries;
+    }
+
+    public static void main(String[] args) {
         // Create new Application
         App a = new App();
 
         // Connect to database
         a.connect();
 
+        // Generate and display country population report
+        List<Country> countries = a.worldPopulationReport();
+        if (countries != null && !countries.isEmpty()) {
+            System.out.println("Country Population Report:");
+            for (Country country : countries) {
+                System.out.println("Country: " + country.name + ", Population: " + country.population);
+            }
+        } else {
+            System.out.println("No countries found or failed to generate the report.");
+        }
+
         // Disconnect from database
         a.disconnect();
     }
+
 }
