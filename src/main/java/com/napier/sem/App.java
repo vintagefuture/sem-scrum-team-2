@@ -101,6 +101,33 @@ public class App
         return countries;
     }
 
+    public List<Country> regionPopulationReport(String region) {
+        List<Country> countries = new ArrayList<>();
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT  Name, Population "
+                            + "FROM country "
+                            + "WHERE region=" + region
+                            + " ORDER BY Population DESC";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Iterate over the ResultSet to fetch data for all countries
+            while (rset.next()) {
+                Country country = new Country();
+                country.name = rset.getString("Name");
+                country.population = rset.getInt("Population");
+                countries.add(country);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country population report");
+        }
+        return countries;
+    }
+
     public static void main(String[] args) {
         // Create new Application
         App a = new App();
@@ -109,10 +136,21 @@ public class App
         a.connect();
 
         // Generate and display country population report
-        List<Country> countries = a.worldPopulationReport();
-        if (countries != null && !countries.isEmpty()) {
-            System.out.println("Country Population Report:");
-            for (Country country : countries) {
+//        List<Country> countries = a.worldPopulationReport();
+//        if (countries != null && !countries.isEmpty()) {
+//            System.out.println("Country Population Report:");
+//            for (Country country : countries) {
+//                System.out.println("Country: " + country.name + ", Population: " + country.population);
+//            }
+//        } else {
+//            System.out.println("No countries found or failed to generate the report.");
+//        }
+
+        // Generate and display country population report
+        List<Country> countriesRegion = a.regionPopulationReport("'North America'");
+        if (countriesRegion != null && !countriesRegion.isEmpty()) {
+            System.out.println("North America Population Report:");
+            for (Country country : countriesRegion) {
                 System.out.println("Country: " + country.name + ", Population: " + country.population);
             }
         } else {
