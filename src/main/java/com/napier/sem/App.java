@@ -6,6 +6,7 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Scanner;
 
 
 public class App
@@ -75,7 +76,7 @@ public class App
         }
     }
 
-    public List<Country> worldPopulationReport() {
+    public List<Country> worldPopulationReport(int N) {
         List<Country> countries = new ArrayList<>();
         try {
             // Create an SQL statement
@@ -84,7 +85,8 @@ public class App
             String strSelect =
                     "SELECT  Name, Population "
                             + "FROM country "
-                            + "ORDER BY Population DESC";
+                            + "ORDER BY Population DESC"
+                            + "LIMIT" + N;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Iterate over the ResultSet to fetch data for all countries
@@ -102,6 +104,11 @@ public class App
     }
 
     public static void main(String[] args) {
+        // Create a scanner object to recieve inputs from users
+        Scanner scanner = new Scanner(System.in)
+        System.out.println("Enter the number of top populated countries to display: ");
+        // Read user input
+        int N = scanner.nextInt(); 
         // Create new Application
         App a = new App();
 
@@ -111,7 +118,7 @@ public class App
         // Generate and display country population report
         List<Country> countries = a.worldPopulationReport();
         if (countries != null && !countries.isEmpty()) {
-            System.out.println("Country Population Report:");
+            System.out.println("Top " + N + " Populated Countries Report:");
             for (Country country : countries) {
                 System.out.println("Country: " + country.name + ", Population: " + country.population);
             }
@@ -119,8 +126,10 @@ public class App
             System.out.println("No countries found or failed to generate the report.");
         }
 
-        // Disconnect from database
+        // Disconnect from database 
         a.disconnect();
+
+        scanner.close(); // Close the scanner
     }
 
 }
