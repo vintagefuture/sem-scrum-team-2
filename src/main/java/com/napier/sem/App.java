@@ -105,7 +105,7 @@ public class App
 
     public static void main(String[] args) {
         // Create a scanner object to recieve inputs from users
-        Scanner scanner = new Scanner(System.in)
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the number of top populated countries to display: ");
         // Read user input
         int N = scanner.nextInt(); 
