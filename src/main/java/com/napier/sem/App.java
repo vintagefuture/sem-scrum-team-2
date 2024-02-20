@@ -136,17 +136,17 @@ public class App
         a.connect();
 
         // Generate and display country population report
-//        List<Country> countries = a.worldPopulationReport();
-//        if (countries != null && !countries.isEmpty()) {
-//            System.out.println("Country Population Report:");
-//            for (Country country : countries) {
-//                System.out.println("Country: " + country.name + ", Population: " + country.population);
-//            }
-//        } else {
-//            System.out.println("No countries found or failed to generate the report.");
-//        }
+        List<Country> countries = a.worldPopulationReport();
+        if (countries != null && !countries.isEmpty()) {
+            System.out.println("Country Population Report:");
+            for (Country country : countries) {
+                System.out.println("Country: " + country.name + ", Population: " + country.population);
+            }
+        } else {
+            System.out.println("No countries found or failed to generate the report.");
+        }
 
-        // Generate and display country population report
+        // Generate and display region population report
         List<Country> countriesRegion = a.regionPopulationReport("'North America'");
         if (countriesRegion != null && !countriesRegion.isEmpty()) {
             System.out.println("North America Population Report:");
