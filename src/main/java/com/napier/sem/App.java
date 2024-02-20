@@ -116,7 +116,7 @@ public class App
         a.connect();
 
         // Generate and display country population report
-        List<Country> countries = a.worldPopulationReport();
+        List<Country> countries = a.worldPopulationReport(N);
         if (countries != null && !countries.isEmpty()) {
             System.out.println("Top " + N + " Populated Countries Report:");
             for (Country country : countries) {
