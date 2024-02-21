@@ -6,7 +6,6 @@ import java.util.List;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Scanner;
 
 
 public class App
@@ -85,7 +84,7 @@ public class App
             String strSelect =
                     "SELECT  Name, Population "
                             + "FROM country "
-                            + "ORDER BY Population DESC"
+                            + "ORDER BY Population DESC "
                             + "LIMIT" + N;
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -104,11 +103,10 @@ public class App
     }
 
     public static void main(String[] args) {
-        // Create a scanner object to recieve inputs from users
-        Scanner scanner = new Scanner(System.in);
+        
         System.out.println("Enter the number of top populated countries to display: ");
-        // Read user input
-        int N = scanner.nextInt(); 
+        // set N input value
+        int N = 5; 
         // Create new Application
         App a = new App();
 
@@ -129,7 +127,6 @@ public class App
         // Disconnect from database 
         a.disconnect();
 
-        scanner.close(); // Close the scanner
     }
 
 }
