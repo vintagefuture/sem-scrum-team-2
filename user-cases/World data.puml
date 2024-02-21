@@ -1,0 +1,16 @@
+@startuml
+
+actor USER as "User"
+rectangle Database
+
+rectangle "HR System" {
+    usecase UC4 as "Get world population data"
+
+    usecase UCa as "Print world population"
+
+    USER - UC4
+    UC4 ..> UCa : include
+    UC4 - Database
+}
+
+@enduml
