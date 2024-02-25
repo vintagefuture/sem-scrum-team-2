@@ -75,59 +75,6 @@ public class App
         }
     }
 
-    public List<Country> worldPopulationReport(int N) {
-        List<Country> countries = new ArrayList<>();
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT  Name, Population "
-                            + "FROM country "
-                            + "ORDER BY Population DESC "
-                            + "LIMIT" + N;
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Iterate over the ResultSet to fetch data for all countries
-            while (rset.next()) {
-                Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
-                countries.add(country);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country population report");
-        }
-        return countries;
-    }
-
-    public List<Country> regionPopulationReport(String region) {
-        List<Country> countries = new ArrayList<>();
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT  Name, Population "
-                            + "FROM country "
-                            + "WHERE region=" + region
-                            + " ORDER BY Population DESC";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Iterate over the ResultSet to fetch data for all countries
-            while (rset.next()) {
-                Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
-                countries.add(country);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country population report");
-        }
-        return countries;
-    }
 
     public static void main(String[] args) {
         
@@ -140,8 +87,12 @@ public class App
         // Connect to database
         a.connect();
 
+        // Use WorldPopulationReport class to generate and display the report
+        WorldPopulationReport report = new WorldPopulationReport(a.con);
+
         // Generate and display country population report
-        List<Country> countries = a.worldPopulationReport(N);
+        List<Country> countries = report.getTopNPopulatedCountries(N);
+
         if (countries != null && !countries.isEmpty()) {
             System.out.println("Top " + N + " Populated Countries Report:");
             for (Country country : countries) {
