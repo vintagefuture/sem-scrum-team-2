@@ -2,7 +2,6 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class WorldPopulationReport {
     private Connection con;
@@ -11,7 +10,7 @@ public class WorldPopulationReport {
         this.con = con;
     }
 
-    public List<Country> getTopNPopulatedCountries(Integer N) {
+    public ArrayList<Country> getTopNPopulatedCountries(Integer N) {
         // Check if N is null or less than 1 and decide on action
         if (N == null || N < 1) {
             return fetchAllCountries();
@@ -20,8 +19,8 @@ public class WorldPopulationReport {
         }
     }
 
-    public List<Country> regionPopulationReport(String region) {
-        List<Country> countries = new ArrayList<>();
+    public ArrayList<Country> regionPopulationReport(String region) {
+        ArrayList<Country> countries = new ArrayList<>();
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -47,8 +46,8 @@ public class WorldPopulationReport {
         return countries;
     }
 
-    private List<Country> fetchCountriesWithLimit(int N) {
-        List<Country> countries = new ArrayList<>();
+    private ArrayList<Country> fetchCountriesWithLimit(int N) {
+        ArrayList<Country> countries = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
             String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC LIMIT " + N;
@@ -67,8 +66,8 @@ public class WorldPopulationReport {
         return countries;
     }
 
-    private List<Country> fetchAllCountries() {
-        List<Country> countries = new ArrayList<>();
+    private ArrayList<Country> fetchAllCountries() {
+        ArrayList<Country> countries = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
             String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC";

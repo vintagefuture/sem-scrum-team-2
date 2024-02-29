@@ -2,7 +2,6 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ContinentPopulationReport {
@@ -13,8 +12,8 @@ public class ContinentPopulationReport {
         this.con = con;
     }
 
-    public void generateReport(String continent) {
-        List<Country> countries = new ArrayList<>();
+    public ArrayList<Country> generateReport(String continent) {
+        ArrayList<Country> countries = new ArrayList<>();
 
         try {
             // Establish connection
@@ -50,23 +49,27 @@ public class ContinentPopulationReport {
                 country.rural_population_perc = rset.getInt("rural_population_perc");
                 countries.add(country);
             }
-
-            if (!countries.isEmpty()) {
-                System.out.println("+++++++++++++++++++++++++++++++");
-                System.out.println("Continent Population Report for " + continent);
-                System.out.println("+++++++++++++++++++++++++++++++");
-                for (Country country : countries) {
-                    System.out.println("Country: " + country.name +
-                            ", total_population: " + country.population +
-                            ", urban_population: " + country.urban_population +
-                            ", urban_population_perc: " + country.urban_population_perc +
-                            ", rural_population: " + country.rural_population +
-                            ", rural_population_perc: " + country.rural_population_perc);
-                }
-            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get continent population report");
+        }
+        return countries;
+    }
+    public void printReport(ArrayList<Country> countries) {
+
+        System.out.println();
+        System.out.println("+++++++++++++++++++++++++++++++");
+        System.out.println("  Continent Population Report  ");
+        System.out.println("+++++++++++++++++++++++++++++++");
+        System.out.println();
+        // Print header
+        System.out.println(String.format("%-30s %-30s %-30s %-30s %-30s %-30s", "Country", "total_population", "urban_population", "urban_percentage", "rural_population", "rural_percentage"));
+
+        for (Country country : countries) {
+            String country_string = String.format("%-30s %-30s %-30s %-30s %-30s %-30s",
+                    country.name, country.population, country.urban_population, country.urban_population_perc,
+                    country.rural_population, country.rural_population_perc);
+            System.out.println(country_string);
         }
     }
 }

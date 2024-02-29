@@ -2,6 +2,7 @@ package com.napier.sem;
 
 import java.sql.*;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 
 public class App
@@ -81,7 +82,10 @@ public class App
 
         // Generate continent population report
         ContinentPopulationReport populationReporterContinent = new ContinentPopulationReport(a.con);
-        populationReporterContinent.generateReport("Asia");
+        ArrayList<Country> countriesInContinent = populationReporterContinent.generateReport("Asia");
+
+        // Print continent population report
+        populationReporterContinent.printReport(countriesInContinent);
 
         // Disconnect from database
         a.disconnect();
