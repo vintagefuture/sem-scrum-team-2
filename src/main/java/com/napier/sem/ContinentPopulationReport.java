@@ -5,16 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ContinentPopulationReportClass {
-
+public class ContinentPopulationReport {
 
     private final Connection con;
 
-    public ContinentPopulationReportClass(Connection con) {
+    public ContinentPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public void ContinentPopulationReport(String continent) {
+    public void generateReport(String continent) {
         List<Country> countries = new ArrayList<>();
 
         try {
