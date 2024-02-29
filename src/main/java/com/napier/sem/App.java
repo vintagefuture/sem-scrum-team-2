@@ -77,32 +77,17 @@ public class App
 
 
     public static void main(String[] args) {
-        
-        System.out.println("Enter the number of top populated countries to display: ");
-        // set N input value
-        int N = 5; 
-        // Create new Application
+
         App a = new App();
 
         // Connect to database
         a.connect();
 
-        // Use WorldPopulationReport class to generate and display the report
-        WorldPopulationReport report = new WorldPopulationReport(a.con);
+        // Generate continent population report
+        ContinentPopulationReportClass reportContinent = new ContinentPopulationReportClass(a.con);
+        reportContinent.ContinentPopulationReport("Asia");
 
-        // Generate and display country population report
-        List<Country> countries = report.getTopNPopulatedCountries(N);
-
-        if (countries != null && !countries.isEmpty()) {
-            System.out.println("Top " + N + " Populated Countries Report:");
-            for (Country country : countries) {
-                System.out.println("Country: " + country.name + ", Population: " + country.population);
-            }
-        } else {
-            System.out.println("No countries found or failed to generate the report.");
-        }
-
-
+        // Disconnect from database
         a.disconnect();
 
     }
