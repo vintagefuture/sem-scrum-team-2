@@ -45,3 +45,14 @@
 - The population of people, people living in cities, and people not living in cities in each continent.
 - The population of people, people living in cities, and people not living in cities in each region.
 - The population of people, people living in cities, and people not living in cities in each country.
+
+### Total Population Reports
+- The population of the world.
+- The population of a continent.
+- The population of a region.
+- The population of a country.
+- The population of a district.
+- The population of a city.
+
+### Languages Report
+- Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest.
