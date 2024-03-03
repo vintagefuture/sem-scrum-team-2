@@ -1,0 +1,28 @@
+@startuml
+
+top to bottom direction
+skinparam packageStyle rectangle
+
+actor User as U
+database "Population Database" as DB
+rectangle "Produce a Report on Countries" {
+  usecase "Request Report" as UC1
+  usecase "Produce World Population Report" as UC2
+  usecase "Produce Continent Population Report" as UC3
+  usecase "Produce Region Population Report" as UC4
+  usecase "Print World Population Report" as UC5
+  usecase "Print Continent Population Report" as UC6
+  usecase "Print Region Population Report" as UC7
+  U --> UC1 : Initiates
+  UC1 --> UC2 : Include
+  UC1 --> UC3 : Include
+  UC1 --> UC4 : Include
+  UC2 --> UC5 : Include
+  UC3 --> UC6 : Include
+  UC4 --> UC7 : Include
+  UC2 --> DB : Query
+  UC3 --> DB : Query
+  UC4 --> DB : Query
+}
+
+@enduml
