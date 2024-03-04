@@ -1,11 +1,8 @@
 package com.napier.sem;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.ArrayList;
 
 
 public class App
@@ -77,32 +74,20 @@ public class App
 
 
     public static void main(String[] args) {
-        
-        System.out.println("Enter the number of top populated countries to display: ");
-        // set N input value
-        int N = 5; 
-        // Create new Application
+
         App a = new App();
 
         // Connect to database
         a.connect();
 
-        // Use WorldPopulationReport class to generate and display the report
-        WorldPopulationReport report = new WorldPopulationReport(a.con);
+        // Generate continent population report
+        ContinentPopulationReport populationReporterContinent = new ContinentPopulationReport(a.con);
+        ArrayList<Country> countriesInContinent = populationReporterContinent.generateReport("Asia");
 
-        // Generate and display country population report
-        List<Country> countries = report.getTopNPopulatedCountries(N);
+        // Print continent population report
+        populationReporterContinent.printReport(countriesInContinent);
 
-        if (countries != null && !countries.isEmpty()) {
-            System.out.println("Top " + N + " Populated Countries Report:");
-            for (Country country : countries) {
-                System.out.println("Country: " + country.name + ", Population: " + country.population);
-            }
-        } else {
-            System.out.println("No countries found or failed to generate the report.");
-        }
-
-
+        // Disconnect from database
         a.disconnect();
 
     }
