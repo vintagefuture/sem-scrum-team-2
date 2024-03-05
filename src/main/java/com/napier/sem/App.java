@@ -72,6 +72,18 @@ public class App
         }
     }
 
+    public static void printReport(ArrayList<Country> countries) {
+
+        // Print header
+        System.out.println(String.format("%-5s %-40s %-20s %-30s %-20s %-20s", "Code", "Name", "Continent", "Region", "Population", "Capital"));
+        System.out.println();
+
+        for (Country country : countries) {
+            String country_string = String.format("%-5s %-40s %-20s %-30s %-20s %-20s",
+                    country.code, country.name, country.continent, country.region, country.population, country.capital);
+            System.out.println(country_string);
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -80,12 +92,50 @@ public class App
         // Connect to database
         a.connect();
 
+        // Generate world population report
+        WorldPopulationReport populationReporterWorld = new WorldPopulationReport(a.con);
+        ArrayList<Country> countriesInWorld = populationReporterWorld.getTopNPopulatedCountries(null);
+
+        // Print world population report
+        System.out.println();
+        System.out.println("+++++++++++++++++++++++++");
+        System.out.println("World Population Report");
+        System.out.println("+++++++++++++++++++++++++");
+        printReport(countriesInWorld);
+
         // Generate continent population report
         ContinentPopulationReport populationReporterContinent = new ContinentPopulationReport(a.con);
         ArrayList<Country> countriesInContinent = populationReporterContinent.generateReport("Asia");
 
         // Print continent population report
-        populationReporterContinent.printReport(countriesInContinent);
+        System.out.println();
+        System.out.println("+++++++++++++++++++++++++");
+        System.out.println("Continent Population Report");
+        System.out.println("+++++++++++++++++++++++++");
+        printReport(countriesInContinent);
+
+        // Generate region population report
+        RegionPopulationReport populationReporterRegion = new RegionPopulationReport(a.con);
+        ArrayList<Country> countriesInRegion = populationReporterRegion.generateReport("North America");
+
+        // Print region population report
+        System.out.println();
+        System.out.println("+++++++++++++++++++++++++");
+        System.out.println("Region Population Report");
+        System.out.println("+++++++++++++++++++++++++");
+        printReport(countriesInRegion);
+
+
+        // Generate world population report
+        WorldPopulationReport populationReporterWorldLimited = new WorldPopulationReport(a.con);
+        ArrayList<Country> countriesInWorldLimited = populationReporterWorld.getTopNPopulatedCountries(5);
+
+        // Print world population report
+        System.out.println();
+        System.out.println("+++++++++++++++++++++++++");
+        System.out.println("World Population Report Top 5");
+        System.out.println("+++++++++++++++++++++++++");
+        printReport(countriesInWorldLimited);
 
         // Disconnect from database
         a.disconnect();

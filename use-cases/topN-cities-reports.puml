@@ -1,0 +1,28 @@
+@startuml
+actor User as U
+database "Reports Database" as DB
+
+rectangle "Top N Cities Reports" {
+  usecase "Specify N and Criteria" as UC1
+  usecase "Top N World Cities" as UC2
+  usecase "Top N Continent Cities" as UC3
+  usecase "Top N Region Cities" as UC4
+  usecase "Top N Country Cities" as UC5
+  usecase "Top N District Cities" as UC6
+  usecase "Access Top N Cities Data" as UC7
+
+  U --> UC1
+  UC1 --> UC2 : include
+  UC1 --> UC3 : include
+  UC1 --> UC4 : include
+  UC1 --> UC5 : include
+  UC1 --> UC6 : include
+  UC2 --> UC7 : include
+  UC3 --> UC7 : include
+  UC4 --> UC7 : include
+  UC5 --> UC7 : include
+  UC6 --> UC7 : include
+} 
+
+UC7 --> DB : Query
+@enduml
