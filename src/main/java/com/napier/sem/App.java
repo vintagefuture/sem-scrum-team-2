@@ -15,6 +15,7 @@ public class App {
                 CountryPopulationReport populationReporterCountry = new CountryPopulationReport(con);
                 populationReporterCountry.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
                 populationReporterCountry.getTopNPopulatedCountriesInContinent("Asia", 5);
+                populationReporterCountry.getCapitalCityReportOfCountry("Indonesia");
             }
         } catch (Exception e) {
             e.printStackTrace();
