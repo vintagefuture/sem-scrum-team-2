@@ -1,18 +1,59 @@
 package com.napier.sem;
 
-public class Country
-{
+public class Country {
+    private String name;
+    private int population;
+    private int urbanPopulation;
+    private int urbanPopulationPerc;
+    private int ruralPopulation;
+    private int ruralPopulationPerc;
 
-    public int population;
+    // Getters and Setters
+    public String getName() {
+        return name;
+    }
 
-    public int urban_population;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public int urban_population_perc;
+    public int getPopulation() {
+        return population;
+    }
 
-    public int rural_population;
+    public void setPopulation(int population) {
+        this.population = population;
+    }
 
-    public int rural_population_perc;
+    public int getUrbanPopulation() {
+        return urbanPopulation;
+    }
 
-    public String name;
+    public void setUrbanPopulation(int urbanPopulation) {
+        this.urbanPopulation = urbanPopulation;
+    }
 
+    public int getUrbanPopulationPerc() {
+        return urbanPopulationPerc;
+    }
+
+    public void setUrbanPopulationPerc(int urbanPopulationPerc) {
+        this.urbanPopulationPerc = urbanPopulationPerc;
+    }
+
+    public int getRuralPopulation() {
+        return ruralPopulation;
+    }
+
+    public void setRuralPopulation(int ruralPopulation) {
+        this.ruralPopulation = ruralPopulation;
+    }
+
+    public int getRuralPopulationPerc() {
+        return ruralPopulationPerc;
+    }
+
+    public void setRuralPopulationPerc(int ruralPopulationPerc) {
+        this.ruralPopulationPerc = ruralPopulationPerc;
+    }
 }
