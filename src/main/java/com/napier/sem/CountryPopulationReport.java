@@ -1,11 +1,10 @@
 package com.napier.sem;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
-import java.util.Map;
 
 
 public class CountryPopulationReport implements PopulationReport {
@@ -14,6 +13,25 @@ public class CountryPopulationReport implements PopulationReport {
 
     public CountryPopulationReport(Connection con) {
         this.con = con;
+    }
+
+    public void getTopNPopulatedCountriesInContinent(String continent, int N) {
+        String query = "SELECT Name, Population FROM country WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
+        ArrayList<Country> countries = generateReport(query);
+
+        // Prepare data for printing
+        String title = "Top " + N + " Populated Countries in " + continent;
+        List<String> columnNames = List.of("Country", "Population");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (Country country : countries) {
+            List<String> row = new ArrayList<>();
+            row.add(country.getName());
+            row.add(String.valueOf(country.getPopulation()));
+            rows.add(row);
+        }
+
+        printReport(title, columnNames, rows);
     }
 
     public void getTopNPopulatedCountriesInRegion(String region, int N) {

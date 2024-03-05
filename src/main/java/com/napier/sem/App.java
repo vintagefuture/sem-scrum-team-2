@@ -13,7 +13,8 @@ public class App {
                 populationReporterContinent.generateAndPrintContinentReport("Asia");
 
                 CountryPopulationReport populationReporterCountry = new CountryPopulationReport(con);
-                populationReporterCountry.getTopNPopulatedCountriesInRegion("Asia", 5);
+                populationReporterCountry.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                populationReporterCountry.getTopNPopulatedCountriesInContinent("Asia", 5);
             }
         } catch (Exception e) {
             e.printStackTrace();
