@@ -1,0 +1,28 @@
+@startuml
+actor User as U
+database "Reports Database" as DB
+
+rectangle "Total Population Reports" {
+  usecase "Request Reporta" as UC1
+  usecase "Total Continent Population" as UC2
+  usecase "Total Region Population" as UC3
+  usecase "Total Country Population" as UC4
+  usecase "Total District Population" as UC5
+  usecase "Total City Population" as UC6
+  usecase "Access Population Data" as UC7
+
+  U --> UC1    :include
+  UC1 --> UC2 :include
+  UC1 --> UC3 :include
+  UC1 --> UC4 :include
+  UC1 --> UC5 :include
+  UC1 --> UC6 :include
+  UC2 --> UC7 :include
+  UC3 --> UC7 :include
+  UC4 --> UC7 :include
+  UC5 --> UC7 :include
+  UC6 --> UC7 :include
+}
+
+UC7 --> DB : Query
+@enduml
