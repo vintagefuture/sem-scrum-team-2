@@ -3,86 +3,56 @@ package com.napier.sem;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class WorldPopulationReport {
-    private Connection con;
+public class WorldPopulationReport implements PopulationReport {
+    private final Connection con;
 
     public WorldPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public ArrayList<Country> getTopNPopulatedCountries(Integer N) {
-        // Check if N is null or less than 1 and decide on action
-        if (N == null || N < 1) {
-            return fetchAllCountries();
-        } else {
-            return fetchCountriesWithLimit(N);
-        }
-    }
-
-    public ArrayList<Country> regionPopulationReport(String region) {
+    public ArrayList<Country> getTopNPopulatedCountries(int N) {
         ArrayList<Country> countries = new ArrayList<>();
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT  Name, Population "
-                            + "FROM country "
-                            + "WHERE region=" + region
-                            + " ORDER BY Population DESC";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Iterate over the ResultSet to fetch data for all countries
+        String query = "SELECT Name, Population FROM country ORDER BY Population DESC LIMIT ?";
+
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, N);
+            ResultSet rset = stmt.executeQuery();
+
             while (rset.next()) {
                 Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
+                country.setName(rset.getString("Name"));
+                country.setPopulation(rset.getInt("Population"));
                 countries.add(country);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country population report");
+            e.printStackTrace(); // Consider a more sophisticated approach for production code
         }
         return countries;
     }
 
-    private ArrayList<Country> fetchCountriesWithLimit(int N) {
-        ArrayList<Country> countries = new ArrayList<>();
+    @Override
+    public ArrayList<Country> generateReport(String parameter) {
+        // Assuming parameter is a numeric string specifying the top N countries
+        int N;
         try {
-            Statement stmt = con.createStatement();
-            String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC LIMIT " + N;
-            ResultSet rset = stmt.executeQuery(strSelect);
-
-            while (rset.next()) {
-                Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
-                countries.add(country);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to fetch countries with limit");
+            N = Integer.parseInt(parameter);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format for parameter: " + parameter);
+            return new ArrayList<>();
         }
-        return countries;
+
+        return getTopNPopulatedCountries(N);
     }
 
-    private ArrayList<Country> fetchAllCountries() {
-        ArrayList<Country> countries = new ArrayList<>();
-        try {
-            Statement stmt = con.createStatement();
-            String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC";
-            ResultSet rset = stmt.executeQuery(strSelect);
+    @Override
+    public void printReport(ArrayList<Country> countries) {
+        System.out.println("\n+++++++++++++++++++++++++++++++++");
+        System.out.println("  World Population Report  ");
+        System.out.println("+++++++++++++++++++++++++++++++++");
+        System.out.printf("%-30s %-20s%n", "Country", "Population");
 
-            while (rset.next()) {
-                Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
-                countries.add(country);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to fetch all countries");
+        for (Country country : countries) {
+            System.out.printf("%-30s %-20d%n", country.getName(), country.getPopulation());
         }
-        return countries;
     }
 }
