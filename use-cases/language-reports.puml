@@ -1,0 +1,22 @@
+@startuml
+
+top to bottom direction
+skinparam packageStyle rectangle
+
+actor User as U
+database "Language Data Database" as DB
+
+rectangle "Produce Language Speakers Report" {
+  usecase "Request Language Report" as UC1
+  usecase "Specify Languages" as UC2
+  usecase "Access Language Data" as UC3
+  usecase "Generate Language Speakers Report" as UC4
+
+  U --> UC1 : Initiates
+  UC1 --> UC2 : include
+  UC2 --> UC3 : include
+  UC3 --> UC4 : include
+  UC4 --> DB : Query
+}
+
+@enduml
