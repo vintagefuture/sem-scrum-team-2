@@ -2,17 +2,15 @@ package com.napier.sem;
 
 public class Country
 {
+    public String code;
+
+    public String name;
+    public String continent;
+
+    public String region;
 
     public int population;
 
-    public int urban_population;
-
-    public int urban_population_perc;
-
-    public int rural_population;
-
-    public int rural_population_perc;
-
-    public String name;
+    public String capital;
 
 }

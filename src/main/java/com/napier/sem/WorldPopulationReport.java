@@ -19,44 +19,26 @@ public class WorldPopulationReport {
         }
     }
 
-    public ArrayList<Country> regionPopulationReport(String region) {
-        ArrayList<Country> countries = new ArrayList<>();
-        try {
-            // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-            String strSelect =
-                    "SELECT  Name, Population "
-                            + "FROM country "
-                            + "WHERE region=" + region
-                            + " ORDER BY Population DESC";
-            // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
-            // Iterate over the ResultSet to fetch data for all countries
-            while (rset.next()) {
-                Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
-                countries.add(country);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed to get country population report");
-        }
-        return countries;
-    }
-
     private ArrayList<Country> fetchCountriesWithLimit(int N) {
         ArrayList<Country> countries = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
-            String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC LIMIT " + N;
+            String strSelect =
+                    "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
+                    "FROM country c " +
+                    "JOIN city ci ON c.Capital = ci.ID " +
+                    "ORDER BY Population DESC LIMIT " + N;
+
             ResultSet rset = stmt.executeQuery(strSelect);
 
             while (rset.next()) {
                 Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
+                country.code = rset.getString("c.Code");
+                country.name = rset.getString("c.Name");
+                country.continent = rset.getString("Continent");
+                country.region = rset.getString("Region");
+                country.population = rset.getInt("c.Population");
+                country.capital = rset.getString("ci.Name");
                 countries.add(country);
             }
         } catch (Exception e) {
@@ -70,13 +52,22 @@ public class WorldPopulationReport {
         ArrayList<Country> countries = new ArrayList<>();
         try {
             Statement stmt = con.createStatement();
-            String strSelect = "SELECT Name, Population FROM country ORDER BY Population DESC";
+            String strSelect =
+                    "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
+                    "FROM country c " +
+                    "JOIN city ci ON c.Capital = ci.ID " +
+                    "ORDER BY Population DESC";
+
             ResultSet rset = stmt.executeQuery(strSelect);
 
             while (rset.next()) {
                 Country country = new Country();
-                country.name = rset.getString("Name");
-                country.population = rset.getInt("Population");
+                country.code = rset.getString("c.Code");
+                country.name = rset.getString("c.Name");
+                country.continent = rset.getString("Continent");
+                country.region = rset.getString("Region");
+                country.population = rset.getInt("c.Population");
+                country.capital = rset.getString("ci.Name");
                 countries.add(country);
             }
         } catch (Exception e) {

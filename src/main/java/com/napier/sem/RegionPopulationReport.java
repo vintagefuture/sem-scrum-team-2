@@ -1,28 +1,28 @@
 package com.napier.sem;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
-public class ContinentPopulationReport {
+public class RegionPopulationReport {
 
-    private final Connection con;
-
-    public ContinentPopulationReport(Connection con) {
+    public RegionPopulationReport(Connection con) {
         this.con = con;
     }
-
-    public ArrayList<Country> generateReport(String continent) {
+    private final Connection con;
+    public ArrayList<Country> generateReport(String region) {
         ArrayList<Country> countries = new ArrayList<>();
 
         try {
-            // Establish connection
+            // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
                     "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
                     "FROM country c " +
                     "JOIN city ci ON c.Capital = ci.ID " +
-                    "WHERE continent='" + continent + "' " +
+                    "WHERE region='" + region + "' " +
                     "ORDER BY Population DESC";
 
             // Execute SQL statement
@@ -41,7 +41,7 @@ public class ContinentPopulationReport {
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get continent population report");
+            System.out.println("Failed to get region population report");
         }
         return countries;
     }
