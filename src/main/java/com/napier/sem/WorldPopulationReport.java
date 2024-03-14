@@ -1,6 +1,6 @@
 package com.napier.sem;
 
-import java.sql.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +15,13 @@ public class WorldPopulationReport implements PopulationReport {
 
 
     @Override
-    public ArrayList<Country> generateReport(String parameter) {
+    public ArrayList<Country> generateCountryData(String parameter) {
         return new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<City> generateCityData(String query) {
+        return null;
     }
 
     @Override

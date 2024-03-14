@@ -22,7 +22,7 @@ public class ContinentPopulationReport implements PopulationReport {
                 "ROUND((1 - (SUM(ci.Population) / c.Population)) * 100, 0) AS rural_population_perc " +
                 "FROM country c JOIN city ci ON c.code = ci.CountryCode WHERE c.Continent = '" + continent + "' " +
                 "GROUP BY c.name, c.Population ORDER BY total_population DESC";
-        ArrayList<Country> countries = generateReport(query);
+        ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
         String title = continent + " Population Report";
@@ -44,7 +44,7 @@ public class ContinentPopulationReport implements PopulationReport {
     }
 
     @Override
-    public ArrayList<Country> generateReport(String query) {
+    public ArrayList<Country> generateCountryData(String query) {
         ArrayList<Country> countries = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rset = stmt.executeQuery();
@@ -62,6 +62,11 @@ public class ContinentPopulationReport implements PopulationReport {
             e.printStackTrace();
         }
         return countries;
+    }
+
+    @Override
+    public ArrayList<City> generateCityData(String query) {
+        return null;
     }
 
     @Override
