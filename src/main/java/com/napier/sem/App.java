@@ -10,8 +10,11 @@ public class App {
         try (Connection con = DatabaseConnection.getConnection()) {
             if (con != null) {
                 ContinentPopulationReport populationReporterContinent = new ContinentPopulationReport(con);
-                ArrayList<Country> countriesInContinent = populationReporterContinent.generateReport("Asia");
-                populationReporterContinent.printReport(countriesInContinent);
+                populationReporterContinent.generateAndPrintContinentReport("Asia");
+
+                CountryPopulationReport populationReporterCountry = new CountryPopulationReport(con);
+                populationReporterCountry.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                populationReporterCountry.getTopNPopulatedCountriesInContinent("Asia", 5);
             }
         } catch (Exception e) {
             e.printStackTrace();

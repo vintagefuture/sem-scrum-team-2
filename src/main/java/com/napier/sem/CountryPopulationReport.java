@@ -6,37 +6,47 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContinentPopulationReport implements PopulationReport {
+
+public class CountryPopulationReport implements PopulationReport {
 
     private final Connection con;
 
-    public ContinentPopulationReport(Connection con) {
+    public CountryPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public void generateAndPrintContinentReport(String continent) {
-        // Prepare the SQL query
-        String query = "SELECT c.name, c.Population AS total_population, SUM(ci.Population) AS urban_population, " +
-                "ROUND(SUM(ci.Population) / c.Population * 100, 0) AS urban_population_perc, " +
-                "(c.Population - SUM(ci.Population)) AS rural_population, " +
-                "ROUND((1 - (SUM(ci.Population) / c.Population)) * 100, 0) AS rural_population_perc " +
-                "FROM country c JOIN city ci ON c.code = ci.CountryCode WHERE c.Continent = '" + continent + "' " +
-                "GROUP BY c.name, c.Population ORDER BY total_population DESC";
+    public void getTopNPopulatedCountriesInContinent(String continent, int N) {
+        String query = "SELECT Name, Population FROM country WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
         ArrayList<Country> countries = generateReport(query);
 
         // Prepare data for printing
-        String title = continent + " Population Report";
-        List<String> columnNames = List.of("Country", "Total Population", "Urban Population", "Urban Percentage", "Rural Population", "Rural Percentage");
+        String title = "Top " + N + " Populated Countries in " + continent;
+        List<String> columnNames = List.of("Country", "Population");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
             List<String> row = new ArrayList<>();
             row.add(country.getName());
             row.add(String.valueOf(country.getPopulation()));
-            row.add(String.valueOf(country.getUrbanPopulation()));
-            row.add(country.getUrbanPopulationPerc() + "%");
-            row.add(String.valueOf(country.getRuralPopulation()));
-            row.add(country.getRuralPopulationPerc() + "%");
+            rows.add(row);
+        }
+
+        printReport(title, columnNames, rows);
+    }
+
+    public void getTopNPopulatedCountriesInRegion(String region, int N) {
+        String query = "SELECT Name, Population FROM country WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
+        ArrayList<Country> countries = generateReport(query);
+
+        // Prepare data for printing
+        String title = "Top " + N + " Populated Countries in " + region;
+        List<String> columnNames = List.of("Country", "Population");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (Country country : countries) {
+            List<String> row = new ArrayList<>();
+            row.add(country.getName());
+            row.add(String.valueOf(country.getPopulation()));
             rows.add(row);
         }
 
@@ -44,9 +54,9 @@ public class ContinentPopulationReport implements PopulationReport {
     }
 
     @Override
-    public ArrayList<Country> generateReport(String query) {
+    public ArrayList<Country> generateReport(String parameter) {
         ArrayList<Country> countries = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
+        try (PreparedStatement stmt = con.prepareStatement(parameter)) {
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
                 Country country = new Country();
@@ -59,7 +69,7 @@ public class ContinentPopulationReport implements PopulationReport {
                 countries.add(country);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Proper error handling is recommended
         }
         return countries;
     }
@@ -71,13 +81,18 @@ public class ContinentPopulationReport implements PopulationReport {
         System.out.println("-".repeat(title.length()));
 
         // Print column headers
-        columnNames.forEach(columnName -> System.out.print(columnName + "\t"));
+        for (String columnName : columnNames) {
+            System.out.print(columnName + "\t");
+        }
         System.out.println();
 
         // Print row data
-        rows.forEach(row -> {
-            row.forEach(cell -> System.out.print(cell + "\t"));
+        for (List<String> row : rows) {
+            for (String cell : row) {
+                System.out.print(cell + "\t");
+            }
             System.out.println();
-        });
+        }
     }
+
 }
