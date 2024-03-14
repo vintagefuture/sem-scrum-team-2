@@ -1,6 +1,6 @@
 package com.napier.sem;
 
-import java.sql.*;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 

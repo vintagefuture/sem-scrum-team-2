@@ -1,7 +1,6 @@
 package com.napier.sem;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 
 
 public class App {
