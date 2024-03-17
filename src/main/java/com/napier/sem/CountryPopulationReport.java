@@ -16,7 +16,7 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getTopNPopulatedCountriesInContinent(String continent, int N) {
-        String query = "SELECT Name, Population FROM country WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT Code, Name, Continent, Region, Population FROM country WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
@@ -26,7 +26,10 @@ public class CountryPopulationReport implements PopulationReport {
 
         for (Country country : countries) {
             List<String> row = new ArrayList<>();
+            row.add(country.getCode());
             row.add(country.getName());
+            row.add(country.getContinent());
+            row.add(country.getRegion());
             row.add(String.valueOf(country.getPopulation()));
             rows.add(row);
         }
@@ -35,7 +38,7 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getTopNPopulatedCountriesInRegion(String region, int N) {
-        String query = "SELECT Name, Population FROM country WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT Code, Name, Continent, Region, Population FROM country WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
@@ -45,7 +48,10 @@ public class CountryPopulationReport implements PopulationReport {
 
         for (Country country : countries) {
             List<String> row = new ArrayList<>();
+            row.add(country.getCode());
             row.add(country.getName());
+            row.add(country.getContinent());
+            row.add(country.getRegion());
             row.add(String.valueOf(country.getPopulation()));
             rows.add(row);
         }
@@ -77,19 +83,17 @@ public class CountryPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
-    @Override
     public ArrayList<Country> generateCountryData(String parameter) {
         ArrayList<Country> countries = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(parameter)) {
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
                 Country country = new Country();
-                country.setName(rset.getString("name"));
+                country.setCode(rset.getString("Code"));
+                country.setName(rset.getString("Name"));
+                country.setContinent(rset.getString("Continent"));
+                country.setRegion(rset.getString("Region"));
                 country.setPopulation(rset.getInt("total_population"));
-                country.setUrbanPopulation(rset.getInt("urban_population"));
-                country.setUrbanPopulationPerc(rset.getInt("urban_population_perc"));
-                country.setRuralPopulation(rset.getInt("rural_population"));
-                country.setRuralPopulationPerc(rset.getInt("rural_population_perc"));
                 countries.add(country);
             }
         } catch (Exception e) {
@@ -98,7 +102,6 @@ public class CountryPopulationReport implements PopulationReport {
         return countries;
     }
 
-    @Override
     public ArrayList<City> generateCityData(String query) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {

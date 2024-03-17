@@ -6,26 +6,29 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContinentPopulationReport implements PopulationReport {
+public class RegionPopulationReport implements PopulationReport {
 
-    private final Connection con;
-
-    public ContinentPopulationReport(Connection con) {
+    public RegionPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public void generateAndPrintContinentReport(String continent) {
-        // Prepare the SQL query
+    private final Connection con;
+
+    public void generateRegionReport(String region) {
+
+        // Create string for SQL statement
         String query =
-                "SELECT c.Code, c.Name, Continent, c.Region, c.Population, ci.Name " +
+                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
                         "JOIN city ci ON c.Capital = ci.ID " +
-                        "WHERE continent='" + continent + "' " +
+                        "WHERE region='" + region + "' " +
                         "ORDER BY Population DESC";
+
+        // Execute SQL statement
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = continent + " Population Report";
+        String title = region + " Population Report";
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "City Name");
         List<List<String>> rows = new ArrayList<>();
 
@@ -43,7 +46,7 @@ public class ContinentPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
-    public ArrayList<Country> generateCountryData(String query) {
+    private ArrayList<Country> generateCountryData(String query) {
         ArrayList<Country> countries = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rset = stmt.executeQuery();

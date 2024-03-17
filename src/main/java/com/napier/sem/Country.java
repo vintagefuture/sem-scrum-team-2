@@ -1,20 +1,47 @@
 package com.napier.sem;
 
 public class Country {
-    private String name;
-    private int population;
-    private int urbanPopulation;
-    private int urbanPopulationPerc;
-    private int ruralPopulation;
-    private int ruralPopulationPerc;
 
-    // Getters and Setters
+    private String code;
+
+    private String name;
+    private String continent;
+    private String region;
+
+    private int population;
+
+    private String capital;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public void setContinent(String continent) {
+        this.continent = continent;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public int getPopulation() {
@@ -25,35 +52,12 @@ public class Country {
         this.population = population;
     }
 
-    public int getUrbanPopulation() {
-        return urbanPopulation;
+    public String getCapital() {
+        return capital;
     }
 
-    public void setUrbanPopulation(int urbanPopulation) {
-        this.urbanPopulation = urbanPopulation;
-    }
-
-    public int getUrbanPopulationPerc() {
-        return urbanPopulationPerc;
-    }
-
-    public void setUrbanPopulationPerc(int urbanPopulationPerc) {
-        this.urbanPopulationPerc = urbanPopulationPerc;
-    }
-
-    public int getRuralPopulation() {
-        return ruralPopulation;
-    }
-
-    public void setRuralPopulation(int ruralPopulation) {
-        this.ruralPopulation = ruralPopulation;
-    }
-
-    public int getRuralPopulationPerc() {
-        return ruralPopulationPerc;
-    }
-
-    public void setRuralPopulationPerc(int ruralPopulationPerc) {
-        this.ruralPopulationPerc = ruralPopulationPerc;
+    public void setCapital(String capital) {
+        this.capital = capital;
     }
 }
+
