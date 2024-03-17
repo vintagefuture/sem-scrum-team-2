@@ -2,15 +2,8 @@ version: '3'
 services:
   app:
     build: .
-    depends_on:
-      - db
-  db:
-    image: mysql:latest
-    environment:
-      MYSQL_DATABASE: 'world'
-      MYSQL_ROOT_PASSWORD: 'example'
-      MYSQL_USER: 'report' # Specify the non-root username here
-      MYSQL_PASSWORD: 'reportpassword' # Set the password for the non-root user here
 
-    ports:
-      - "3306:3306"
+  db:
+    build: db/.
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
