@@ -60,9 +60,9 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getCapitalCityReportOfCountry(String country) {
-        String query = "SELECT c.CountryCode AS CountryCode, c.Name AS CapitalCity, c.Population AS CapitalPopulation, c.District AS District\n" +
-                "FROM Country ct\n" +
-                "JOIN City c ON ct.Capital = c.ID\n" +
+            String query = "SELECT c.CountryCode AS CountryCode, c.Name AS CapitalCity, c.Population AS CapitalPopulation, c.District AS District\n" +
+                        "FROM country ct\n" +
+                    "JOIN city c ON ct.Capital = c.ID\n" +
                 "WHERE ct.Name = '"+ country +"';";
         ArrayList<City> cities = generateCityData(query);
 
