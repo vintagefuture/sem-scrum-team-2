@@ -9,5 +9,8 @@ services:
     environment:
       MYSQL_DATABASE: 'world'
       MYSQL_ROOT_PASSWORD: 'example'
+      MYSQL_USER: 'report' # Specify the non-root username here
+      MYSQL_PASSWORD: 'reportpassword' # Set the password for the non-root user here
+
     ports:
       - "3306:3306"
