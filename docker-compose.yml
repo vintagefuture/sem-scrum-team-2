@@ -8,8 +8,6 @@ services:
     image: mysql:latest
     environment:
       MYSQL_DATABASE: 'world'
-      MYSQL_USER: 'root'
-      MYSQL_PASSWORD: 'example'
       MYSQL_ROOT_PASSWORD: 'example'
     ports:
       - "3306:3306"
