@@ -2,8 +2,14 @@ version: '3'
 services:
   app:
     build: .
-
+    depends_on:
+      - db
   db:
-    build: db/.
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'world'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'example'
+      MYSQL_ROOT_PASSWORD: 'example'
+    ports:
+      - "3306:3306"
