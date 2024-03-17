@@ -60,7 +60,7 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getCapitalCityReportOfCountry(String country) {
-        String query = "SELECT ct.Name AS CountryName, c.Name AS CapitalCity, c.Population AS CapitalPopulation, c.District AS District\n" +
+        String query = "SELECT c.CountryCode AS CountryCode, c.Name AS CapitalCity, c.Population AS CapitalPopulation, c.District AS District\n" +
                 "FROM Country ct\n" +
                 "JOIN City c ON ct.Capital = c.ID\n" +
                 "WHERE ct.Name = '"+ country +"';";
@@ -93,7 +93,7 @@ public class CountryPopulationReport implements PopulationReport {
                 country.setName(rset.getString("Name"));
                 country.setContinent(rset.getString("Continent"));
                 country.setRegion(rset.getString("Region"));
-                country.setPopulation(rset.getInt("total_population"));
+                country.setPopulation(rset.getInt("Population"));
                 countries.add(country);
             }
         } catch (Exception e) {
@@ -108,10 +108,10 @@ public class CountryPopulationReport implements PopulationReport {
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
                 City city = new City();
-                city.setName(rset.getString("Name"));
                 city.setCountryCode(rset.getString("CountryCode"));
+                city.setName(rset.getString("CapitalCity"));
+                city.setPopulation(rset.getInt("CapitalPopulation"));
                 city.setDistrict(rset.getString("District"));
-                city.setPopulation(rset.getInt("Population"));
                 cities.add(city);
             }
         } catch (Exception e) {
