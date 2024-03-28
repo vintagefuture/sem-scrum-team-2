@@ -22,11 +22,11 @@ public class App {
                 worldPopulationReport.fetchCountriesWithLimit(5);
 
                 // Generate continent population report
-                ContinentPopulationReport populationReporterContinent = new ContinentPopulationReport(con);
+                ContinentPopulationReport continentPopulationReporter = new ContinentPopulationReport(con);
                 System.out.println("+++++++++++++++++++++++++");
                 System.out.println("Continent Population Report");
                 System.out.println("+++++++++++++++++++++++++");
-                populationReporterContinent.generateAndPrintContinentReport("Asia");
+                continentPopulationReporter.generateAndPrintContinentReport("Asia");
 
                 // Generate region population report
                 RegionPopulationReport regionPopulationReport = new RegionPopulationReport(con);
@@ -36,21 +36,28 @@ public class App {
                 regionPopulationReport.generateRegionReport("North America");
 
                 // Generate country population report
-                CountryPopulationReport populationReporterCountry = new CountryPopulationReport(con);
+                CountryPopulationReport countryPopulationReporter = new CountryPopulationReport(con);
                 System.out.println("+++++++++++++++++++++++++");
                 System.out.println("Top 5 Populated Countries in Region Report");
                 System.out.println("+++++++++++++++++++++++++");
-                populationReporterCountry.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                countryPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
 
                 System.out.println("+++++++++++++++++++++++++");
                 System.out.println("Top 5 Populated Countries in Continent Report");
                 System.out.println("+++++++++++++++++++++++++");
-                populationReporterCountry.getTopNPopulatedCountriesInContinent("Asia", 5);
+                countryPopulationReporter.getTopNPopulatedCountriesInContinent("Asia", 5);
 
                 System.out.println("+++++++++++++++++++++++++");
                 System.out.println("Top Capital City Report");
                 System.out.println("+++++++++++++++++++++++++");
-                populationReporterCountry.getCapitalCityReportOfCountry("Indonesia");
+                countryPopulationReporter.getCapitalCityReportOfCountry("Indonesia");
+
+                // Generate city population report
+                CityPopulationReport cityPopulationReport = new CityPopulationReport(con);
+                System.out.println("+++++++++++++++++++++++++");
+                System.out.println("Top N Capital Cities Report in the world where N is provided by User");
+                System.out.println("+++++++++++++++++++++++++");
+                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
 
             }
         } catch (Exception e) {
