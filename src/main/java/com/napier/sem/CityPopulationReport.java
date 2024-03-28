@@ -45,7 +45,7 @@ public class CityPopulationReport implements PopulationReport {
         String query =
                 "SELECT city.Name, country.Name AS Country, city.Population " +
                         "FROM city JOIN country ON city.ID = country.Capital " +
-                        "WHERE region='" + region + "' " +
+                        "WHERE country.Region='" + region + "' " +
                         "ORDER BY city.Population DESC LIMIT "+ N ;
         ArrayList<City> cities = generateCityData(query);
 

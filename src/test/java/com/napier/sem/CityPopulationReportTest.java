@@ -87,7 +87,7 @@ public class CityPopulationReportTest {
         String executedSQL = sqlCaptor.getValue();
         String expectedQuery = "SELECT city.Name, country.Name AS Country, city.Population " +
                 "FROM city JOIN country ON city.ID = country.Capital " +
-                "WHERE region='" + region + "' " +
+                "WHERE country.Region='" + region + "' " +
                 "ORDER BY city.Population DESC LIMIT "+ limit ;
 
         assertTrue(executedSQL.contains(expectedQuery),
