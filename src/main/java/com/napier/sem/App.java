@@ -69,6 +69,12 @@ public class App {
                 System.out.println("+++++++++++++++++++++++++");
                 cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheContinentReport(3, "Asia");
 
+                System.out.println("+++++++++++++++++++++++++");
+                System.out.println("The population of people, people living in cities, and people not living in cities in each continent");
+                System.out.println("+++++++++++++++++++++++++");
+                cityPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
