@@ -79,6 +79,10 @@ public class App {
                 System.out.println("+++++++++++++++++++++++++");
                 cityPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
 
+                System.out.println("+++++++++++++++++++++++++");
+                System.out.println("The population of people, people living in cities, and people not living in cities in each country");
+                System.out.println("+++++++++++++++++++++++++");
+                cityPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
             }
         } catch (Exception e) {
             e.printStackTrace();

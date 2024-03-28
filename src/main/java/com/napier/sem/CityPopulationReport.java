@@ -107,6 +107,14 @@ public class CityPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
+    public void generatePopulationInCitiesVSNonCityByCountry() {
+        // SQL query to compute population data by continent
+        List<List<String>> rows = generatePopulationData("country.Name");
+        String title = "Population Report City vs Non City by Country";
+        List<String> columnNames = List.of("Country", "Total Population", "City Population", "Non-City Population");
+        printReport(title, columnNames, rows);
+    }
+
     private ArrayList<City> generateCityData(String parameter) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(parameter)) {
