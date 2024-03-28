@@ -41,7 +41,7 @@ public class CityPopulationReport implements PopulationReport {
 
     public void generateTopNPopulatedCapitalCitiesInTheRegionReport(int N, String region) {
 
-        // SQL query to select the top N populated capital cities in the world
+        // SQL query to select the top N populated capital cities in the region
         String query =
                 "SELECT city.Name, country.Name AS Country, city.Population " +
                         "FROM city JOIN country ON city.ID = country.Capital " +
@@ -51,6 +51,32 @@ public class CityPopulationReport implements PopulationReport {
 
         // Prepare data for printing
         String title = "Top " + N + " Populated Capital Cities in region " + region;
+        List<String> columnNames = List.of("City Name", "Country", "Population");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (City city: cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountryCode());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        printReport(title, columnNames, rows);
+    }
+
+    public void generateTopNPopulatedCapitalCitiesInTheContinentReport(int N, String continent) {
+
+        // SQL query to select the top N populated capital cities in the continent
+        String query =
+                "SELECT city.Name, country.Name AS Country, city.Population " +
+                        "FROM city JOIN country ON city.ID = country.Capital " +
+                        "WHERE country.Continent='" + continent + "' " +
+                        "ORDER BY city.Population DESC LIMIT "+ N ;
+        ArrayList<City> cities = generateCityData(query);
+
+        // Prepare data for printing
+        String title = "Top " + N + " Populated Capital Cities in continent " + continent;
         List<String> columnNames = List.of("City Name", "Country", "Population");
         List<List<String>> rows = new ArrayList<>();
 

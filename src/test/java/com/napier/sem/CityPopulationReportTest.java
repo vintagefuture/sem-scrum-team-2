@@ -101,5 +101,34 @@ public class CityPopulationReportTest {
                 "Output should contain the correct column headers.");
     }
 
+    @Test
+    void testGenerateTopNPopulatedCapitalCitiesInTheContinentReport() throws Exception {
+        when(rset.next()).thenReturn(true, true, true, true, true, false); // Simulate five rows returned
+        when(rset.getString(eq("Name"))).thenReturn("Beijing");
+        when(rset.getString(eq("Country"))).thenReturn("China");
+        when(rset.getInt("Population")).thenReturn(100000);
+
+        String continent = "Asia";
+        int limit = 5;
+        cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheContinentReport(limit, continent);
+
+        verify(con).prepareStatement(sqlCaptor.capture());
+        String executedSQL = sqlCaptor.getValue();
+        String expectedQuery = "SELECT city.Name, country.Name AS Country, city.Population " +
+                "FROM city JOIN country ON city.ID = country.Capital " +
+                "WHERE country.Continent='" + continent + "' " +
+                "ORDER BY city.Population DESC LIMIT "+ limit ;
+
+        assertTrue(executedSQL.contains(expectedQuery),
+                "The SQL should contain the correct LIMIT clause for the capital city.");
+
+        // Verify printReport invocation indirectly by checking the console output
+        String output = outContent.toString();
+        assertTrue(output.contains("Top " + limit + " Populated Capital Cities in continent " + continent),
+                "Output should contain the report title.");
+        assertTrue(output.contains("City Name\tCountry\tPopulation"),
+                "Output should contain the correct column headers.");
+    }
+
 }
 
