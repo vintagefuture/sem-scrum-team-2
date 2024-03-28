@@ -135,9 +135,9 @@ public class CityPopulationReport implements PopulationReport {
             while (rset.next()) {
                 List<String> row = new ArrayList<>();
                 row.add(rset.getString("Level"));
-                row.add(String.valueOf(rset.getInt("TotalPopulation")));
-                row.add(String.valueOf(rset.getInt("CityPopulation")));
-                row.add(String.valueOf(rset.getInt("NonCityPopulation")));
+                row.add(String.valueOf(rset.getBigDecimal("TotalPopulation")));
+                row.add(String.valueOf(rset.getBigDecimal("CityPopulation")));
+                row.add(String.valueOf(rset.getBigDecimal("NonCityPopulation")));
                 rows.add(row);
             }
         } catch (Exception e) {

@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,9 +135,9 @@ public class CityPopulationReportTest {
     void testGeneratePopulationInCitiesVSNonCityByContinent() throws Exception {
         when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
         when(rset.getString("Level")).thenReturn("Asia");
-        when(rset.getInt("TotalPopulation")).thenReturn(10000);
-        when(rset.getInt("CityPopulation")).thenReturn(8000);
-        when(rset.getInt("NonCityPopulation")).thenReturn(2000);
+        when(rset.getBigDecimal("TotalPopulation")).thenReturn(new BigDecimal(10000));
+        when(rset.getBigDecimal("CityPopulation")).thenReturn(new BigDecimal(8000));
+        when(rset.getBigDecimal("NonCityPopulation")).thenReturn(new BigDecimal(2000));
 
         cityPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
 
