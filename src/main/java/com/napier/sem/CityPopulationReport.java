@@ -99,6 +99,14 @@ public class CityPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
+    public void generatePopulationInCitiesVSNonCityByRegion() {
+        // SQL query to compute population data by region
+        List<List<String>> rows = generatePopulationData("country.Region");
+        String title = "Population Report City vs Non City by Region";
+        List<String> columnNames = List.of("Region", "Total Population", "City Population", "Non-City Population");
+        printReport(title, columnNames, rows);
+    }
+
     private ArrayList<City> generateCityData(String parameter) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(parameter)) {
