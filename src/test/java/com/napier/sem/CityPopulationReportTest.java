@@ -162,5 +162,38 @@ public class CityPopulationReportTest {
         assertTrue(output.contains("Continent\tTotal Population\tCity Population\tNon-City Population"),
                 "Output should contain the correct column headers.");
     }
+
+    @Test
+    void testGeneratePopulationInCitiesVSNonCityByRegion() throws Exception {
+        when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
+        when(rset.getString("Level")).thenReturn("Eastern Asia");
+        when(rset.getBigDecimal("TotalPopulation")).thenReturn(new BigDecimal(10000));
+        when(rset.getBigDecimal("CityPopulation")).thenReturn(new BigDecimal(8000));
+        when(rset.getBigDecimal("NonCityPopulation")).thenReturn(new BigDecimal(2000));
+
+        cityPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
+
+        verify(con).prepareStatement(sqlCaptor.capture());
+        String executedSQL = sqlCaptor.getValue();
+        String expectedQuery =
+                "SELECT " + "country.Region" + " AS Level, " +
+                        "SUM(country.Population) AS TotalPopulation, " +
+                        "SUM(city.Population) AS CityPopulation, " +
+                        "(SUM(country.Population) - SUM(city.Population)) AS NonCityPopulation " +
+                        "FROM country " +
+                        "JOIN city ON country.Code = city.CountryCode " +
+                        "GROUP BY " + "country.Region" +
+                        " ORDER BY TotalPopulation DESC";
+
+        assertTrue(executedSQL.contains(expectedQuery),
+                "The SQL should contain the correct population city vs non city.");
+        // Verify printReport invocation indirectly by checking the console output
+        String output = outContent.toString();
+        assertTrue(output.contains("Population Report City vs Non City by Region"),
+                "Output should contain the report title.");
+        assertTrue(output.contains("Region\tTotal Population\tCity Population\tNon-City Population"),
+                "Output should contain the correct column headers.");
+    }
+
 }
 
