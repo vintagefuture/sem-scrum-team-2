@@ -39,6 +39,32 @@ public class CityPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
+    public void generateTopNPopulatedCapitalCitiesInTheRegionReport(int N, String region) {
+
+        // SQL query to select the top N populated capital cities in the world
+        String query =
+                "SELECT city.Name, country.Name AS Country, city.Population " +
+                        "FROM city JOIN country ON city.ID = country.Capital " +
+                        "WHERE country.Region='" + region + "' " +
+                        "ORDER BY city.Population DESC LIMIT "+ N ;
+        ArrayList<City> cities = generateCityData(query);
+
+        // Prepare data for printing
+        String title = "Top " + N + " Populated Capital Cities in region " + region;
+        List<String> columnNames = List.of("City Name", "Country", "Population");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (City city: cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountryCode());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        printReport(title, columnNames, rows);
+    }
+
     private ArrayList<City> generateCityData(String parameter) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(parameter)) {

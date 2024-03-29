@@ -59,6 +59,11 @@ public class App {
                 System.out.println("+++++++++++++++++++++++++");
                 cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
 
+                System.out.println("+++++++++++++++++++++++++");
+                System.out.println("Top N Capital Cities Report in the region where N is provided by User");
+                System.out.println("+++++++++++++++++++++++++");
+                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheRegionReport(5, "North America");
+
             }
         } catch (Exception e) {
             e.printStackTrace();
