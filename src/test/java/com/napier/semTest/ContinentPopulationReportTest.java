@@ -1,5 +1,6 @@
-package com.napier.sem;
+package com.napier.semTest;
 
+import com.napier.sem.ContinentPopulationReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
