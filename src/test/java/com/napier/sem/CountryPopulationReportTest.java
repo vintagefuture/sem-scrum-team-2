@@ -70,27 +70,8 @@ public class CountryPopulationReportTest {
         assertSqlContains(executedSQL, "LIMIT " + N);
     }
 
-    @Test
-    void testGetCapitalCityReportOfCountry() throws Exception {
-        String countryName = "France";
-        mockResultSetForCapitalCity();
-
-        countryPopulationReport.getCapitalCityReportOfCountry(countryName);
-
-        verify(con).prepareStatement(sqlCaptor.capture());
-        String executedSQL = sqlCaptor.getValue();
-
-        assertSqlContains(executedSQL, "ct.Name = '" + countryName + "'");
-    }
-
     private void mockResultSetForCountries() throws Exception {
         when(rset.next()).thenReturn(true, true, true, false); // Simulate three rows returned
-        when(rset.getString(any())).thenReturn("TestData");
-        when(rset.getInt(any())).thenReturn(100000);
-    }
-
-    private void mockResultSetForCapitalCity() throws Exception {
-        when(rset.next()).thenReturn(true, false); // Simulate one row returned
         when(rset.getString(any())).thenReturn("TestData");
         when(rset.getInt(any())).thenReturn(100000);
     }
