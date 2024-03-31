@@ -4,85 +4,97 @@ import java.sql.Connection;
 
 
 public class App {
-
+    /**
+     * Main entry point for the application
+     * Contains the call to each report
+     */
     public static void main(String[] args) {
         try (Connection con = DatabaseConnection.getConnection()) {
             if (con != null) {
 
-                // Generate world population report
+                // All countries in the world organised by largest population to smallest
                 WorldPopulationReport worldPopulationReport = new WorldPopulationReport(con);
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("World Population Report");
-                System.out.println("+++++++++++++++++++++++++");
                 worldPopulationReport.fetchAllCountries();
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("World Population Report Top 5");
-                System.out.println("+++++++++++++++++++++++++");
-                worldPopulationReport.fetchCountriesWithLimit(5);
-
-                // Generate continent population report
+                // All the countries in a continent organised by largest population to smallest
                 ContinentPopulationReport continentPopulationReporter = new ContinentPopulationReport(con);
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Continent Population Report");
-                System.out.println("+++++++++++++++++++++++++");
                 continentPopulationReporter.generateAndPrintContinentReport("Asia");
 
-                // Generate region population report
+                // All the countries in a region organised by largest population to smallest
                 RegionPopulationReport regionPopulationReport = new RegionPopulationReport(con);
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Region Population Report");
-                System.out.println("+++++++++++++++++++++++++");
                 regionPopulationReport.generateRegionReport("North America");
 
-                // Generate country population report
-                CountryPopulationReport countryPopulationReporter = new CountryPopulationReport(con);
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top 5 Populated Countries in Region Report");
-                System.out.println("+++++++++++++++++++++++++");
-                countryPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                // The top N populated countries in the world where N is provided by the user
+                worldPopulationReport.fetchCountriesWithLimit(5);
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top 5 Populated Countries in Continent Report");
-                System.out.println("+++++++++++++++++++++++++");
+                // The top N populated countries in a continent where N is provided by the user
+                CountryPopulationReport countryPopulationReporter = new CountryPopulationReport(con);
                 countryPopulationReporter.getTopNPopulatedCountriesInContinent("Asia", 5);
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top Capital City Report");
-                System.out.println("+++++++++++++++++++++++++");
-                countryPopulationReporter.getCapitalCityReportOfCountry("Indonesia");
+                // The top N populated countries in a region where N is provided by the user
+                countryPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
 
-                // Generate city population report
+                // All the cities in a continent organised by largest population to smallest
+
+                // All the cities in a region organised by largest population to smallest
+
+                // All the cities in the world organised by largest population to smallest
+
+                // All the cities in a country organised by largest population to smallest
+
+                // All the cities in a district organised by largest population to smallest
+
+                // The top N populated cities in the world where N is provided by the user
+
+                // The top N populated cities in a continent where N is provided by the user
+
+                // The top N populated cities in a region where N is provided by the user
+
+                // The top N populated cities in a country where N is provided by the user
+
+                // The top N populated cities in a district where N is provided by the user
+
+                // All the capital cities in the world organised by largest population to smallest
+
+                // All the capital cities in a continent organised by largest population to smallest
+
+                // All the capital cities in a region organised by largest to smallest
+                CapitalCityPopulationReport capitalCityPopulationReport = new CapitalCityPopulationReport(con);
+                capitalCityPopulationReport.getCapitalCityReportOfRegion("Caribbean");
+
+                // The top N populated capital cities in the world where N is provided by the user
                 CityPopulationReport cityPopulationReport = new CityPopulationReport(con);
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top N Capital Cities Report in the world where N is provided by User");
-                System.out.println("+++++++++++++++++++++++++");
                 cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top N Capital Cities Report in the region where N is provided by User");
-                System.out.println("+++++++++++++++++++++++++");
-                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheRegionReport(5, "North America");
-
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("Top N Capital Cities Report in the continent where N is provided by User");
-                System.out.println("+++++++++++++++++++++++++");
+                // The top N populated capital cities in a continent where N is provided by the user
                 cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheContinentReport(3, "Asia");
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("The population of people, people living in cities, and people not living in cities in each continent");
-                System.out.println("+++++++++++++++++++++++++");
+                // The top N populated capital cities in a region where N is provided by the user
+                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheRegionReport(5, "North America");
+
+                // The population of people, people living in cities, and people not living in cities in each continent
                 cityPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("The population of people, people living in cities, and people not living in cities in each region");
-                System.out.println("+++++++++++++++++++++++++");
+                // The population of people, people living in cities, and people not living in cities in each region
                 cityPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
 
-                System.out.println("+++++++++++++++++++++++++");
-                System.out.println("The population of people, people living in cities, and people not living in cities in each country");
-                System.out.println("+++++++++++++++++++++++++");
+                // The population of people, people living in cities, and people not living in cities in each country
                 cityPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
+
+                // The population of the world
+
+                // The population of a continent
+
+                // The population of a region
+
+                // The population of a country
+
+                // The population of a district
+
+                // The population of a city
+
+                // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
+
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -29,7 +29,7 @@ public class RegionPopulationReport implements PopulationReport {
 
         // Prepare data for printing
         String title = region + " Population Report";
-        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "City Name");
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
@@ -72,14 +72,29 @@ public class RegionPopulationReport implements PopulationReport {
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
 
+        // Find maximum width for each column
+        int[] maxWidths = new int[columnNames.size()];
+        for (int i = 0; i < columnNames.size(); i++) {
+            maxWidths[i] = columnNames.get(i).length();
+        }
+        for (List<String> row : rows) {
+            for (int j = 0; j < row.size(); j++) {
+                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
+            }
+        }
+
         // Print column headers
-        columnNames.forEach(columnName -> System.out.print(columnName + "\t"));
+        for (int i = 0; i < columnNames.size(); i++) {
+            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
+        }
         System.out.println();
 
         // Print row data
-        rows.forEach(row -> {
-            row.forEach(cell -> System.out.print(cell + "\t"));
+        for (List<String> row : rows) {
+            for (int i = 0; i < row.size(); i++) {
+                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
+            }
             System.out.println();
-        });
+        }
     }
 }

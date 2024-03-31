@@ -16,37 +16,19 @@ public class WorldPopulationReport implements PopulationReport {
         this.con = con;
     }
 
-
-    @Override
-    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
-        // Print report title
-        System.out.println("\n" + title);
-        System.out.println("-".repeat(title.length()));
-
-        // Print column headers
-        columnNames.forEach(columnName -> System.out.print(columnName + "\t"));
-        System.out.println();
-
-        // Print row data
-        rows.forEach(row -> {
-            row.forEach(cell -> System.out.print(cell + "\t"));
-            System.out.println();
-        });
-    }
-
-    public void fetchCountriesWithLimit(int N) {
+    public void fetchAllCountries() {
         String query =
-                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
+                "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
                         "JOIN city ci ON c.Capital = ci.ID " +
-                        "ORDER BY Population DESC LIMIT " + N;
+                        "ORDER BY Population DESC";
 
         // Execute SQL statement
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Fetch Countries with limit " + N;
-        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "City Name");
+        String title = "Fetch All Countries";
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
@@ -63,19 +45,19 @@ public class WorldPopulationReport implements PopulationReport {
         printReport(title, columnNames, rows);
     }
 
-    public void fetchAllCountries() {
+    public void fetchCountriesWithLimit(int N) {
         String query =
-                "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
+                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
                         "JOIN city ci ON c.Capital = ci.ID " +
-                        "ORDER BY Population DESC";
+                        "ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Fetch All Countries";
-        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "City Name");
+        String title = "Fetch Countries with limit " + N;
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
@@ -110,5 +92,37 @@ public class WorldPopulationReport implements PopulationReport {
             e.printStackTrace();
         }
         return countries;
+    }
+
+    @Override
+    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
+        // Print report title
+        System.out.println("\n" + title);
+        System.out.println("-".repeat(title.length()));
+
+        // Find maximum width for each column
+        int[] maxWidths = new int[columnNames.size()];
+        for (int i = 0; i < columnNames.size(); i++) {
+            maxWidths[i] = columnNames.get(i).length();
+        }
+        for (List<String> row : rows) {
+            for (int j = 0; j < row.size(); j++) {
+                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
+            }
+        }
+
+        // Print column headers
+        for (int i = 0; i < columnNames.size(); i++) {
+            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
+        }
+        System.out.println();
+
+        // Print row data
+        for (List<String> row : rows) {
+            for (int i = 0; i < row.size(); i++) {
+                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
+            }
+            System.out.println();
+        }
     }
 }
