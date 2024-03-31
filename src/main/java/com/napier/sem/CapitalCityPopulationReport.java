@@ -6,61 +6,55 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContinentPopulationReport implements PopulationReport {
+public class CapitalCityPopulationReport implements PopulationReport {
 
     private final Connection con;
 
-    public ContinentPopulationReport(Connection con) {
+    public CapitalCityPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public void generateAndPrintContinentReport(String continent) {
-        // Prepare the SQL query
-        String query =
-                "SELECT c.Code, c.Name, Continent, c.Region, c.Population, ci.Name " +
-                        "FROM country c " +
-                        "JOIN city ci ON c.Capital = ci.ID " +
-                        "WHERE continent='" + continent + "' " +
-                        "ORDER BY Population DESC";
-        ArrayList<Country> countries = generateCountryData(query);
+    public void getCapitalCityReportOfRegion(String region) {
+        String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
+                "FROM country ct\n" +
+                "JOIN city c ON ct.Capital = c.ID\n" +
+                "WHERE ct.Region = '"+ region +"';";
+        ArrayList<City> cities = generateCapitalCityData(query);
 
         // Prepare data for printing
-        String title = continent + " Population Report";
-        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
+        String title = "Capital city report of " + region;
+        List<String> columnNames = List.of("Name", "Country", "Population");
+
         List<List<String>> rows = new ArrayList<>();
 
-        for (Country country : countries) {
+        for (City city : cities) {
             List<String> row = new ArrayList<>();
-            row.add(country.getCode());
-            row.add(country.getName());
-            row.add(country.getContinent());
-            row.add(country.getRegion());
-            row.add(String.valueOf(country.getPopulation()));
-            row.add(country.getCapital());
+            row.add(city.getName());
+            row.add(region);
+            row.add(String.valueOf(city.getPopulation()));
             rows.add(row);
         }
 
         printReport(title, columnNames, rows);
     }
 
-    public ArrayList<Country> generateCountryData(String query) {
-        ArrayList<Country> countries = new ArrayList<>();
+    public ArrayList<City> generateCapitalCityData(String query) {
+        ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             ResultSet rset = stmt.executeQuery();
             while (rset.next()) {
-                Country country = new Country();
-                country.setCode(rset.getString("c.Code"));
-                country.setName(rset.getString("c.Name"));
-                country.setContinent(rset.getString("Continent"));
-                country.setRegion(rset.getString("Region"));
-                country.setPopulation(rset.getInt("c.Population"));
-                country.setCapital(rset.getString("ci.Name"));
-                countries.add(country);
+                City city = new City();
+
+                city.setName(rset.getString("Name"));
+                city.setCountry(rset.getString("Country"));
+                city.setPopulation(rset.getInt("Population"));
+                cities.add(city);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace(); // Proper error handling is recommended
         }
-        return countries;
+        return cities;
+
     }
 
     @Override

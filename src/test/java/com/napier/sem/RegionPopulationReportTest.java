@@ -63,7 +63,7 @@ public class RegionPopulationReportTest {
         // Verify printReport invocation indirectly by checking the console output
         String output = outContent.toString();
         assertTrue(output.contains(region + " Population Report"), "Output should contain the region report title.");
-        assertTrue(output.contains("Code\tName\tContinent\tRegion\tPopulation\tCity Name"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Code\tName\tContinent\tRegion\tPopulation\tCapital"),
                 "Output should contain the correct column headers.");
     }
 }
