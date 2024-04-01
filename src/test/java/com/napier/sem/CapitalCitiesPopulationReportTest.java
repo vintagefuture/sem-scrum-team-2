@@ -16,11 +16,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RegionPopulationReportTest {
+public class CapitalCitiesPopulationReportTest {
 
     @Mock
     private Connection con;
@@ -32,7 +34,7 @@ public class RegionPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CountriesPopulationReport countriesPopulationReport;
+    private CapitalCitiesPopulationReport capitalCityPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -47,23 +49,24 @@ public class RegionPopulationReportTest {
     }
 
     @Test
-    void testGenerateRegionReport() throws Exception {
-        String region = "Europe";
-        when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
-        when(rset.getString(any())).thenReturn("TestData");
-        when(rset.getInt("c.Population")).thenReturn(100000);
+    void testGetCapitalCityReportOfRegion() throws Exception {
+        String regionName = "Caribbean";
+        mockResultSetForCapitalCity();
 
-        countriesPopulationReport.getRegionReport(region);
+        capitalCityPopulationReport.getCapitalCityReportOfRegion(regionName);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        assertTrue(executedSQL.contains("WHERE region='" + region + "'"),
-                "The SQL should contain the correct WHERE clause for the region.");
 
-        // Verify printReport invocation indirectly by checking the console output
-        String output = outContent.toString();
-        assertTrue(output.contains(region + " Population Report"), "Output should contain the region report title.");
-        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Code\tName\tContinent\tRegion\tPopulation\tCapital"),
-                "Output should contain the correct column headers.");
+        assertSqlContains(executedSQL, "ct.Region = '" + regionName + "'");
+    }
+    private void assertSqlContains(String executedSQL, String expected) {
+        assertTrue(executedSQL.contains(expected),
+                "Expected SQL to contain: " + expected + ", but was: " + executedSQL);
+    }
+    private void mockResultSetForCapitalCity() throws Exception {
+        when(rset.next()).thenReturn(true, false); // Simulate one row returned
+        when(rset.getString(any())).thenReturn("TestData");
+        when(rset.getInt(any())).thenReturn(100000);
     }
 }

@@ -15,7 +15,37 @@ public class TopCountriesPopulationReport {
         this.con = con;
     }
 
-    public void getTopNPopulatedCountriesInContinent(String continent, int N) {
+    Helpers helpers = new Helpers();
+    public void getTopPopulatedCountriesInTheWorld(int N) {
+        String query =
+                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
+                        "FROM country c " +
+                        "JOIN city ci ON c.Capital = ci.ID " +
+                        "ORDER BY Population DESC LIMIT " + N;
+
+        // Execute SQL statement
+        ArrayList<Country> countries = generateCountryData(query);
+
+        // Prepare data for printing
+        String title = "Fetch Countries with limit " + N;
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (Country country : countries) {
+            List<String> row = new ArrayList<>();
+            row.add(country.getCode());
+            row.add(country.getName());
+            row.add(country.getContinent());
+            row.add(country.getRegion());
+            row.add(String.valueOf(country.getPopulation()));
+            row.add(country.getCapital());
+            rows.add(row);
+        }
+
+        helpers.printReport(title, columnNames, rows);
+    }
+
+    public void getTopPopulatedCountriesInContinent(String continent, int N) {
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
 
         ArrayList<Country> countries = generateCountryData(query);
@@ -36,11 +66,10 @@ public class TopCountriesPopulationReport {
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 
-    public void getTopNPopulatedCountriesInRegion(String region, int N) {
+    public void getTopPopulatedCountriesInRegion(String region, int N) {
 
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
 
@@ -63,7 +92,6 @@ public class TopCountriesPopulationReport {
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 

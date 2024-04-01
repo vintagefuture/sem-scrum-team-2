@@ -14,23 +14,23 @@ public class App {
 
                 // All countries in the world organised by largest population to smallest
                 CountriesPopulationReport countriesPopulationReport = new CountriesPopulationReport(con);
-                countriesPopulationReport.getWorldReport();
+                countriesPopulationReport.getCountriesPopulationInTheWorldReport();
 
                 // All the countries in a continent organised by largest population to smallest
-                countriesPopulationReport.getContinentReport("Asia");
+                countriesPopulationReport.getCountriesPopulationInContinentReport("Asia");
 
                 // All the countries in a region organised by largest population to smallest
-                countriesPopulationReport.getRegionReport("North America");
+                countriesPopulationReport.getCountriesPopulationInRegionReport("North America");
 
                 // The top N populated countries in the world where N is provided by the user
-                countriesPopulationReport.fetchCountriesWithLimit(5);
+                TopCountriesPopulationReport topCountriesPopulationReport = new TopCountriesPopulationReport(con);
+                topCountriesPopulationReport.getTopPopulatedCountriesInTheWorld(5);
 
                 // The top N populated countries in a continent where N is provided by the user
-                TopCountriesPopulationReport topCountriesPopulationReporter = new TopCountriesPopulationReport(con);
-                topCountriesPopulationReporter.getTopNPopulatedCountriesInContinent("Asia", 5);
+                topCountriesPopulationReport.getTopPopulatedCountriesInContinent("Asia", 5);
 
                 // The top N populated countries in a region where N is provided by the user
-                topCountriesPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                topCountriesPopulationReport.getTopPopulatedCountriesInRegion("Southern and Central Asia", 5);
 
                 // All the cities in a continent organised by largest population to smallest
 
@@ -61,23 +61,24 @@ public class App {
                 capitalCityPopulationReport.getCapitalCityReportOfRegion("Caribbean");
 
                 // The top N populated capital cities in the world where N is provided by the user
-                CityPopulationReport cityPopulationReport = new CityPopulationReport(con);
-                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
+                TopCapitalCitiesPopulationReport topCapitalCitiesPopulationReport = new TopCapitalCitiesPopulationReport(con);
+                topCapitalCitiesPopulationReport.getTopCapitalCitiesInTheWorldReport(5);
 
                 // The top N populated capital cities in a continent where N is provided by the user
-                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheContinentReport(3, "Asia");
+                topCapitalCitiesPopulationReport.getTopCapitalCitiesInTheContinentReport(3, "Asia");
 
                 // The top N populated capital cities in a region where N is provided by the user
-                cityPopulationReport.generateTopNPopulatedCapitalCitiesInTheRegionReport(5, "North America");
+                topCapitalCitiesPopulationReport.getTopCapitalCitiesInTheRegionReport(5, "North America");
 
                 // The population of people, people living in cities, and people not living in cities in each continent
-                cityPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
+                CitiesPopulationReport citiesPopulationReport = new CitiesPopulationReport(con);
+                citiesPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
 
                 // The population of people, people living in cities, and people not living in cities in each region
-                cityPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
+                citiesPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
 
                 // The population of people, people living in cities, and people not living in cities in each country
-                cityPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
+                citiesPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
 
                 // The population of the world
 

@@ -9,6 +9,8 @@ import java.util.List;
 public class CountriesPopulationReport {
     private final Connection con;
 
+    Helpers helpers = new Helpers();
+
     /**
      * Will be used to generate worldwide population report
      */
@@ -16,7 +18,7 @@ public class CountriesPopulationReport {
         this.con = con;
     }
 
-    public void getWorldReport() {
+    public void getCountriesPopulationInTheWorldReport() {
         String query =
                 "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
@@ -42,11 +44,10 @@ public class CountriesPopulationReport {
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 
-    public void getContinentReport(String continent) {
+    public void getCountriesPopulationInContinentReport(String continent) {
         // Prepare the SQL query
         String query =
                 "SELECT c.Code, c.Name, Continent, c.Region, c.Population, ci.Name " +
@@ -72,11 +73,10 @@ public class CountriesPopulationReport {
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 
-    public void getRegionReport(String region) {
+    public void getCountriesPopulationInRegionReport(String region) {
 
         // Create string for SQL statement
         String query =
@@ -105,37 +105,6 @@ public class CountriesPopulationReport {
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
-        helpers.printReport(title, columnNames, rows);
-    }
-
-    public void fetchCountriesWithLimit(int N) {
-        String query =
-                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
-                        "FROM country c " +
-                        "JOIN city ci ON c.Capital = ci.ID " +
-                        "ORDER BY Population DESC LIMIT " + N;
-
-        // Execute SQL statement
-        ArrayList<Country> countries = generateCountryData(query);
-
-        // Prepare data for printing
-        String title = "Fetch Countries with limit " + N;
-        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
-        List<List<String>> rows = new ArrayList<>();
-
-        for (Country country : countries) {
-            List<String> row = new ArrayList<>();
-            row.add(country.getCode());
-            row.add(country.getName());
-            row.add(country.getContinent());
-            row.add(country.getRegion());
-            row.add(String.valueOf(country.getPopulation()));
-            row.add(country.getCapital());
-            rows.add(row);
-        }
-
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 
