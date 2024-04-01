@@ -6,11 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CitiesPopulationReport {
+public class PopulationReport {
 
     private final Connection con;
 
-    public CitiesPopulationReport(Connection con) {
+    public PopulationReport(Connection con) {
         this.con = con;
     }
 

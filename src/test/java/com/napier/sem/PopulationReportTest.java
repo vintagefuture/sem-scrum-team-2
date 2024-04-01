@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CitiesPopulationReportTest {
+public class PopulationReportTest {
 
     @Mock
     private Connection con;
@@ -33,7 +33,7 @@ public class CitiesPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CitiesPopulationReport cityPopulationReport;
+    private PopulationReport cityPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
