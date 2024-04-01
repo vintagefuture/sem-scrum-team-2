@@ -18,10 +18,7 @@ public class TopCountriesPopulationReport {
     Helpers helpers = new Helpers();
     public void getTopPopulatedCountriesInTheWorld(int N) {
         String query =
-                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
-                        "FROM country c " +
-                        "JOIN city ci ON c.Capital = ci.ID " +
-                        "ORDER BY Population DESC LIMIT " + N;
+                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<Country> countries = generateCountryData(query);
