@@ -13,26 +13,24 @@ public class App {
             if (con != null) {
 
                 // All countries in the world organised by largest population to smallest
-                WorldPopulationReport worldPopulationReport = new WorldPopulationReport(con);
-                worldPopulationReport.fetchAllCountries();
+                CountriesPopulationReport countriesPopulationReport = new CountriesPopulationReport(con);
+                countriesPopulationReport.getWorldReport();
 
                 // All the countries in a continent organised by largest population to smallest
-                ContinentPopulationReport continentPopulationReporter = new ContinentPopulationReport(con);
-                continentPopulationReporter.generateAndPrintContinentReport("Asia");
+                countriesPopulationReport.getContinentReport("Asia");
 
                 // All the countries in a region organised by largest population to smallest
-                RegionPopulationReport regionPopulationReport = new RegionPopulationReport(con);
-                regionPopulationReport.generateRegionReport("North America");
+                countriesPopulationReport.getRegionReport("North America");
 
                 // The top N populated countries in the world where N is provided by the user
-                worldPopulationReport.fetchCountriesWithLimit(5);
+                countriesPopulationReport.fetchCountriesWithLimit(5);
 
                 // The top N populated countries in a continent where N is provided by the user
-                CountryPopulationReport countryPopulationReporter = new CountryPopulationReport(con);
-                countryPopulationReporter.getTopNPopulatedCountriesInContinent("Asia", 5);
+                TopCountriesPopulationReport topCountriesPopulationReporter = new TopCountriesPopulationReport(con);
+                topCountriesPopulationReporter.getTopNPopulatedCountriesInContinent("Asia", 5);
 
                 // The top N populated countries in a region where N is provided by the user
-                countryPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
+                topCountriesPopulationReporter.getTopNPopulatedCountriesInRegion("Southern and Central Asia", 5);
 
                 // All the cities in a continent organised by largest population to smallest
 
@@ -59,7 +57,7 @@ public class App {
                 // All the capital cities in a continent organised by largest population to smallest
 
                 // All the capital cities in a region organised by largest to smallest
-                CapitalCityPopulationReport capitalCityPopulationReport = new CapitalCityPopulationReport(con);
+                CapitalCitiesPopulationReport capitalCityPopulationReport = new CapitalCitiesPopulationReport(con);
                 capitalCityPopulationReport.getCapitalCityReportOfRegion("Caribbean");
 
                 // The top N populated capital cities in the world where N is provided by the user

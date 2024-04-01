@@ -29,7 +29,7 @@ public class CountryPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CountryPopulationReport countryPopulationReport;
+    private TopCountriesPopulationReport countryPopulationReport;
 
     @Captor
     private ArgumentCaptor<String> sqlCaptor;

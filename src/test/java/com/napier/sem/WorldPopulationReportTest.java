@@ -26,7 +26,7 @@ public class WorldPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private WorldPopulationReport worldPopulationReport;
+    private CountriesPopulationReport countriesPopulationReport;
 
     @Test
     void testFetchAllCountries() throws Exception {
@@ -41,7 +41,7 @@ public class WorldPopulationReportTest {
         when(rset.getInt("c.Population")).thenReturn(1000);
         when(rset.getString("ci.Name")).thenReturn("CapitalName1");
 
-        worldPopulationReport.fetchAllCountries();
+        countriesPopulationReport.getWorldReport();
 
         // Verify `printReport` was called with the correct parameters
         // This requires modifying `WorldPopulationReport` to make `printReport` verifiable or inspecting console output
@@ -65,7 +65,7 @@ public class WorldPopulationReportTest {
         when(rset.getInt("c.Population")).thenReturn(1000);
         when(rset.getString("ci.Name")).thenReturn("CapitalName1");
 
-        worldPopulationReport.fetchCountriesWithLimit(N);
+        countriesPopulationReport.fetchCountriesWithLimit(N);
 
         // Verify `printReport` was called with the correct parameters
         // This step requires manual verification or adjusting the WorldPopulationReport class to be more test-friendly

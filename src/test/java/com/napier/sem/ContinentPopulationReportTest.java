@@ -31,7 +31,7 @@ public class ContinentPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private ContinentPopulationReport continentPopulationReport;
+    private CountriesPopulationReport countriesPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -50,7 +50,7 @@ public class ContinentPopulationReportTest {
         String continent = "Asia";
         mockResultSetForCountries();
 
-        continentPopulationReport.generateAndPrintContinentReport(continent);
+        countriesPopulationReport.getContinentReport(continent);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();

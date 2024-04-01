@@ -6,17 +6,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorldPopulationReport implements PopulationReport {
+public class CountriesPopulationReport {
     private final Connection con;
 
     /**
      * Will be used to generate worldwide population report
      */
-    public WorldPopulationReport(Connection con) {
+    public CountriesPopulationReport(Connection con) {
         this.con = con;
     }
 
-    public void fetchAllCountries() {
+    public void getWorldReport() {
         String query =
                 "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
@@ -27,7 +27,7 @@ public class WorldPopulationReport implements PopulationReport {
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Fetch All Countries";
+        String title = "All the countries in the world organised by largest population to smallest";
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
@@ -42,7 +42,71 @@ public class WorldPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
+    }
+
+    public void getContinentReport(String continent) {
+        // Prepare the SQL query
+        String query =
+                "SELECT c.Code, c.Name, Continent, c.Region, c.Population, ci.Name " +
+                        "FROM country c " +
+                        "JOIN city ci ON c.Capital = ci.ID " +
+                        "WHERE continent='" + continent + "' " +
+                        "ORDER BY Population DESC";
+        ArrayList<Country> countries = generateCountryData(query);
+
+        // Prepare data for printing
+        String title = continent + " Population Report";
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (Country country : countries) {
+            List<String> row = new ArrayList<>();
+            row.add(country.getCode());
+            row.add(country.getName());
+            row.add(country.getContinent());
+            row.add(country.getRegion());
+            row.add(String.valueOf(country.getPopulation()));
+            row.add(country.getCapital());
+            rows.add(row);
+        }
+
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
+    }
+
+    public void getRegionReport(String region) {
+
+        // Create string for SQL statement
+        String query =
+                "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
+                        "FROM country c " +
+                        "JOIN city ci ON c.Capital = ci.ID " +
+                        "WHERE region='" + region + "' " +
+                        "ORDER BY Population DESC";
+
+        // Execute SQL statement
+        ArrayList<Country> countries = generateCountryData(query);
+
+        // Prepare data for printing
+        String title = region + " Population Report";
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
+        List<List<String>> rows = new ArrayList<>();
+
+        for (Country country : countries) {
+            List<String> row = new ArrayList<>();
+            row.add(country.getCode());
+            row.add(country.getName());
+            row.add(country.getContinent());
+            row.add(country.getRegion());
+            row.add(String.valueOf(country.getPopulation()));
+            row.add(country.getCapital());
+            rows.add(row);
+        }
+
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void fetchCountriesWithLimit(int N) {
@@ -71,7 +135,8 @@ public class WorldPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
     }
 
     private ArrayList<Country> generateCountryData(String query) {
@@ -92,37 +157,5 @@ public class WorldPopulationReport implements PopulationReport {
             e.printStackTrace();
         }
         return countries;
-    }
-
-    @Override
-    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
-        // Print report title
-        System.out.println("\n" + title);
-        System.out.println("-".repeat(title.length()));
-
-        // Find maximum width for each column
-        int[] maxWidths = new int[columnNames.size()];
-        for (int i = 0; i < columnNames.size(); i++) {
-            maxWidths[i] = columnNames.get(i).length();
-        }
-        for (List<String> row : rows) {
-            for (int j = 0; j < row.size(); j++) {
-                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
-            }
-        }
-
-        // Print column headers
-        for (int i = 0; i < columnNames.size(); i++) {
-            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
-        }
-        System.out.println();
-
-        // Print row data
-        for (List<String> row : rows) {
-            for (int i = 0; i < row.size(); i++) {
-                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
-            }
-            System.out.println();
-        }
     }
 }

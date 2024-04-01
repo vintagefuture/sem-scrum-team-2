@@ -32,7 +32,7 @@ public class RegionPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private RegionPopulationReport regionPopulationReport;
+    private CountriesPopulationReport countriesPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -53,7 +53,7 @@ public class RegionPopulationReportTest {
         when(rset.getString(any())).thenReturn("TestData");
         when(rset.getInt("c.Population")).thenReturn(100000);
 
-        regionPopulationReport.generateRegionReport(region);
+        countriesPopulationReport.getRegionReport(region);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();

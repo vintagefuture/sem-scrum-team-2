@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CountryPopulationReport implements PopulationReport {
+public class TopCountriesPopulationReport {
 
     private final Connection con;
 
-    public CountryPopulationReport(Connection con) {
+    public TopCountriesPopulationReport(Connection con) {
         this.con = con;
     }
 
@@ -36,7 +36,8 @@ public class CountryPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void getTopNPopulatedCountriesInRegion(String region, int N) {
@@ -62,7 +63,8 @@ public class CountryPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        Helpers helpers = new Helpers();
+        helpers.printReport(title, columnNames, rows);
     }
 
     public ArrayList<Country> generateCountryData(String parameter) {
@@ -84,37 +86,4 @@ public class CountryPopulationReport implements PopulationReport {
         }
         return countries;
     }
-
-    @Override
-    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
-        // Print report title
-        System.out.println("\n" + title);
-        System.out.println("-".repeat(title.length()));
-
-        // Find maximum width for each column
-        int[] maxWidths = new int[columnNames.size()];
-        for (int i = 0; i < columnNames.size(); i++) {
-            maxWidths[i] = columnNames.get(i).length();
-        }
-        for (List<String> row : rows) {
-            for (int j = 0; j < row.size(); j++) {
-                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
-            }
-        }
-
-        // Print column headers
-        for (int i = 0; i < columnNames.size(); i++) {
-            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
-        }
-        System.out.println();
-
-        // Print row data
-        for (List<String> row : rows) {
-            for (int i = 0; i < row.size(); i++) {
-                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
-            }
-            System.out.println();
-        }
-    }
-
 }

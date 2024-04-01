@@ -6,13 +6,15 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CityPopulationReport implements PopulationReport {
+public class CityPopulationReport {
 
     private final Connection con;
 
     public CityPopulationReport(Connection con) {
         this.con = con;
     }
+
+    Helpers helpers = new Helpers();
 
     public void generateTopNPopulatedCapitalCitiesInTheWorldReport(int N) {
 
@@ -36,7 +38,7 @@ public class CityPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void generateTopNPopulatedCapitalCitiesInTheRegionReport(int N, String region) {
@@ -62,7 +64,7 @@ public class CityPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void generateTopNPopulatedCapitalCitiesInTheContinentReport(int N, String continent) {
@@ -88,7 +90,7 @@ public class CityPopulationReport implements PopulationReport {
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void generatePopulationInCitiesVSNonCityByContinent() {
@@ -96,7 +98,7 @@ public class CityPopulationReport implements PopulationReport {
         List<List<String>> rows = generatePopulationData("country.Continent");
         String title = "Population Report City vs Non City by Continent";
         List<String> columnNames = List.of("Continent", "Total Population", "City Population", "Non-City Population");
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void generatePopulationInCitiesVSNonCityByRegion() {
@@ -104,7 +106,7 @@ public class CityPopulationReport implements PopulationReport {
         List<List<String>> rows = generatePopulationData("country.Region");
         String title = "Population Report City vs Non City by Region";
         List<String> columnNames = List.of("Region", "Total Population", "City Population", "Non-City Population");
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void generatePopulationInCitiesVSNonCityByCountry() {
@@ -112,7 +114,7 @@ public class CityPopulationReport implements PopulationReport {
         List<List<String>> rows = generatePopulationData("country.Name");
         String title = "Population Report City vs Non City by Country";
         List<String> columnNames = List.of("Country", "Total Population", "City Population", "Non-City Population");
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     private ArrayList<City> generateCityData(String parameter) {
@@ -161,37 +163,5 @@ public class CityPopulationReport implements PopulationReport {
         }
 
         return rows;
-    }
-
-    @Override
-    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
-        // Print report title
-        System.out.println("\n" + title);
-        System.out.println("-".repeat(title.length()));
-
-        // Find maximum width for each column
-        int[] maxWidths = new int[columnNames.size()];
-        for (int i = 0; i < columnNames.size(); i++) {
-            maxWidths[i] = columnNames.get(i).length();
-        }
-        for (List<String> row : rows) {
-            for (int j = 0; j < row.size(); j++) {
-                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
-            }
-        }
-
-        // Print column headers
-        for (int i = 0; i < columnNames.size(); i++) {
-            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
-        }
-        System.out.println();
-
-        // Print row data
-        for (List<String> row : rows) {
-            for (int i = 0; i < row.size(); i++) {
-                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
-            }
-            System.out.println();
-        }
     }
 }

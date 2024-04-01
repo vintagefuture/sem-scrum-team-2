@@ -34,7 +34,7 @@ public class CapitalCityPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CapitalCityPopulationReport capitalCityPopulationReport;
+    private CapitalCitiesPopulationReport capitalCityPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
