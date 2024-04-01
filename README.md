@@ -16,8 +16,8 @@
 
 ### Top N Countries Reports
 - [x] The top `N` populated countries in the world where `N` is provided by the user.
-- [ ] The top `N` populated countries in a continent where `N` is provided by the user.
-- [ ] The top `N` populated countries in a region where `N` is provided by the user.
+- [x] The top `N` populated countries in a continent where `N` is provided by the user.
+- [x] The top `N` populated countries in a region where `N` is provided by the user.
 
 ### Cities Reports
 - [ ] All the cities in the world organised by largest population to smallest.

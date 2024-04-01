@@ -16,12 +16,13 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getTopNPopulatedCountriesInContinent(String continent, int N) {
-        String query = "SELECT Code, Name, Continent, Region, Population FROM country WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
+
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
         String title = "Top " + N + " Populated Countries in " + continent;
-        List<String> columnNames = List.of("Country", "Population");
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
@@ -31,6 +32,7 @@ public class CountryPopulationReport implements PopulationReport {
             row.add(country.getContinent());
             row.add(country.getRegion());
             row.add(String.valueOf(country.getPopulation()));
+            row.add(country.getCapital());
             rows.add(row);
         }
 
@@ -38,12 +40,15 @@ public class CountryPopulationReport implements PopulationReport {
     }
 
     public void getTopNPopulatedCountriesInRegion(String region, int N) {
-        String query = "SELECT Code, Name, Continent, Region, Population FROM country WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
+
+        String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
+
+
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
         String title = "Top " + N + " Populated Countries in " + region;
-        List<String> columnNames = List.of("Country", "Population");
+        List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
         for (Country country : countries) {
@@ -53,30 +58,7 @@ public class CountryPopulationReport implements PopulationReport {
             row.add(country.getContinent());
             row.add(country.getRegion());
             row.add(String.valueOf(country.getPopulation()));
-            rows.add(row);
-        }
-
-        printReport(title, columnNames, rows);
-    }
-
-    public void getCapitalCityReportOfCountry(String country) {
-            String query = "SELECT c.CountryCode AS CountryCode, c.Name AS CapitalCity, c.Population AS CapitalPopulation, c.District AS District\n" +
-                        "FROM country ct\n" +
-                    "JOIN city c ON ct.Capital = c.ID\n" +
-                "WHERE ct.Name = '"+ country +"';";
-        ArrayList<City> cities = generateCityData(query);
-
-        // Prepare data for printing
-        String title = "Capital city report of " + country;
-        List<String> columnNames = List.of("Country Name", "City Name", "Capital Population", "District");
-        List<List<String>> rows = new ArrayList<>();
-
-        for (City city : cities) {
-            List<String> row = new ArrayList<>();
-            row.add(country);
-            row.add(city.getName());
-            row.add(String.valueOf(city.getPopulation()));
-            row.add(city.getDistrict());
+            row.add(country.getCapital());
             rows.add(row);
         }
 
@@ -94,6 +76,7 @@ public class CountryPopulationReport implements PopulationReport {
                 country.setContinent(rset.getString("Continent"));
                 country.setRegion(rset.getString("Region"));
                 country.setPopulation(rset.getInt("Population"));
+                country.setCapital(rset.getString("Capital"));
                 countries.add(country);
             }
         } catch (Exception e) {
@@ -102,41 +85,33 @@ public class CountryPopulationReport implements PopulationReport {
         return countries;
     }
 
-    public ArrayList<City> generateCityData(String query) {
-        ArrayList<City> cities = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(query)) {
-            ResultSet rset = stmt.executeQuery();
-            while (rset.next()) {
-                City city = new City();
-                city.setCountryCode(rset.getString("CountryCode"));
-                city.setName(rset.getString("CapitalCity"));
-                city.setPopulation(rset.getInt("CapitalPopulation"));
-                city.setDistrict(rset.getString("District"));
-                cities.add(city);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Proper error handling is recommended
-        }
-        return cities;
-
-    }
-
     @Override
     public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
         // Print report title
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
 
+        // Find maximum width for each column
+        int[] maxWidths = new int[columnNames.size()];
+        for (int i = 0; i < columnNames.size(); i++) {
+            maxWidths[i] = columnNames.get(i).length();
+        }
+        for (List<String> row : rows) {
+            for (int j = 0; j < row.size(); j++) {
+                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
+            }
+        }
+
         // Print column headers
-        for (String columnName : columnNames) {
-            System.out.print(columnName + "\t");
+        for (int i = 0; i < columnNames.size(); i++) {
+            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
         }
         System.out.println();
 
         // Print row data
         for (List<String> row : rows) {
-            for (String cell : row) {
-                System.out.print(cell + "\t");
+            for (int i = 0; i < row.size(); i++) {
+                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
             }
             System.out.println();
         }

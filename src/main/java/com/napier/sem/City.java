@@ -4,6 +4,7 @@ public class City {
 
     private String name;
     private String countryCode;
+    private String country;
     private String district;
     private int population;
 
@@ -21,6 +22,14 @@ public class City {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String countryCode) {
+        this.country = country;
     }
 
     public String getDistrict() {

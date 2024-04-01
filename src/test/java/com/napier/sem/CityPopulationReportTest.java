@@ -69,7 +69,7 @@ public class CityPopulationReportTest {
         // Verify printReport invocation indirectly by checking the console output
         String output = outContent.toString();
         assertTrue(output.contains("Top " + limit + " Populated Capital Cities in the World"), "Output should contain the report title.");
-        assertTrue(output.contains("City Name\tCountry\tPopulation"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("City Name\tCountry\tPopulation"),
                 "Output should contain the correct column headers.");
     }
 
@@ -98,7 +98,7 @@ public class CityPopulationReportTest {
         String output = outContent.toString();
         assertTrue(output.contains("Top " + limit + " Populated Capital Cities in region " + region),
                 "Output should contain the report title.");
-        assertTrue(output.contains("City Name\tCountry\tPopulation"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("City Name\tCountry\tPopulation"),
                 "Output should contain the correct column headers.");
     }
 
@@ -127,7 +127,7 @@ public class CityPopulationReportTest {
         String output = outContent.toString();
         assertTrue(output.contains("Top " + limit + " Populated Capital Cities in continent " + continent),
                 "Output should contain the report title.");
-        assertTrue(output.contains("City Name\tCountry\tPopulation"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("City Name\tCountry\tPopulation"),
                 "Output should contain the correct column headers.");
     }
 
@@ -159,7 +159,7 @@ public class CityPopulationReportTest {
         String output = outContent.toString();
         assertTrue(output.contains("Population Report City vs Non City by Continent"),
                 "Output should contain the report title.");
-        assertTrue(output.contains("Continent\tTotal Population\tCity Population\tNon-City Population"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Continent\tTotal Population\tCity Population\tNon-City Population"),
                 "Output should contain the correct column headers.");
     }
 
@@ -189,9 +189,9 @@ public class CityPopulationReportTest {
                 "The SQL should contain the correct population city vs non city.");
         // Verify printReport invocation indirectly by checking the console output
         String output = outContent.toString();
-        assertTrue(output.contains("Population Report City vs Non City by Region"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Population Report City vs Non City by Region"),
                 "Output should contain the report title.");
-        assertTrue(output.contains("Region\tTotal Population\tCity Population\tNon-City Population"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Region\tTotal Population\tCity Population\tNon-City Population"),
                 "Output should contain the correct column headers.");
     }
 
@@ -223,7 +223,7 @@ public class CityPopulationReportTest {
         String output = outContent.toString();
         assertTrue(output.contains("Population Report City vs Non City by Country"),
                 "Output should contain the report title.");
-        assertTrue(output.contains("Country\tTotal Population\tCity Population\tNon-City Population"),
+        assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Country\tTotal Population\tCity Population\tNon-City Population"),
                 "Output should contain the correct column headers.");
     }
 
