@@ -1,6 +1,5 @@
-package com.napier.semTest;
+package com.napier.sem;
 
-import com.napier.sem.WorldPopulationReport;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
