@@ -16,9 +16,11 @@ public class CapitalCitiesPopulationReport {
 
     public void getCapitalCityReportOfRegion(String region) {
         String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
-                "FROM country ct\n" +
-                "JOIN city c ON ct.Capital = c.ID\n" +
-                "WHERE ct.Region = '"+ region +"';";
+                "FROM country ct " +
+                "JOIN city c ON ct.Capital = c.ID " +
+                "WHERE ct.Region = '"+ region +"'" +
+                "ORDER BY Population DESC";
+
         ArrayList<City> cities = generateCapitalCityData(query);
 
         // Prepare data for printing

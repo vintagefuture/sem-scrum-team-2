@@ -41,23 +41,6 @@ public class PopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    private ArrayList<City> generateCityData(String parameter) {
-        ArrayList<City> cities = new ArrayList<>();
-        try (PreparedStatement stmt = con.prepareStatement(parameter)) {
-            ResultSet rset = stmt.executeQuery();
-            while (rset.next()) {
-                City city = new City();
-                city.setName(rset.getString("Name"));
-                city.setCountryCode(rset.getString("Country"));
-                city.setPopulation(rset.getInt("Population"));
-                cities.add(city);
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Proper error handling is recommended
-        }
-        return cities;
-    }
-
     private List<List<String>> generatePopulationData(String level) {
         // Dynamic SQL query based on the aggregation level
         String query =
