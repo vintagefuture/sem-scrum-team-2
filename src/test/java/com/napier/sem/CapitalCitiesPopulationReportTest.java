@@ -16,10 +16,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ContinentPopulationReportTest {
+public class CapitalCitiesPopulationReportTest {
 
     @Mock
     private Connection con;
@@ -31,7 +34,7 @@ public class ContinentPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private ContinentPopulationReport continentPopulationReport;
+    private CapitalCitiesPopulationReport capitalCityPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -46,31 +49,24 @@ public class ContinentPopulationReportTest {
     }
 
     @Test
-    void testGenerateAndPrintContinentReport() throws Exception {
-        String continent = "Asia";
-        mockResultSetForCountries();
+    void testGetCapitalCityReportOfRegion() throws Exception {
+        String regionName = "Caribbean";
+        mockResultSetForCapitalCity();
 
-        continentPopulationReport.generateAndPrintContinentReport(continent);
+        capitalCityPopulationReport.getCapitalCityReportOfRegion(regionName);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
 
-        assertTrue(executedSQL.contains("WHERE continent='" + continent + "'"),
-                "The SQL should contain the correct WHERE clause for the continent.");
-
-        // Verify the output contains the expected report structure
-        verifyOutputContains(continent + " Population Report");
-        verifyOutputContains("Code\tName\tContinent\tRegion\tPopulation\tCapital");
+        assertSqlContains(executedSQL, "ct.Region = '" + regionName + "'");
     }
-
-    private void mockResultSetForCountries() throws Exception {
-        when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
+    private void assertSqlContains(String executedSQL, String expected) {
+        assertTrue(executedSQL.contains(expected),
+                "Expected SQL to contain: " + expected + ", but was: " + executedSQL);
+    }
+    private void mockResultSetForCapitalCity() throws Exception {
+        when(rset.next()).thenReturn(true, false); // Simulate one row returned
         when(rset.getString(any())).thenReturn("TestData");
         when(rset.getInt(any())).thenReturn(100000);
-    }
-
-    private void verifyOutputContains(String expectedContent) {
-        assertTrue(outContent.toString().replaceAll("\\s\\s+", "\t").contains(expectedContent),
-                "The output should contain: " + expectedContent);
     }
 }

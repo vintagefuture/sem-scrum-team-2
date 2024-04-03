@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CountryPopulationReportTest {
+public class TopCountriesPopulationReportTest {
 
     @Mock
     private Connection con;
@@ -29,7 +29,7 @@ public class CountryPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CountryPopulationReport countryPopulationReport;
+    private TopCountriesPopulationReport topCountriesPopulationReport;
 
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
@@ -41,12 +41,35 @@ public class CountryPopulationReportTest {
     }
 
     @Test
-    void testGetTopNPopulatedCountriesInContinent() throws Exception {
+    void testFetchCountriesWithLimit() throws Exception {
+        int N = 5;
+        when(con.prepareStatement(contains("LIMIT " + N))).thenReturn(stmt);
+        when(stmt.executeQuery()).thenReturn(rset);
+        // Mock the ResultSet to simulate database behavior
+        when(rset.next()).thenReturn(true, true, true, true, true, false); // Simulate 5 rows returned, then end
+        when(rset.getString("Code")).thenReturn("Code1");
+        when(rset.getString("Name")).thenReturn("CountryName1");
+        when(rset.getString("Continent")).thenReturn("Continent1");
+        when(rset.getString("Region")).thenReturn("Region1");
+        when(rset.getInt("Population")).thenReturn(1000);
+        when(rset.getString("Capital")).thenReturn("CapitalName1");
+
+        topCountriesPopulationReport.getTopPopulatedCountriesInTheWorld(N);
+
+        // Verify `printReport` was called with the correct parameters
+
+        verify(con).prepareStatement(contains("LIMIT " + N));
+        verify(stmt).executeQuery();
+        verify(rset, atLeast(N)).next();
+    }
+
+    @Test
+    void testGetTopPopulatedCountriesInContinent() throws Exception {
         String continent = "Asia";
         int N = 5;
         mockResultSetForCountries();
 
-        countryPopulationReport.getTopNPopulatedCountriesInContinent(continent, N);
+        topCountriesPopulationReport.getTopPopulatedCountriesInContinent(continent, N);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
@@ -56,12 +79,12 @@ public class CountryPopulationReportTest {
     }
 
     @Test
-    void testGetTopNPopulatedCountriesInRegion() throws Exception {
+    void testGetTopPopulatedCountriesInRegion() throws Exception {
         String region = "Western Europe";
         int N = 3;
         mockResultSetForCountries();
 
-        countryPopulationReport.getTopNPopulatedCountriesInRegion(region, N);
+        topCountriesPopulationReport.getTopPopulatedCountriesInRegion(region, N);
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
