@@ -55,12 +55,13 @@ public class App {
                 // The top N populated cities in a district where N is provided by the user
 
                 // All the capital cities in the world organised by largest population to smallest
+                CapitalCitiesPopulationReport capitalCitiesPopulationReport = new CapitalCitiesPopulationReport(con);
+                capitalCitiesPopulationReport.getCapitalCitiesReportOfTheWorld();
 
                 // All the capital cities in a continent organised by largest population to smallest
 
                 // All the capital cities in a region organised by largest to smallest
-                CapitalCitiesPopulationReport capitalCityPopulationReport = new CapitalCitiesPopulationReport(con);
-                capitalCityPopulationReport.getCapitalCityReportOfRegion("Caribbean");
+                capitalCitiesPopulationReport.getCapitalCityReportOfRegion("Caribbean");
 
                 // The top N populated capital cities in the world where N is provided by the user
                 TopCapitalCitiesPopulationReport topCapitalCitiesPopulationReport = new TopCapitalCitiesPopulationReport(con);
