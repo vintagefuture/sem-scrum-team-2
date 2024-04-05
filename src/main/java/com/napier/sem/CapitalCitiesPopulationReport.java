@@ -10,8 +10,36 @@ public class CapitalCitiesPopulationReport {
 
     private final Connection con;
 
+    Helpers helpers = new Helpers();
+
+
     public CapitalCitiesPopulationReport(Connection con) {
         this.con = con;
+    }
+
+    public void getCapitalCitiesReportOfTheWorld() {
+        String query = "SELECT ci.Name, c.Name AS Country, ci.Population\n" +
+                "FROM city ci\n" +
+                "JOIN country c ON c.Capital = ci.id\n" +
+                "ORDER BY Population DESC";
+
+        ArrayList<City> cities = generateCapitalCityData(query);
+
+        // Prepare data for printing
+        String title = "All the capital cities in the world organised by largest population to smallest";
+        List<String> columnNames = List.of("Name", "Country", "Population");
+
+        List<List<String>> rows = new ArrayList<>();
+
+        for (City city : cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountry());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void getCapitalCityReportOfRegion(String region) {
@@ -32,12 +60,11 @@ public class CapitalCitiesPopulationReport {
         for (City city : cities) {
             List<String> row = new ArrayList<>();
             row.add(city.getName());
-            row.add(region);
+            row.add(city.getCountry());
             row.add(String.valueOf(city.getPopulation()));
             rows.add(row);
         }
 
-        Helpers helpers = new Helpers();
         helpers.printReport(title, columnNames, rows);
     }
 
