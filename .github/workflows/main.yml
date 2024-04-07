@@ -40,6 +40,7 @@ jobs:
   IntegrationTests:
     name: Integration Tests
     runs-on: ubuntu-20.04
+    needs: build
     services:
       mysql:
         image: mysql:5.7
