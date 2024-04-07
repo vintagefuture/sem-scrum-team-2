@@ -37,6 +37,7 @@ public class App {
                 citiesReport.getCitiesPopulationReportInTheWorld();
 
                 // All the cities in a continent organised by largest population to smallest
+                citiesReport.getCitiesPopulationInContinent("Africa");
 
                 // All the cities in a region organised by largest population to smallest
 

@@ -23,6 +23,8 @@ public class CitiesReport
     }
 
     Helpers helpers = new Helpers();
+
+    // All the cities in the world organised by largest population to smallest
     public void getCitiesPopulationReportInTheWorld() {
         String query =
                 "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
@@ -34,6 +36,35 @@ public class CitiesReport
 
         // Prepare data for printing
         String title = "All the cities in the world organised by largest population to smallest";
+        List<String> columnNames = List.of("Name", "Country", "District", "Population");
+
+        ArrayList<List<String>> rows = new ArrayList<>();
+
+        for (City city : cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountry());
+            row.add(city.getDistrict());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        helpers.printReport(title, columnNames, rows);
+    }
+
+    // All the cities in a continent organised by largest population to smallest
+    public void getCitiesPopulationInContinent(String continent) {
+        String query =
+                "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
+                        "FROM city ci " +
+                        "JOIN country c ON c.Code = ci.CountryCode " +
+                        "WHERE continent = '" + continent + "' " +
+                        "ORDER BY Population DESC";
+
+        ArrayList<City> cities = generateCityData(query);
+
+        // Prepare data for printing
+        String title = "All the cities in a continent organised by largest population to smallest";
         List<String> columnNames = List.of("Name", "Country", "District", "Population");
 
         ArrayList<List<String>> rows = new ArrayList<>();
