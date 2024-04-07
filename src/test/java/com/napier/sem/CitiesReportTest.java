@@ -68,6 +68,36 @@ public class CitiesReportTest {
     }
 
     @Test
+    public void testGetCitiesPopulationReportInDistrict() throws Exception {
+        // Mock data
+        when(mockResultSet.next()).thenReturn(true).thenReturn(false);
+        when(mockResultSet.getString("Name")).thenReturn("City1");
+        when(mockResultSet.getString("Country")).thenReturn("Country1");
+        when(mockResultSet.getString("District")).thenReturn("District1");
+        when(mockResultSet.getInt("Population")).thenReturn(1000000);
+
+        CitiesReport citiesReport = new CitiesReport(mockConnection);
+        // Call the method under test with a specific district
+        citiesReport.getCitiesPopulationReportInDistrict("District1");
+
+        // Verify that the correct SQL query is executed
+        String query =
+                "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
+                "FROM city ci " +
+                "JOIN country c ON c.Code = ci.CountryCode " +
+                "WHERE ci.District = 'District1' " + 
+                "ORDER BY ci.Population DESC";
+        
+
+        // Call the method under test
+        citiesReport.getCitiesPopulationReportInDistrict("District1");
+
+        // Verify that the expected query is executed
+        verify(mockConnection).prepareStatement(query);
+        verify(mockPreparedStatement).executeQuery();
+    }
+
+    @Test
     public void testGetCitiesPopulationInRegion() throws Exception {
         // Mock data
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
