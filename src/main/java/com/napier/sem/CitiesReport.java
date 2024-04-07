@@ -81,6 +81,34 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
+    public void getCitiesPopulationInRegion(String region) {
+        String query =
+                "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
+                        "FROM city ci " +
+                        "JOIN country c ON c.Code = ci.CountryCode " +
+                        "WHERE region = '" + region + "' " +
+                        "ORDER BY Population DESC";
+
+        ArrayList<City> cities = generateCityData(query);
+
+        // Prepare data for printing
+        String title = "All the cities in a continent organised by largest population to smallest";
+        List<String> columnNames = List.of("Name", "Country", "District", "Population");
+
+        ArrayList<List<String>> rows = new ArrayList<>();
+
+        for (City city : cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountry());
+            row.add(city.getDistrict());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        helpers.printReport(title, columnNames, rows);
+    }
+
     public ArrayList<City> generateCityData(String query) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {

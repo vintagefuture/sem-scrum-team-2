@@ -40,6 +40,7 @@ public class App {
                 citiesReport.getCitiesPopulationInContinent("Africa");
 
                 // All the cities in a region organised by largest population to smallest
+                citiesReport.getCitiesPopulationInRegion("Western Europe");
 
                 // All the cities in a country organised by largest population to smallest
 
