@@ -12,12 +12,11 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WorldPopulationReportIT {
+public class CountriesPopulationReportIT {
 
     private Connection con;
-    private WorldPopulationReport report;
+    private CountriesPopulationReport report;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -32,7 +31,7 @@ public class WorldPopulationReportIT {
 
         con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", user, password);
 
-        report = new WorldPopulationReport(con);
+        report = new CountriesPopulationReport(con);
         try (Statement stmt = con.createStatement()) {
             // Create schema (tables) and insert some test data
             stmt.execute("CREATE TABLE IF NOT EXISTS country (" +
@@ -65,6 +64,7 @@ public class WorldPopulationReportIT {
             stmt.execute("INSERT INTO country VALUES ('FRA','France','Europe','Western Europe',551500.00,843,59225700,78.8,1424285.00,1392448.00,'France','Republic','Jacques Chirac',2974,'FR');");
             stmt.execute("INSERT INTO city VALUES (2974,'Paris','FRA','Île-de-France',2125246);");
             // Add more test data as needed
+
         } catch (Exception e) {
             System.out.printf(e.toString());
         }
@@ -76,8 +76,8 @@ public class WorldPopulationReportIT {
     }
 
     @Test
-    public void testFetchAllCountries() throws Exception {
-        report.fetchAllCountries();
+    void testGetCountriesPopulationInContinentReport() {
+        report.getCountriesPopulationInContinentReport("Europe");
 
         // Verify the output contains expected values
         String output = outContent.toString();
@@ -86,12 +86,13 @@ public class WorldPopulationReportIT {
     }
 
     @Test
-    public void testFetchCountriesWithLimit() throws Exception {
-        report.fetchCountriesWithLimit(1);
+    void testGetCountriesPopulationInRegionReport() {
+        report.getCountriesPopulationInRegionReport("Western Europe");
 
         // Verify the output contains expected values
         String output = outContent.toString();
-        assertTrue(output.contains("France")); // Example assertion for limited fetch
-        // Since it's a limit test, consider verifying if the output contains exactly 1 country's info
+        assertTrue(output.contains("France")); // Example assertion
+        // Add more assertions as needed based on expected output
     }
+
 }

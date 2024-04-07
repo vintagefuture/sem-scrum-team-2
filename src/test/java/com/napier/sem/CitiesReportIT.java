@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CityPopulationReportIT {
+public class CitiesReportIT {
 
     private Connection con;
     private CitiesReport report;
