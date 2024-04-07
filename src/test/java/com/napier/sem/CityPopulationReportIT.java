@@ -12,10 +12,10 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RegionPopulationReportIT {
+public class CityPopulationReportIT {
 
     private Connection con;
-    private RegionPopulationReport report;
+    private CityPopulationReport report;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
@@ -31,7 +31,7 @@ public class RegionPopulationReportIT {
 
         con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", user, password);
 
-        report = new RegionPopulationReport(con);
+        report = new CityPopulationReport(con);
         try (Statement stmt = con.createStatement()) {
             // Create schema (tables) and insert some test data
             stmt.execute("CREATE TABLE IF NOT EXISTS country (" +
@@ -76,8 +76,8 @@ public class RegionPopulationReportIT {
     }
 
     @Test
-    void testGenerateAndPrintRegionReport() {
-        report.generateRegionReport("Western Europe");
+    void testGenerateTopNPopulatedCapitalCitiesInTheWorldReport() {
+        report.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
 
         // Verify the output contains expected values
         String output = outContent.toString();
