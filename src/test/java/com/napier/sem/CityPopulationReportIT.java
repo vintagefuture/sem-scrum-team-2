@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CityPopulationReportIT {
 
     private Connection con;
-    private CityPopulationReport report;
+    private CitiesReport report;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
@@ -31,7 +31,7 @@ public class CityPopulationReportIT {
 
         con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", user, password);
 
-        report = new CityPopulationReport(con);
+        report = new CitiesReport(con);
         try (Statement stmt = con.createStatement()) {
             // Create schema (tables) and insert some test data
             stmt.execute("CREATE TABLE IF NOT EXISTS country (" +
@@ -76,8 +76,8 @@ public class CityPopulationReportIT {
     }
 
     @Test
-    void testGenerateTopNPopulatedCapitalCitiesInTheWorldReport() {
-        report.generateTopNPopulatedCapitalCitiesInTheWorldReport(5);
+    void testGetCitiesPopulationReportInTheWorld() {
+        report.getCitiesPopulationReportInTheWorld();
 
         // Verify the output contains expected values
         String output = outContent.toString();
