@@ -39,14 +39,14 @@
 - [ ] All the capital cities in a region organised by largest to smallest.
 
 ### Top N Capital Cities Reports
-- [ ] The top `N` populated capital cities in the world  where `N` is provided by the user.
-- [ ] The top `N` populated capital cities in a continent where `N` is provided by the user.
-- [ ] The top `N` populated capital cities in a region where `N` is provided by the user.
+- [x] The top `N` populated capital cities in the world  where `N` is provided by the user.
+- [x] The top `N` populated capital cities in a continent where `N` is provided by the user.
+- [x] The top `N` populated capital cities in a region where `N` is provided by the user.
 
 ### Population Reports
-- [ ] The population of people, people living in cities, and people not living in cities in each continent.
-- [ ] The population of people, people living in cities, and people not living in cities in each region.
-- [ ] The population of people, people living in cities, and people not living in cities in each country.
+- [x] The population of people, people living in cities, and people not living in cities in each continent.
+- [x] The population of people, people living in cities, and people not living in cities in each region.
+- [x] The population of people, people living in cities, and people not living in cities in each country.
 
 ### Total Population Reports
 - [ ] The population of the world.

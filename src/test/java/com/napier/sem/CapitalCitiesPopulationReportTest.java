@@ -14,7 +14,9 @@ import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -22,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CapitalCityPopulationReportTest {
+public class CapitalCitiesPopulationReportTest {
 
     @Mock
     private Connection con;
@@ -34,7 +36,7 @@ public class CapitalCityPopulationReportTest {
     private ResultSet rset;
 
     @InjectMocks
-    private CapitalCityPopulationReport capitalCityPopulationReport;
+    private CapitalCitiesPopulationReport capitalCityPopulationReport;
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
@@ -46,6 +48,29 @@ public class CapitalCityPopulationReportTest {
         System.setOut(new PrintStream(outContent));
         when(con.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rset);
+    }
+
+    @Test
+    void testGenerateCapitalCityData() throws Exception {
+        String query = "SELECT ci.Name, c.Name AS Country, ci.Population\n" +
+                "FROM city ci\n" +
+                "JOIN country c ON c.Capital = ci.id\n" +
+                "ORDER BY Population DESC";
+
+        // Mock result set
+        when(rset.next()).thenReturn(true).thenReturn(false);
+        when(rset.getString("Name")).thenReturn("CityName");
+        when(rset.getString("Country")).thenReturn("CountryName");
+        when(rset.getInt("Population")).thenReturn(1000);
+
+        CapitalCitiesPopulationReport report = new CapitalCitiesPopulationReport(con);
+        ArrayList<City> cities = report.generateCapitalCityData(query);
+
+        // Verify that city data is correctly retrieved from the result set
+        assertEquals(1, cities.size());
+        assertEquals("CityName", cities.get(0).getName());
+        assertEquals("CountryName", cities.get(0).getCountry());
+        assertEquals(1000, cities.get(0).getPopulation());
     }
 
     @Test

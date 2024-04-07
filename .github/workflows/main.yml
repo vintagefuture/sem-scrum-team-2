@@ -1,4 +1,4 @@
-name: A workflow for my Hello World App
+name: A workflow for the population reporter app
 on: push
 
 jobs:
@@ -79,4 +79,3 @@ jobs:
           MYSQL_USER: root
           MYSQL_PASSWORD: password
           MYSQL_DB: world
-

@@ -6,19 +6,49 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CapitalCityPopulationReport implements PopulationReport {
+public class CapitalCitiesPopulationReport {
 
     private final Connection con;
 
-    public CapitalCityPopulationReport(Connection con) {
+    Helpers helpers = new Helpers();
+
+
+    public CapitalCitiesPopulationReport(Connection con) {
         this.con = con;
+    }
+
+    public void getCapitalCitiesReportOfTheWorld() {
+        String query = "SELECT ci.Name, c.Name AS Country, ci.Population\n" +
+                "FROM city ci\n" +
+                "JOIN country c ON c.Capital = ci.id\n" +
+                "ORDER BY Population DESC";
+
+        ArrayList<City> cities = generateCapitalCityData(query);
+
+        // Prepare data for printing
+        String title = "All the capital cities in the world organised by largest population to smallest";
+        List<String> columnNames = List.of("Name", "Country", "Population");
+
+        List<List<String>> rows = new ArrayList<>();
+
+        for (City city : cities) {
+            List<String> row = new ArrayList<>();
+            row.add(city.getName());
+            row.add(city.getCountry());
+            row.add(String.valueOf(city.getPopulation()));
+            rows.add(row);
+        }
+
+        helpers.printReport(title, columnNames, rows);
     }
 
     public void getCapitalCityReportOfRegion(String region) {
         String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
-                "FROM country ct\n" +
-                "JOIN city c ON ct.Capital = c.ID\n" +
-                "WHERE ct.Region = '"+ region +"';";
+                "FROM country ct " +
+                "JOIN city c ON ct.Capital = c.ID " +
+                "WHERE ct.Region = '"+ region +"'" +
+                "ORDER BY Population DESC";
+
         ArrayList<City> cities = generateCapitalCityData(query);
 
         // Prepare data for printing
@@ -30,12 +60,12 @@ public class CapitalCityPopulationReport implements PopulationReport {
         for (City city : cities) {
             List<String> row = new ArrayList<>();
             row.add(city.getName());
-            row.add(region);
+            row.add(city.getCountry());
             row.add(String.valueOf(city.getPopulation()));
             rows.add(row);
         }
 
-        printReport(title, columnNames, rows);
+        helpers.printReport(title, columnNames, rows);
     }
 
     public ArrayList<City> generateCapitalCityData(String query) {
@@ -54,38 +84,5 @@ public class CapitalCityPopulationReport implements PopulationReport {
             e.printStackTrace(); // Proper error handling is recommended
         }
         return cities;
-
-    }
-
-    @Override
-    public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
-        // Print report title
-        System.out.println("\n" + title);
-        System.out.println("-".repeat(title.length()));
-
-        // Find maximum width for each column
-        int[] maxWidths = new int[columnNames.size()];
-        for (int i = 0; i < columnNames.size(); i++) {
-            maxWidths[i] = columnNames.get(i).length();
-        }
-        for (List<String> row : rows) {
-            for (int j = 0; j < row.size(); j++) {
-                maxWidths[j] = Math.max(maxWidths[j], row.get(j).length());
-            }
-        }
-
-        // Print column headers
-        for (int i = 0; i < columnNames.size(); i++) {
-            System.out.printf("%-" + (maxWidths[i] + 2) + "s", columnNames.get(i));
-        }
-        System.out.println();
-
-        // Print row data
-        for (List<String> row : rows) {
-            for (int i = 0; i < row.size(); i++) {
-                System.out.printf("%-" + (maxWidths[i] + 2) + "s", row.get(i));
-            }
-            System.out.println();
-        }
     }
 }
