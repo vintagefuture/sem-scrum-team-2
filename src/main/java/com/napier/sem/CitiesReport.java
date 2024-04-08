@@ -68,7 +68,7 @@ public class CitiesReport
         ArrayList<City> cities = generateCityData(query);
 
         // Prepare data for printing
-        String title = "All the cities in " + continent + "organised by largest population to smallest";
+        String title = "All the cities in continent " + continent + " organised by largest population to smallest";
         List<String> columnNames = List.of("Name", "Country", "District", "Population");
 
         ArrayList<List<String>> rows = new ArrayList<>();
@@ -97,7 +97,7 @@ public class CitiesReport
         ArrayList<City> cities = generateCityData(query); 
 
         // Prepare data for printing
-        String title = "All the cities in the district organised by largest population to smallest";
+        String title = "All the cities in the district " + districtName + " organised by largest population to smallest";
         List<String> columnNames = List.of("Name", "Country", "District", "Population");
 
         ArrayList<List<String>> rows = new ArrayList<>();
@@ -125,7 +125,7 @@ public class CitiesReport
         ArrayList<City> cities = generateCityData(query);
 
         // Prepare data for printing
-        String title = "All the cities in " + region + "organised by largest population to smallest";
+        String title = "All the cities in region " + region + " organised by largest population to smallest";
         List<String> columnNames = List.of("Name", "Country", "District", "Population");
 
         ArrayList<List<String>> rows = new ArrayList<>();

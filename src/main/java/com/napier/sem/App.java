@@ -45,6 +45,8 @@ public class App {
                 // All the cities in a country organised by largest population to smallest
 
                 // All the cities in a district organised by largest population to smallest
+                citiesReport.getCitiesPopulationReportInDistrict("Buenos Aires");
+
 
                 // The top N populated cities in the world where N is provided by the user
 
@@ -94,8 +96,6 @@ public class App {
                 // The population of a country
 
                 // The population of a district
-                CitiesReport CitiesReport = new CitiesReport(con);
-                CitiesReport.getCitiesPopulationReportInDistrict("District 1");
 
                 // The population of a city
 
