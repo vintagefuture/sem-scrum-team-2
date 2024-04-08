@@ -94,6 +94,8 @@ public class App {
                 // The population of a country
 
                 // The population of a district
+                CitiesReport CitiesReport = new CitiesReport(con);
+                CitiesReport.getCitiesPopulationReportInDistrict("District 1");
 
                 // The population of a city
 
