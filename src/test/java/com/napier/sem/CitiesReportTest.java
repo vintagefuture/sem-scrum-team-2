@@ -99,7 +99,7 @@ public class CitiesReportTest {
                 "FROM city ci " +
                 "JOIN country c ON c.Code = ci.CountryCode " +
                 "WHERE ci.District = 'District1' " +
-                "ORDER BY Population DESC";
+                "ORDER BY ci.Population DESC";
 
         // Assert that the captured SQL query matches the expected SQL query
         assertEquals(expectedQuery, executedSQL);
