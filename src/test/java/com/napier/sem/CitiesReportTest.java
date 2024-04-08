@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,12 +10,17 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 
 public class CitiesReportTest {
 
     private Connection mockConnection;
     private PreparedStatement mockPreparedStatement;
     private ResultSet mockResultSet;
+
+    @Captor
+    private ArgumentCaptor<String> sqlCaptor;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -66,6 +72,7 @@ public class CitiesReportTest {
         verify(mockConnection).prepareStatement(query);
         verify(mockPreparedStatement).executeQuery();
     }
+    
 
     @Test
     public void testGetCitiesPopulationReportInDistrict() throws Exception {
@@ -77,27 +84,31 @@ public class CitiesReportTest {
         when(mockResultSet.getInt("Population")).thenReturn(1000000);
 
         CitiesReport citiesReport = new CitiesReport(mockConnection);
-        // Call the method under test with a specific district
+
         citiesReport.getCitiesPopulationReportInDistrict("District1");
 
-        // Verify that the correct SQL query is executed
-        String query =
-                "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
+        // Method under test
+        citiesReport.getCitiesPopulationReportInDistrict("District1");
+
+        // Capture and verify the SQL query executed by the method
+        verify(mockConnection).prepareStatement(sqlCaptor.capture());
+        String executedSQL = sqlCaptor.getValue();
+
+
+        String expectedQuery  = "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
                 "FROM city ci " +
                 "JOIN country c ON c.Code = ci.CountryCode " +
-                "WHERE ci.District = 'District1' " + 
-                "ORDER BY ci.Population DESC";
+                "WHERE ci.District = 'District1' " +
+                "ORDER BY Population DESC";
+
+        // Assert that the captured SQL query matches the expected SQL query
+        assertEquals(expectedQuery, executedSQL);
         
-
-        // Call the method under test
-        citiesReport.getCitiesPopulationReportInDistrict("District1");
-
-        // Verify that the expected query is executed
-        verify(mockConnection).prepareStatement(query);
         verify(mockPreparedStatement).executeQuery();
     }
 
-    @Test
+
+   @Test
     public void testGetCitiesPopulationInRegion() throws Exception {
         // Mock data
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
@@ -148,3 +159,6 @@ public class CitiesReportTest {
         assert cities.get(0).getPopulation() == 1000000;
     }
 }
+
+
+
