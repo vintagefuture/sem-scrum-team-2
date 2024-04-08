@@ -1,6 +1,7 @@
 package com.napier.sem;
 
 import static org.mockito.Mockito.*;
+import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.sql.Connection;
@@ -24,6 +25,7 @@ public class CitiesReportTest {
 
     @BeforeEach
     public void setUp() throws Exception {
+        MockitoAnnotations.openMocks(this);
         mockConnection = mock(Connection.class);
         mockPreparedStatement = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
@@ -72,7 +74,7 @@ public class CitiesReportTest {
         verify(mockConnection).prepareStatement(query);
         verify(mockPreparedStatement).executeQuery();
     }
-    
+
 
     @Test
     public void testGetCitiesPopulationReportInDistrict() throws Exception {
@@ -84,8 +86,6 @@ public class CitiesReportTest {
         when(mockResultSet.getInt("Population")).thenReturn(1000000);
 
         CitiesReport citiesReport = new CitiesReport(mockConnection);
-
-        citiesReport.getCitiesPopulationReportInDistrict("District1");
 
         // Method under test
         citiesReport.getCitiesPopulationReportInDistrict("District1");
