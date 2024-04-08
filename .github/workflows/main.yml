@@ -36,6 +36,11 @@ jobs:
           distribution: 'adopt'
       - name: Run all unit tests
         run: mvn test
+      - name: CodeCov
+        uses: codecov/codecov-action@v4.0.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: vintagefuture/sem-scrum-team-2
 
   IntegrationTests:
     name: Integration Tests
