@@ -63,6 +63,7 @@ public class App {
                 capitalCitiesPopulationReport.getCapitalCitiesReportOfTheWorld();
 
                 // All the capital cities in a continent organised by largest population to smallest
+                capitalCitiesPopulationReport.getCapitalCitiesReportOfContinent("Africa");
 
                 // All the capital cities in a region organised by largest to smallest
                 capitalCitiesPopulationReport.getCapitalCityReportOfRegion("Caribbean");

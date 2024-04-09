@@ -6,6 +6,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class provides the functionality for:
+ * - All the countries in the world organised by largest population to smallest.
+ * - All the countries in a continent organised by largest population to smallest.
+ * - All the countries in a region organised by largest population to smallest.
+ */
 public class CountriesPopulationReport {
     private final Connection con;
 
@@ -18,6 +24,7 @@ public class CountriesPopulationReport {
         this.con = con;
     }
 
+    // All the countries in the world organised by largest population to smallest
     public void getCountriesPopulationInTheWorldReport() {
         String query =
                 "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
@@ -47,6 +54,7 @@ public class CountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    // All the countries in a continent organised by largest population to smallest
     public void getCountriesPopulationInContinentReport(String continent) {
         // Prepare the SQL query
         String query =
@@ -58,7 +66,7 @@ public class CountriesPopulationReport {
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = continent + " Population Report";
+        String title = "All the countries in continent " + continent + " organised by largest population to smallest";
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
@@ -76,6 +84,7 @@ public class CountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    // All the countries in a region organised by largest population to smallest
     public void getCountriesPopulationInRegionReport(String region) {
 
         // Create string for SQL statement
@@ -90,7 +99,8 @@ public class CountriesPopulationReport {
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = region + " Population Report";
+        String title = "All the countries in region " + region + " organised by largest population to smallest";
+
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 

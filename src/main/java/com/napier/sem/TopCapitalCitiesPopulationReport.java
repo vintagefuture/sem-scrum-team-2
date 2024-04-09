@@ -8,7 +8,6 @@ import java.util.List;
 
 
 /**
- *
  * This class provides methods for:
  * - The top `N` populated capital cities in the world  where `N` is provided by the user.
  * - The top `N` populated capital cities in a continent where `N` is provided by the user.
