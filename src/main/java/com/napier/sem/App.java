@@ -43,6 +43,7 @@ public class App {
                 citiesReport.getCitiesPopulationInRegion("Western Europe");
 
                 // All the cities in a country organised by largest population to smallest
+                citiesReport.getCitiesPopulationReportInCountry("Spain");
 
                 // All the cities in a district organised by largest population to smallest
                 citiesReport.getCitiesPopulationReportInDistrict("Buenos Aires");
