@@ -74,6 +74,29 @@ public class CapitalCitiesPopulationReportTest {
     }
 
     @Test
+    public void testGetCapitalCitiesReportOfContinent() throws Exception {
+        // Mock data
+        when(rset.next()).thenReturn(true).thenReturn(false);
+        when(rset.getString("Name")).thenReturn("City1");
+        when(rset.getString("Country")).thenReturn("Country1");
+        when(rset.getInt("Population")).thenReturn(1000000);
+
+        String continentName = "ExampleContinent";
+        String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
+                "FROM country ct " +
+                "JOIN city c ON ct.Capital = c.ID " +
+                "WHERE ct.Continent = '" + continentName + "' " +
+                "ORDER BY Population DESC";
+
+        // Call the method under test
+        capitalCityPopulationReport.getCapitalCitiesReportOfContinent(continentName);
+
+        // Verify that the expected query is executed
+        verify(con).prepareStatement(query);
+        verify(stmt).executeQuery();
+    }
+
+    @Test
     void testGetCapitalCityReportOfRegion() throws Exception {
         String regionName = "Caribbean";
         mockResultSetForCapitalCity();
@@ -85,6 +108,7 @@ public class CapitalCitiesPopulationReportTest {
 
         assertSqlContains(executedSQL, "ct.Region = '" + regionName + "'");
     }
+
     private void assertSqlContains(String executedSQL, String expected) {
         assertTrue(executedSQL.contains(expected),
                 "Expected SQL to contain: " + expected + ", but was: " + executedSQL);
