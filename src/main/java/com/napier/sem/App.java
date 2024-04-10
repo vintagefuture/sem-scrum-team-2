@@ -90,16 +90,23 @@ public class App {
                 citiesPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
 
                 // The population of the world
+                TotalPopulationReport totalPopulationReport = new TotalPopulationReport(con);
+                totalPopulationReport.getTotalPopulationInWorld();
 
                 // The population of a continent
+                totalPopulationReport.getTotalPopulationInContinent("Europe");
 
                 // The population of a region
+                totalPopulationReport.getTotalPopulationInRegion("North America");
 
                 // The population of a country
+                totalPopulationReport.getTotalPopulationInCountry("France");
 
                 // The population of a district
+                totalPopulationReport.getTotalPopulationInDistrict("Tasmania");
 
                 // The population of a city
+                totalPopulationReport.getTotalPopulationInCity("Amsterdam");
 
                 // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
 
