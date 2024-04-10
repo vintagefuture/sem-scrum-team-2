@@ -1,4 +1,4 @@
-# Governance Guidelines for Our People in Data
+# Governance Guidelines for *Human Population Insights*
 
 ## Decision-Making Process
 
