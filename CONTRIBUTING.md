@@ -1,10 +1,9 @@
-# Contributing to Our People in Data
-
-Welcome to Our People in Data! We're thrilled that you're interested in contributing to our open-source project. By contributing, you not only improve the project but also become part of a vibrant community of developers.
+# Contributing to *Human Population Insights*
+Welcome to *Human Population Insights*! We're thrilled that you're interested in contributing to our open-source project. By contributing, you not only improve the project but also become part of a vibrant community of developers.
 
 ## Ways to Contribute
 
-There are many ways to contribute to Our People in Data, including:
+There are many ways to contribute to *Human Population Insights*, including:
 
 1. **Reporting Bugs**: If you encounter any bugs or issues while using the app, please report them by opening a GitHub issue, using the Bug template.
 
@@ -18,13 +17,13 @@ There are many ways to contribute to Our People in Data, including:
 
 ## Getting Started
 
-To get started contributing to Our People in Data, follow these steps:
+To get started contributing to *Human Population Insights*, follow these steps:
 
 1. **Fork the repository on GitHub**.
 
 2. **Clone your forked repository to your local machine**:
    ```
-   git clone https://github.com/your-username/our-people-in-data.git
+   git clone https://github.com/your-username/human-population-insights.git
    ```
 
 3. **Create a new branch for your changes**:
@@ -49,7 +48,7 @@ To get started contributing to Our People in Data, follow these steps:
 
 ## Code Style
 
-When contributing code to Our People in Data, please follow these guidelines:
+When contributing code to *Human Population Insights*, please follow these guidelines:
 
 - Follow the coding style and conventions used throughout the project.
 - Write clear and concise commit messages.
@@ -64,4 +63,4 @@ To ensure a positive and welcoming community, please adhere to the following gui
 - Provide constructive feedback and support to fellow contributors.
 - Follow the project's code of conduct.
 
-Thank you for contributing to Our People in Data! Your contributions help make our project better for everyone.
+Thank you for contributing to *Human Population Insights*! Your contributions help make our project better for everyone.
