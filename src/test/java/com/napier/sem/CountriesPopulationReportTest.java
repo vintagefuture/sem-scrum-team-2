@@ -69,7 +69,7 @@ public class CountriesPopulationReportTest {
     }
 
     @Test
-    void testGenerateAndPrintContinentReport() throws Exception {
+    void testGenerateContinentReport() throws Exception {
         String continent = "Asia";
         mockResultSetForCountries();
 
@@ -82,7 +82,7 @@ public class CountriesPopulationReportTest {
                 "The SQL should contain the correct WHERE clause for the continent.");
 
         // Verify the output contains the expected report structure
-        verifyOutputContains(continent + " Population Report");
+        verifyOutputContains("All the countries in continent " + continent + " organised by largest population to smallest");
         verifyOutputContains("Code\tName\tContinent\tRegion\tPopulation\tCapital");
     }
 
@@ -102,7 +102,7 @@ public class CountriesPopulationReportTest {
 
         // Verify printReport invocation indirectly by checking the console output
         String output = outContent.toString();
-        assertTrue(output.contains(region + " Population Report"), "Output should contain the region report title.");
+        assertTrue(output.contains("All the countries in region " + region + " organised by largest population to smallest"), "Output should contain the region report title.");
         assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Code\tName\tContinent\tRegion\tPopulation\tCapital"),
                 "Output should contain the correct column headers.");
     }

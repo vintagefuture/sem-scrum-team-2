@@ -7,6 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * This class provides methods for:
+ * - The top `N` populated countries in the world  where `N` is provided by the user.
+ * - The top `N` populated countries in a continent where `N` is provided by the user.
+ * - The top `N` populated countries in a region where `N` is provided by the user.
+ */
 public class TopCountriesPopulationReport {
 
     private final Connection con;
@@ -16,6 +22,8 @@ public class TopCountriesPopulationReport {
     }
 
     Helpers helpers = new Helpers();
+
+    // The top `N` populated countries in the world  where `N` is provided by the user
     public void getTopPopulatedCountriesInTheWorld(int N) {
         String query =
                 "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID ORDER BY Population DESC LIMIT " + N;
@@ -24,7 +32,7 @@ public class TopCountriesPopulationReport {
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Fetch Countries with limit " + N;
+        String title = "The top " + N + " populated countries in the world";
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
@@ -42,13 +50,14 @@ public class TopCountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    // The top `N` populated countries in a continent where `N` is provided by the user
     public void getTopPopulatedCountriesInContinent(String continent, int N) {
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
 
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Top " + N + " Populated Countries in " + continent;
+        String title = "The top " + N + " populated countries in continent " + continent;
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 
@@ -66,15 +75,15 @@ public class TopCountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    // The top `N` populated countries in a region where `N` is provided by the user
     public void getTopPopulatedCountriesInRegion(String region, int N) {
 
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
 
-
         ArrayList<Country> countries = generateCountryData(query);
 
         // Prepare data for printing
-        String title = "Top " + N + " Populated Countries in " + region;
+        String title = "The top " + N + " populated countries in region " + region;
         List<String> columnNames = List.of("Code", "Name", "Continent", "Region", "Population", "Capital");
         List<List<String>> rows = new ArrayList<>();
 

@@ -43,6 +43,7 @@ public class App {
                 citiesReport.getCitiesPopulationInRegion("Western Europe");
 
                 // All the cities in a country organised by largest population to smallest
+                citiesReport.getCitiesPopulationReportInCountry("Spain");
 
                 // All the cities in a district organised by largest population to smallest
                 citiesReport.getCitiesPopulationReportInDistrict("Buenos Aires");
@@ -63,6 +64,7 @@ public class App {
                 capitalCitiesPopulationReport.getCapitalCitiesReportOfTheWorld();
 
                 // All the capital cities in a continent organised by largest population to smallest
+                capitalCitiesPopulationReport.getCapitalCitiesReportOfContinent("Africa");
 
                 // All the capital cities in a region organised by largest to smallest
                 capitalCitiesPopulationReport.getCapitalCityReportOfRegion("Caribbean");
@@ -88,16 +90,23 @@ public class App {
                 citiesPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
 
                 // The population of the world
+                TotalPopulationReport totalPopulationReport = new TotalPopulationReport(con);
+                totalPopulationReport.getTotalPopulationInWorld();
 
                 // The population of a continent
+                totalPopulationReport.getTotalPopulationInContinent("Europe");
 
                 // The population of a region
+                totalPopulationReport.getTotalPopulationInRegion("North America");
 
                 // The population of a country
+                totalPopulationReport.getTotalPopulationInCountry("France");
 
                 // The population of a district
+                totalPopulationReport.getTotalPopulationInDistrict("Tasmania");
 
                 // The population of a city
+                totalPopulationReport.getTotalPopulationInCity("Amsterdam");
 
                 // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
 
