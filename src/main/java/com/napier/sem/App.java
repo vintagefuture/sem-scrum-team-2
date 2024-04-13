@@ -120,10 +120,11 @@ public class App {
 
                 // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
 
+
+                DatabaseConnection.closeConnection();
             }
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 }

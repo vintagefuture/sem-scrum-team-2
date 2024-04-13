@@ -45,7 +45,7 @@ public class DatabaseConnection {
         return connection;
     }
 
-    public void closeConnection() {
+    public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
