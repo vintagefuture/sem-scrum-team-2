@@ -1,5 +1,7 @@
-package com.napier.sem;
+package com.napier.semTest;
 
+import com.napier.sem.CapitalCitiesPopulationReport;
+import com.napier.sem.City;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,20 +28,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CapitalCitiesPopulationReportTest {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     @Mock
     private Connection con;
-
     @Mock
     private PreparedStatement stmt;
-
     @Mock
     private ResultSet rset;
-
     @InjectMocks
     private CapitalCitiesPopulationReport capitalCityPopulationReport;
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 

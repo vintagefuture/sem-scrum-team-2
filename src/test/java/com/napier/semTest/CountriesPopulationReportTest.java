@@ -1,5 +1,6 @@
-package com.napier.sem;
+package com.napier.semTest;
 
+import com.napier.sem.CountriesPopulationReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,20 +22,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class CountriesPopulationReportTest {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     @Mock
     private Connection con;
-
     @Mock
     private PreparedStatement stmt;
-
     @Mock
     private ResultSet rset;
-
     @InjectMocks
     private CountriesPopulationReport countriesPopulationReport;
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 

@@ -1,5 +1,6 @@
-package com.napier.sem;
+package com.napier.semIntegrationTest;
 
+import com.napier.sem.CitiesReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,11 +13,11 @@ import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CapitalCitiesPopulationReportIT {
+public class CitiesReportIT {
 
-    private Connection con;
-    private CapitalCitiesPopulationReport report;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private Connection con;
+    private CitiesReport report;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -31,7 +32,7 @@ public class CapitalCitiesPopulationReportIT {
 
         con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?useSSL=false", user, password);
 
-        report = new CapitalCitiesPopulationReport(con);
+        report = new CitiesReport(con);
         try (Statement stmt = con.createStatement()) {
             // Create schema (tables) and insert some test data
             stmt.execute("CREATE TABLE IF NOT EXISTS country (" +
@@ -77,7 +78,7 @@ public class CapitalCitiesPopulationReportIT {
 
     @Test
     void testGetCitiesPopulationReportInTheWorld() {
-        report.getCapitalCitiesReportOfTheWorld();
+        report.getCitiesPopulationReportInTheWorld();
 
         // Verify the output contains expected values
         String output = outContent.toString();

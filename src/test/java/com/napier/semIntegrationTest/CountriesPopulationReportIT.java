@@ -1,5 +1,6 @@
-package com.napier.sem;
+package com.napier.semIntegrationTest;
 
+import com.napier.sem.CountriesPopulationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CountriesPopulationReportIT {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private Connection con;
     private CountriesPopulationReport report;
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     @BeforeEach
     public void setUp() throws Exception {
