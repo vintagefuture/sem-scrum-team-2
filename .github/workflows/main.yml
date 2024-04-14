@@ -37,7 +37,7 @@ jobs:
           mvn verify
           docker stop world
           docker rm world
-          docker image rm world                    
+          docker image rm database                    
 
   build:
     name: Build and Start Using docker-compose
