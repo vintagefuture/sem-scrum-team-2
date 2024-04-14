@@ -24,7 +24,7 @@ public class TotalPopulationReportIT {
         System.setOut(new PrintStream(outContent));
 
         // Connect to the database
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "example");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
 
         report = new TotalPopulationReport(con);
     }

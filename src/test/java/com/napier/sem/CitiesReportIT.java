@@ -22,7 +22,7 @@ public class CitiesReportIT {
         // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
 
-        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?useSSL=false", "root", "example");
+        con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
 
         report = new CitiesReport(con);
     }
