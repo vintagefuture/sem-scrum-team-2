@@ -1,9 +1,7 @@
-package com.napier.semTest;
+package com.napier.sem;
 
 import static org.mockito.Mockito.*;
 
-import com.napier.sem.CitiesReport;
-import com.napier.sem.City;
 import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

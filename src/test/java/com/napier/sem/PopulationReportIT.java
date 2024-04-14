@@ -1,6 +1,5 @@
-package com.napier.semIntegrationTest;
+package com.napier.sem;
 
-import com.napier.sem.PopulationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

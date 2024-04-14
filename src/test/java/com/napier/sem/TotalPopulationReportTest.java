@@ -1,8 +1,7 @@
-package com.napier.semTest;
+package com.napier.sem;
 
 import static org.mockito.Mockito.*;
 
-import com.napier.sem.TotalPopulationReport;
 import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

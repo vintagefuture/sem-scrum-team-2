@@ -1,6 +1,5 @@
-package com.napier.semTest;
+package com.napier.sem;
 
-import com.napier.sem.Helpers;
 import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

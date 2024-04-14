@@ -1,13 +1,14 @@
-package com.napier.semIntegrationTest;
+package com.napier.sem;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import com.napier.sem.TotalPopulationReport;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TotalPopulationReportIT {
@@ -16,7 +17,7 @@ public class TotalPopulationReportIT {
     private Connection con;
     private TotalPopulationReport report;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
 
         // Redirect System.out to capture the output
@@ -26,6 +27,11 @@ public class TotalPopulationReportIT {
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "example");
 
         report = new TotalPopulationReport(con);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        con.close();
     }
 
     @Test
@@ -110,13 +116,5 @@ public class TotalPopulationReportIT {
                 "731200";
 
         assertTrue(output.contains(expectedOutput));
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        // Close the database connection and perform any necessary cleanup
-        if (con != null) {
-            con.close();
-        }
     }
 }

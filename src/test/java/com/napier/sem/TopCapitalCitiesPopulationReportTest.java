@@ -1,6 +1,5 @@
-package com.napier.semTest;
+package com.napier.sem;
 
-import com.napier.sem.TopCapitalCitiesPopulationReport;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

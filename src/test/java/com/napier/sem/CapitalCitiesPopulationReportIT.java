@@ -1,6 +1,5 @@
-package com.napier.semIntegrationTest;
+package com.napier.sem;
 
-import com.napier.sem.CapitalCitiesPopulationReport;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
