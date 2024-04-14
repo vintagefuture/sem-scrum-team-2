@@ -24,12 +24,6 @@ public class CapitalCitiesPopulationReportIT {
         // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
 
-        String host = System.getenv("MYSQL_HOST");
-        String port = System.getenv("MYSQL_PORT");
-        String database = System.getenv("MYSQL_DB");
-        String user = System.getenv("MYSQL_USER");
-        String password = System.getenv("MYSQL_PASSWORD");
-
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?useSSL=false", "root", "example");
 
         report = new CapitalCitiesPopulationReport(con);

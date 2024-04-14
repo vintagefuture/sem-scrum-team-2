@@ -27,47 +27,45 @@ public class TotalPopulationReportIT {
         assertEquals(6078749450L, totalPopulation);
     }
 
-//    @Test
-//    public void testGetTotalPopulationInContinent("Europe") {
-//        // Execute the method under test
-//        long totalPopulation = report.generateTotalPopulationData();
-//
-//        assertEquals(, totalPopulation);
-//    }
-//
-//    @Test
-//    public void testGetTotalPopulationInRegion("North America") {
-//        // Execute the method under test
-//        long totalPopulation = report.generateTotalPopulationData();
-//
-//        assertEquals(, totalPopulation);
-//    }
-//
-//    @Test
-//    public void testGetTotalPopulationInCountry("France") {
-//        // Execute the method under test
-//        long totalPopulation = report.generateTotalPopulationData();
-//
-//        assertEquals(, totalPopulation);
-//    }
-//
-//    @Test
-//    public void testGetTotalPopulationInDistrict("Tasmania") {
-//        // Execute the method under test
-//        long totalPopulation = report.generateTotalPopulationData();
-//
-//        assertEquals(, totalPopulation);
-//    }
-//
-//    @Test
-//    public void testGetTotalPopulationInCity("Amsterdam") {
-//        // Execute the method under test
-//        long totalPopulation = report.generateTotalPopulationData();
-//
-//        assertEquals(, totalPopulation);
-//    }
+    @Test
+    public void testGetTotalPopulationInContinent() {
+        // Execute the method under test
+        long totalPopulation = report.getTotalPopulationInContinent("Europe");
 
+        assertEquals(730074600L, totalPopulation);
+    }
 
+    @Test
+    public void testGetTotalPopulationInRegion() {
+        // Execute the method under test
+        long totalPopulation = report.getTotalPopulationInRegion("North America");
+
+        assertEquals(309632000L, totalPopulation);
+    }
+
+    @Test
+    public void testGetTotalPopulationInCountry() {
+        // Execute the method under test
+        long totalPopulation = report.getTotalPopulationInCountry("France");
+
+        assertEquals(59225700L, totalPopulation);
+    }
+
+    @Test
+    public void testGetTotalPopulationInDistrict() {
+        // Execute the method under test
+        long totalPopulation = report.getTotalPopulationInDistrict("Tasmania");
+
+        assertEquals(126118L, totalPopulation);
+    }
+
+    @Test
+    public void testGetTotalPopulationInCity() {
+        // Execute the method under test
+        long totalPopulation = report.getTotalPopulationInCity("Amsterdam");
+
+        assertEquals(731200L, totalPopulation);
+    }
 
     @After
     public void tearDown() throws Exception {
