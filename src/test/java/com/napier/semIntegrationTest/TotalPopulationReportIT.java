@@ -1,5 +1,7 @@
 package com.napier.semIntegrationTest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import org.junit.After;
@@ -9,13 +11,20 @@ import com.napier.sem.TotalPopulationReport;
 import static org.junit.Assert.assertEquals;
 
 public class TotalPopulationReportIT {
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
     private Connection con;
     private TotalPopulationReport report;
 
     @Before
     public void setUp() throws Exception {
-        // Connect to the test database
+
+        // Redirect System.out to capture the output
+        System.setOut(new PrintStream(outContent));
+
+        // Connect to the database
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world", "root", "example");
+
         report = new TotalPopulationReport(con);
     }
 
