@@ -32,65 +32,54 @@ public class TotalPopulationReport {
     }
 
     // The population of a continent
-    public long getTotalPopulationInContinent(String continent) {
+    public void getTotalPopulationInContinent(String continent) {
         String query = "SELECT SUM(population) AS total_population FROM country\n" +
                 "WHERE continent = '" + continent + "'";
         String title = "The population of continent " + continent;
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
-        long totalPopulation = generateTotalPopulationData(query);
-        System.out.println(totalPopulation);
-        return totalPopulation;
+        System.out.println(generateTotalPopulationData(query));
     }
 
-
     // The population of a region
-    public long getTotalPopulationInRegion(String region) {
+    public void getTotalPopulationInRegion(String region) {
         String query = "SELECT SUM(population) AS total_population FROM country\n" +
                 "WHERE region = '" + region + "'";
         String title = "The population of region " + region;
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
-        long totalPopulation = generateTotalPopulationData(query);
-        System.out.println(totalPopulation);
-        return totalPopulation;
+        System.out.println(generateTotalPopulationData(query));
     }
 
     // The population of a country
-    public long getTotalPopulationInCountry(String country) {
+    public void getTotalPopulationInCountry(String country) {
         String query = "SELECT population AS total_population FROM country WHERE name = '" + country + "'";
         String title = "The population of country " + country;
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
-        long totalPopulation = generateTotalPopulationData(query);
-        System.out.println(totalPopulation);
-        return totalPopulation;
+        System.out.println(generateTotalPopulationData(query));
     }
 
     // The population of a district
-    public long getTotalPopulationInDistrict(String district) {
+    public void getTotalPopulationInDistrict(String district) {
         String query = "SELECT SUM(population) AS total_population\n" +
                 "FROM city\n" +
                 "WHERE district = '" + district + "'";
         String title = "The population of district " + district;
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
-        long totalPopulation = generateTotalPopulationData(query);
-        System.out.println(totalPopulation);
-        return totalPopulation;
+        System.out.println(generateTotalPopulationData(query));
     }
 
     // The population of a city
-    public long getTotalPopulationInCity(String city) {
+    public void getTotalPopulationInCity(String city) {
         String query = "SELECT population AS total_population\n" +
                 "FROM city\n" +
                 "WHERE name = '" + city + "'";
         String title = "The population of city " + city;
         System.out.println("\n" + title);
         System.out.println("-".repeat(title.length()));
-        long totalPopulation = generateTotalPopulationData(query);
-        System.out.println(totalPopulation);
-        return totalPopulation;
+        System.out.println(generateTotalPopulationData(query));
     }
 
     public long generateTotalPopulationData(String query) {

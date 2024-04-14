@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import com.napier.sem.TotalPopulationReport;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TotalPopulationReportIT {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -31,49 +31,85 @@ public class TotalPopulationReportIT {
     @Test
     public void testGetTotalPopulationInWorld() {
         // Execute the method under test
-        long totalPopulation = report.generateTotalPopulationData("SELECT SUM(population) AS total_population FROM country");
+        report.getTotalPopulationInWorld();
 
-        assertEquals(6078749450L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of the world\n" +
+                "---------------------------\n" +
+                "6078749450";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @Test
     public void testGetTotalPopulationInContinent() {
         // Execute the method under test
-        long totalPopulation = report.getTotalPopulationInContinent("Europe");
+        report.getTotalPopulationInContinent("Europe");
 
-        assertEquals(730074600L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of continent Europe\n" +
+                "----------------------------------\n" +
+                "730074600";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @Test
     public void testGetTotalPopulationInRegion() {
         // Execute the method under test
-        long totalPopulation = report.getTotalPopulationInRegion("North America");
+        report.getTotalPopulationInRegion("North America");
 
-        assertEquals(309632000L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of region North America\n" +
+                "--------------------------------------\n" +
+                "309632000";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @Test
     public void testGetTotalPopulationInCountry() {
         // Execute the method under test
-        long totalPopulation = report.getTotalPopulationInCountry("France");
+        report.getTotalPopulationInCountry("France");
 
-        assertEquals(59225700L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of country France\n" +
+                "--------------------------------\n" +
+                "59225700";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @Test
     public void testGetTotalPopulationInDistrict() {
         // Execute the method under test
-        long totalPopulation = report.getTotalPopulationInDistrict("Tasmania");
+        report.getTotalPopulationInDistrict("Tasmania");
 
-        assertEquals(126118L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of district Tasmania\n" +
+                "-----------------------------------\n" +
+                "126118";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @Test
     public void testGetTotalPopulationInCity() {
         // Execute the method under test
-        long totalPopulation = report.getTotalPopulationInCity("Amsterdam");
+        report.getTotalPopulationInCity("Amsterdam");
 
-        assertEquals(731200L, totalPopulation);
+        // Verify the output contains expected values
+        String output = outContent.toString();
+        String expectedOutput = "The population of city Amsterdam\n" +
+                "--------------------------------\n" +
+                "731200";
+
+        assertTrue(output.contains(expectedOutput));
     }
 
     @After
