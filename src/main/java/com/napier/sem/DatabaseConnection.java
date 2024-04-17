@@ -5,32 +5,54 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
-    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://db:3306/world?useSSL=false";
-    private static final String USER = "root";
-    private static final String PASS = "example";
+    private static Connection connection;
 
-    public static Connection getConnection() {
-        Connection con = null;
-
+    public static Connection connect(String location, int delay) {
         try {
-            Class.forName(JDBC_DRIVER);
+            // Load Database driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Could not load SQL driver");
+            System.exit(-1);
+        }
 
-            int retries = 10;
-            for (int i = 0; i < retries; ++i) {
-                System.out.println("Connecting to database...");
-                // Wait a bit for db to start
-                Thread.sleep(30000);
-                con = DriverManager.getConnection(DB_URL, USER, PASS);
+        int retries = 10;
+        boolean shouldWait = false;
+        for (int i = 0; i < retries; ++i) {
+            System.out.println("Connecting to database...");
+            try {
+                if (shouldWait) {
+                    // Wait a bit for db to start
+                    Thread.sleep(delay);
+                }
+
+                // Connect to database
+                connection = DriverManager.getConnection("jdbc:mysql://" + location
+                                + "/world?allowPublicKeyRetrieval=true&useSSL=false",
+                        "root", "example");
                 System.out.println("Successfully connected");
                 break;
+            } catch (SQLException sqle) {
+                System.out.println("Failed to connect to database attempt " + i);
+                System.out.println(sqle.getMessage());
+
+                // Let's wait before attempting to reconnect
+                shouldWait = true;
+            } catch (InterruptedException ie) {
+                System.out.println("Thread interrupted? Should not happen.");
             }
-            return con;
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        }
+        return connection;
+    }
+
+    public static void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Connection closed successfully");
+            } catch (SQLException e) {
+                System.out.println("Error while closing connection: " + e.getMessage());
+            }
         }
     }
 }

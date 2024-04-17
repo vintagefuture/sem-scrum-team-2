@@ -26,20 +26,15 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CapitalCitiesPopulationReportTest {
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     @Mock
     private Connection con;
-
     @Mock
     private PreparedStatement stmt;
-
     @Mock
     private ResultSet rset;
-
     @InjectMocks
     private CapitalCitiesPopulationReport capitalCityPopulationReport;
-
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 

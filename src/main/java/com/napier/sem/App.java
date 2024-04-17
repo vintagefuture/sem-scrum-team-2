@@ -2,14 +2,24 @@ package com.napier.sem;
 
 import java.sql.Connection;
 
-
+/**
+ * Main entry point for the application
+ * Contains the call to each report
+ */
 public class App {
-    /**
-     * Main entry point for the application
-     * Contains the call to each report
-     */
     public static void main(String[] args) {
-        try (Connection con = DatabaseConnection.getConnection()) {
+
+        String DB_URL;
+        int DELAY;
+
+        if (args.length < 1) {
+            DB_URL = "localhost:3306";
+            DELAY = 10000;
+        } else {
+            DB_URL = args[0];
+            DELAY = Integer.parseInt(args[1]);
+        }
+        try (Connection con = DatabaseConnection.connect(DB_URL, DELAY)) {
             if (con != null) {
 
                 // All countries in the world organised by largest population to smallest
@@ -110,10 +120,11 @@ public class App {
 
                 // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
 
+
+                DatabaseConnection.closeConnection();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("An error occurred: " + e.getMessage());
         }
     }
-
 }
