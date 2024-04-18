@@ -44,3 +44,15 @@
 | 30 | The population of a district.                                                                                                                      | Yes | ![](images/districtPopulation.jpg)          |
 | 31 | The population of a city.                                                                                                                          | Yes | ![](images/cityPopulation.jpg)              |
 | 32 | Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest. | No  | ![](images/)                                |
+
+## Individual Contribution Spreadsheet**
+
+| Matriculation Number | Code Review 1 | Code Review 2 |
+| ---- | ------------- | ------------- |
+| 40523517 | 25          | 25          |
+| 40682709 | 25          | 25          |
+| 40676261 | 25          | 25         |
+| 40665440 | 25          | 25           |
+| 40683872 | 0 | 0 |
+| 40682714 | 0 | 0 |
+| **Total** | **100** | **100** |
