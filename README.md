@@ -45,7 +45,7 @@
 | 31 | The population of a city.                                                                                                                          | Yes | ![](images/cityPopulation.jpg)              |
 | 32 | Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest. | No  | ![](images/)                                |
 
-## Individual Contribution Spreadsheet**
+## Individual Contribution Spreadsheet
 
 | Matriculation Number | Code Review 1 | Code Review 2 |
 | ---- | ------------- | ------------- |
