@@ -6,7 +6,7 @@
 * Develop Branch Status ![GitHub Workflow Status (branch)](https://img.shields.io/github/actions/workflow/status/vintagefuture/sem-scrum-team-2/main.yml?branch=develop)
 * [![codecov](https://codecov.io/gh/vintagefuture/sem-scrum-team-2/graph/badge.svg?token=13QK5D8I17)](https://codecov.io/gh/vintagefuture/sem-scrum-team-2)
 * License [![LICENSE](https://img.shields.io/github/license/vintagefuture/sem-scrum-team-2.svg?style=flat-square)](https://github.com/vintagefuture/sem-scrum-team-2/blob/master/LICENSE)
-* Release [![Releases](https://img.shields.io/github/release/vintagefuture/sem-scrum-team-2/all.svg?style=flat-square)](https://github.com/vintagefuture/sem-scrum-team-2/releases)
+* Release [![Releases](https://img.shields.io/github/release/vintagefuture/sem-scrum-team-2/all.svg?style=flat-square)](https://github.com/vintagefuture/sem-scrum-team-2/releases/latest)
 
 ## Product Backlog
 
