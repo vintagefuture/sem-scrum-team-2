@@ -18,7 +18,7 @@ public class TopCitiesPopulationReport {
 
     // The top `N` populated cities in the continent  where `N` is provided by the user
     public void getTopPopulatedCitiesInTheContinent(String continent, int N) {
-        String query = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<City> cities = generateCityData(query);
@@ -42,7 +42,7 @@ public class TopCitiesPopulationReport {
 
     // The top `N` populated cities in the world  where `N` is provided by the user
     public void getTopPopulatedCitiesInTheWorld(int N) {
-        String query = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<City> cities = generateCityData(query);
@@ -66,7 +66,7 @@ public class TopCitiesPopulationReport {
 
     // The top `N` populated cities in the country  where `N` is provided by the user
     public void getTopPopulatedCitiesInTheCountry(String country, int N) {
-        String query = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE c.Name = '" + country + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE c.Name = '" + country + "' ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<City> cities = generateCityData(query);
@@ -90,7 +90,7 @@ public class TopCitiesPopulationReport {
 
     // The top `N` populated cities in the region  where `N` is provided by the user
     public void getTopPopulatedCitiesInTheRegion(String region, int N) {
-        String query = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE c.Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE c.Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<City> cities = generateCityData(query);
@@ -114,7 +114,7 @@ public class TopCitiesPopulationReport {
 
     // The top `N` populated cities in the district  where `N` is provided by the user
     public void getTopPopulatedCitiesInTheDistrict(String district, int N) {
-        String query = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE ci.District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
+        String query = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci ON c.Code = ci.CountryCode WHERE ci.District = '" + district + "' ORDER BY Population DESC LIMIT " + N;
 
         // Execute SQL statement
         ArrayList<City> cities = generateCityData(query);

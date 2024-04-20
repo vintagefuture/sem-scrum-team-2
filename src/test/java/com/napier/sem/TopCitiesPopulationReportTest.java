@@ -57,7 +57,7 @@ class TopCitiesPopulationReportTest {
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        String expectedQuery = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci " +
+        String expectedQuery = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci " +
                 "ON c.Code = ci.CountryCode WHERE Continent = 'Asia' ORDER BY Population DESC LIMIT " + limit;
 
         assertTrue(executedSQL.contains(expectedQuery),
@@ -83,7 +83,7 @@ class TopCitiesPopulationReportTest {
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        String expectedQuery = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci " +
+        String expectedQuery = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci " +
                 "ON c.Code = ci.CountryCode ORDER BY Population DESC LIMIT " + limit;
 
         assertTrue(executedSQL.contains(expectedQuery),
@@ -109,7 +109,7 @@ class TopCitiesPopulationReportTest {
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        String expectedQuery = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci " +
+        String expectedQuery = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci " +
                 "ON c.Code = ci.CountryCode WHERE c.Name = 'Indonesia' ORDER BY Population DESC LIMIT " + limit;
 
         assertTrue(executedSQL.contains(expectedQuery),
@@ -135,7 +135,7 @@ class TopCitiesPopulationReportTest {
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        String expectedQuery = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci " +
+        String expectedQuery = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci " +
                 "ON c.Code = ci.CountryCode WHERE c.Region = 'Southern and Central Asia' ORDER BY Population DESC LIMIT " + limit;
 
         assertTrue(executedSQL.contains(expectedQuery),
@@ -162,7 +162,7 @@ class TopCitiesPopulationReportTest {
 
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
-        String expectedQuery = "SELECT ci.Name, c.Name, ci.District, ci.Population AS Population FROM country c JOIN city ci " +
+        String expectedQuery = "SELECT ci.Name AS Name, c.Name AS Country, ci.District AS District, ci.Population AS Population FROM country c JOIN city ci " +
                 "ON c.Code = ci.CountryCode WHERE ci.District = 'California' ORDER BY Population DESC LIMIT " + limit;
 
         assertTrue(executedSQL.contains(expectedQuery),
