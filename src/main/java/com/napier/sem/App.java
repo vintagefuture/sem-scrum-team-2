@@ -60,14 +60,20 @@ public class App {
 
 
                 // The top N populated cities in the world where N is provided by the user
+                TopCitiesPopulationReport topCitiesPopulationReport = new TopCitiesPopulationReport(con);
+                topCitiesPopulationReport.getTopPopulatedCitiesInTheWorld(5);
 
                 // The top N populated cities in a continent where N is provided by the user
+                topCitiesPopulationReport.getTopPopulatedCitiesInTheContinent("Asia", 5);
 
                 // The top N populated cities in a region where N is provided by the user
+                topCitiesPopulationReport.getTopPopulatedCitiesInTheRegion("Central Africa", 5);
 
                 // The top N populated cities in a country where N is provided by the user
+                topCitiesPopulationReport.getTopPopulatedCitiesInTheCountry("Indonesia", 5);
 
                 // The top N populated cities in a district where N is provided by the user
+                topCitiesPopulationReport.getTopPopulatedCitiesInTheDistrict("California", 5);
 
                 // All the capital cities in the world organised by largest population to smallest
                 CapitalCitiesPopulationReport capitalCitiesPopulationReport = new CapitalCitiesPopulationReport(con);
