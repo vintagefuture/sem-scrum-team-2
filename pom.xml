@@ -5,6 +5,7 @@
 
     <groupId>com.napier.sem</groupId>
     <artifactId>HumanPopulationInsights</artifactId>
+    <version>0.13.0</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -82,7 +83,6 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <finalName>HumanPopulationInsights</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.napier.sem.App</mainClass>
