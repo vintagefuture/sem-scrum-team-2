@@ -67,6 +67,26 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.napier.sem.App</mainClass>
+                        </manifest>
+                    </archive>
+                    <finalName>HumanPopulationInsights</finalName>
+                </configuration>
+            </plugin>
+
 
             <!-- Maven Surefire plugin to run unit tests -->
             <plugin>
@@ -92,6 +112,7 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>HumanPopulationInsights</finalName>
                 </configuration>
                 <executions>
                     <execution>
