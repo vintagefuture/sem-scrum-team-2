@@ -3,8 +3,11 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -14,16 +17,19 @@ import java.util.List;
  * - The top `N` populated countries in a region where `N` is provided by the user.
  */
 public class TopCountriesPopulationReport {
+    private static final Logger LOGGER = Logger.getLogger(TopCountriesPopulationReport.class.getName());
 
     private final Connection con;
+    Helpers helpers = new Helpers();
 
     public TopCountriesPopulationReport(Connection con) {
         this.con = con;
     }
 
-    Helpers helpers = new Helpers();
-
-    // The top `N` populated countries in the world  where `N` is provided by the user
+    /**
+     * The top `N` populated countries in the world  where `N` is provided by the user
+     * @param N Top filter
+     */
     public void getTopPopulatedCountriesInTheWorld(int N) {
         String query =
                 "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID ORDER BY Population DESC LIMIT " + N;
@@ -50,7 +56,11 @@ public class TopCountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // The top `N` populated countries in a continent where `N` is provided by the user
+    /**
+     *  The top `N` populated countries in a continent where `N` is provided by the user
+     * @param continent The chosen continent
+     * @param N Top filter
+     */
     public void getTopPopulatedCountriesInContinent(String continent, int N) {
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Continent = '" + continent + "' ORDER BY Population DESC LIMIT " + N;
 
@@ -75,7 +85,11 @@ public class TopCountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // The top `N` populated countries in a region where `N` is provided by the user
+    /**
+     * The top `N` populated countries in a region where `N` is provided by the user
+     * @param region The chosen region
+     * @param N Top filter
+     */
     public void getTopPopulatedCountriesInRegion(String region, int N) {
 
         String query = "SELECT c.Code, c.Name, c.Continent, c.Region, c.Population, ci.Name AS Capital FROM country c JOIN city ci ON c.Capital = ci.ID WHERE Region = '" + region + "' ORDER BY Population DESC LIMIT " + N;
@@ -101,6 +115,11 @@ public class TopCountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * Helper method for retrieving country data
+     * @param parameter The SQL query to parse the data from
+     * @return countries
+     */
     public ArrayList<Country> generateCountryData(String parameter) {
         ArrayList<Country> countries = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(parameter)) {
@@ -115,8 +134,8 @@ public class TopCountriesPopulationReport {
                 country.setCapital(rset.getString("Capital"));
                 countries.add(country);
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Proper error handling is recommended
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating country data: " + e.getMessage(), e);
         }
         return countries;
     }

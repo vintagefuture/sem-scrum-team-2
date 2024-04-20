@@ -4,12 +4,21 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Manages the connection to the database.
+ */
 public class DatabaseConnection {
+
     private static Connection connection;
 
+    /**
+     * Establishes a connection to the database.
+     * @param location The location of the database server.
+     * @param delay The delay (in milliseconds) between retry attempts.
+     * @return The database connection.
+     */
     public static Connection connect(String location, int delay) {
         try {
-            // Load Database driver
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
@@ -22,11 +31,9 @@ public class DatabaseConnection {
             System.out.println("Connecting to database...");
             try {
                 if (shouldWait) {
-                    // Wait a bit for db to start
                     Thread.sleep(delay);
                 }
 
-                // Connect to database
                 connection = DriverManager.getConnection("jdbc:mysql://" + location
                                 + "/world?allowPublicKeyRetrieval=true&useSSL=false",
                         "root", "example");
@@ -36,7 +43,6 @@ public class DatabaseConnection {
                 System.out.println("Failed to connect to database attempt " + i);
                 System.out.println(sqle.getMessage());
 
-                // Let's wait before attempting to reconnect
                 shouldWait = true;
             } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
@@ -45,11 +51,14 @@ public class DatabaseConnection {
         return connection;
     }
 
+    /**
+     * Closes the database connection.
+     */
     public static void closeConnection() {
         if (connection != null) {
             try {
                 connection.close();
-                System.out.println("Connection closed successfully");
+                System.out.println("\nConnection closed successfully");
             } catch (SQLException e) {
                 System.out.println("Error while closing connection: " + e.getMessage());
             }

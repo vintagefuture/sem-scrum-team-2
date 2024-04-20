@@ -3,8 +3,11 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class provides the functionality for:
@@ -13,6 +16,7 @@ import java.util.List;
  * - All the countries in a region organised by largest population to smallest.
  */
 public class CountriesPopulationReport {
+    private static final Logger LOGGER = Logger.getLogger(CitiesReport.class.getName());
     private final Connection con;
 
     Helpers helpers = new Helpers();
@@ -24,8 +28,11 @@ public class CountriesPopulationReport {
         this.con = con;
     }
 
-    // All the countries in the world organised by largest population to smallest
+    /**
+     * All the countries in the world organised by largest population to smallest
+     */
     public void getCountriesPopulationInTheWorldReport() {
+        // Prepare the SQL query
         String query =
                 "SELECT c.code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
@@ -54,7 +61,10 @@ public class CountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // All the countries in a continent organised by largest population to smallest
+    /**
+     * All the countries in a continent organised by largest population to smallest
+     * @param continent The chosen continent
+     */
     public void getCountriesPopulationInContinentReport(String continent) {
         // Prepare the SQL query
         String query =
@@ -84,10 +94,12 @@ public class CountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // All the countries in a region organised by largest population to smallest
+    /**
+     * All the countries in a region organised by largest population to smallest
+     * @param region The chosen region
+     */
     public void getCountriesPopulationInRegionReport(String region) {
-
-        // Create string for SQL statement
+        // Prepare the SQL query
         String query =
                 "SELECT c.Code, c.Name, Continent, Region, c.Population, ci.Name " +
                         "FROM country c " +
@@ -118,6 +130,11 @@ public class CountriesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * Helper method for populating the Country class
+     * @param query The SQL query to parse the data from
+     * @return countries
+     */
     private ArrayList<Country> generateCountryData(String query) {
         ArrayList<Country> countries = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
@@ -132,8 +149,8 @@ public class CountriesPopulationReport {
                 country.setCapital(rset.getString("ci.Name"));
                 countries.add(country);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating country data: " + e.getMessage(), e);
         }
         return countries;
     }

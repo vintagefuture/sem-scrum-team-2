@@ -3,17 +3,28 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * A class to generate population reports based on different geographical levels.
+ * This class provides the functionality for:
+ * - The population of people, people living in cities, and people not living in cities in each continent
+ * - The population of people, people living in cities, and people not living in cities in each region
+ * - The population of people, people living in cities, and people not living in cities in each country
  */
 public class PopulationReport {
-
+    private static final Logger LOGGER = Logger.getLogger(PopulationReport.class.getName());
     private final Connection con;
     Helpers helpers = new Helpers();
 
+    /**
+     * Constructs a PopulationReport object with the specified database connection.
+     *
+     * @param con The database connection to be used for generating reports.
+     */
     public PopulationReport(Connection con) {
         this.con = con;
     }
@@ -29,8 +40,34 @@ public class PopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    private List<List<String>> generateContinentData() {
+    /**
+     * Generates a population report comparing population in cities versus non-city areas by region.
+     */
+    public void generatePopulationInCitiesVSNonCityByRegion() {
+        // SQL query to compute population data by region
+        List<List<String>> rows = generateRegionData();
+        String title = "The population of people, people living in cities, and people not living in cities in each region";
+        List<String> columnNames = List.of("Region", "Total Population", "City Population", "Non-City Population", "City Population %", "Non-City Population %");
+        helpers.printReport(title, columnNames, rows);
+    }
 
+    /**
+     * Generates a population report comparing population in cities versus non-city areas by country.
+     */
+    public void generatePopulationInCitiesVSNonCityByCountry() {
+        // SQL query to compute population data by country
+        List<List<String>> rows = generateCountryData();
+        String title = "The population of people, people living in cities, and people not living in cities in each country";
+        List<String> columnNames = List.of("Country", "Total Population", "City Population", "Non-City Population", "City Population %", "Non-City Population %");
+        helpers.printReport(title, columnNames, rows);
+    }
+
+    /**
+     * Generates population data by continent.
+     *
+     * @return A list of lists containing population data by continent.
+     */
+    private List<List<String>> generateContinentData() {
         String query = "SELECT co.Continent, " +
                 "SUM(co.Population) AS TotalPopulation, " +
                 "SUM(ci.CityPopulation) AS PopulationInCities, " +
@@ -56,25 +93,18 @@ public class PopulationReport {
                 row.add(String.valueOf(rset.getBigDecimal("PercentageNonCities")));
                 rows.add(row);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating continent data: " + e.getMessage(), e);
         }
         return rows;
     }
 
     /**
-     * Generates a population report comparing population in cities versus non-city areas by region.
+     * Generates population data by region.
+     *
+     * @return A list of lists containing population data by region.
      */
-    public void generatePopulationInCitiesVSNonCityByRegion() {
-        // SQL query to compute population data by region
-        List<List<String>> rows = generateRegionData();
-        String title = "The population of people, people living in cities, and people not living in cities in each region";
-        List<String> columnNames = List.of("Region", "Total Population", "City Population", "Non-City Population", "City Population %", "Non-City Population %");
-        helpers.printReport(title, columnNames, rows);
-    }
-
     private List<List<String>> generateRegionData() {
-
         String query = "SELECT country.region AS Region, " +
                 "SUM(country.population) AS TotalPopulation, " +
                 "SUM((SELECT SUM(population) FROM city WHERE countrycode = country.code)) AS PopulationInCities, " +
@@ -99,25 +129,15 @@ public class PopulationReport {
                 row.add(String.valueOf(rset.getBigDecimal("PercentageNonCities")));
                 rows.add(row);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating region data: " + e.getMessage(), e);
         }
         return rows;
-
     }
-
 
     /**
      * Generates a population report comparing population in cities versus non-city areas by country.
      */
-    public void generatePopulationInCitiesVSNonCityByCountry() {
-        // SQL query to compute population data by country
-        List<List<String>> rows = generateCountryData();
-        String title = "The population of people, people living in cities, and people not living in cities in each country";
-        List<String> columnNames = List.of("Country", "Total Population", "City Population", "Non-City Population", "City Population %", "Non-City Population %");
-        helpers.printReport(title, columnNames, rows);
-    }
-
     private List<List<String>> generateCountryData() {
         String query = "SELECT " +
                 "co.name AS country_name, " +
@@ -149,8 +169,8 @@ public class PopulationReport {
                 row.add(String.valueOf(rset.getBigDecimal("percentage_population_not_in_cities")));
                 rows.add(row);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating country data: " + e.getMessage(), e);
         }
         return rows;
     }

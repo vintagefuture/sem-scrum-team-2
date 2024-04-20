@@ -2,8 +2,18 @@ package com.napier.sem;
 
 import java.util.List;
 
+/**
+ * A class containing helper methods for generating and printing reports.
+ */
 public class Helpers {
 
+    /**
+     * Prints a formatted report with the specified title, column names, and rows of data.
+     *
+     * @param title       The title of the report.
+     * @param columnNames The names of the columns in the report.
+     * @param rows        The data rows to be printed in the report.
+     */
     public void printReport(String title, List<String> columnNames, List<List<String>> rows) {
         // Print report title
         System.out.println("\n" + title);

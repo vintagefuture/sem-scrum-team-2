@@ -3,9 +3,11 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  * This class provides the functionality for:
  * - All the capital cities in the world organised by largest population to smallest.
@@ -13,7 +15,7 @@ import java.util.List;
  * - All the capital cities in a region organised by largest population to smallest.
  */
 public class CapitalCitiesPopulationReport {
-
+    private static final Logger LOGGER = Logger.getLogger(CapitalCitiesPopulationReport.class.getName());
     private final Connection con;
 
     Helpers helpers = new Helpers();
@@ -23,8 +25,11 @@ public class CapitalCitiesPopulationReport {
         this.con = con;
     }
 
-    // All the capital cities in the world organised by largest population to smallest
+    /**
+     * All the capital cities in the world organised by largest population to smallest
+     */
     public void getCapitalCitiesReportOfTheWorld() {
+        // Prepare the SQL query
         String query = "SELECT ci.Name, c.Name AS Country, ci.Population\n" +
                 "FROM city ci\n" +
                 "JOIN country c ON c.Capital = ci.id\n" +
@@ -49,8 +54,12 @@ public class CapitalCitiesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // All the capital cities in a continent organised by largest population to smallest
-    public ArrayList<City> getCapitalCitiesReportOfContinent(String continent) {
+    /**
+     * All the capital cities in a continent organised by largest population to smallest
+     * @param continent the chosen continent
+     */
+    public void getCapitalCitiesReportOfContinent(String continent) {
+        // Prepare the SQL query
         String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
                 "FROM country ct " +
                 "JOIN city c ON ct.Capital = c.ID " +
@@ -74,11 +83,14 @@ public class CapitalCitiesPopulationReport {
         }
 
         helpers.printReport(title, columnNames, rows);
-        return cities;
     }
 
-    // All the capital cities in a region organised by largest population to smallest
+    /**
+     * All the capital cities in a region organised by largest population to smallest
+     * @param region the chosen region
+     */
     public void getCapitalCityReportOfRegion(String region) {
+        // Prepare the SQL query
         String query = "SELECT c.Name AS Name, ct.Name AS Country, c.Population AS Population\n" +
                 "FROM country ct " +
                 "JOIN city c ON ct.Capital = c.ID " +
@@ -104,6 +116,11 @@ public class CapitalCitiesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * Helper method for populating the City class
+     * @param query The SQL query to parse the data from
+     * @return cities
+     */
     public ArrayList<City> generateCapitalCityData(String query) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
@@ -116,8 +133,8 @@ public class CapitalCitiesPopulationReport {
                 city.setPopulation(rset.getInt("Population"));
                 cities.add(city);
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Proper error handling is recommended
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating capital city data: " + e.getMessage(), e);
         }
         return cities;
     }

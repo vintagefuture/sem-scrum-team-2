@@ -18,9 +18,15 @@ import java.sql.ResultSet;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the CountriesPopulationReport class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class CountriesPopulationReportTest {
 
+    /**
+     * Setting up the test environment.
+     */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     @Mock
     private Connection con;
@@ -40,10 +46,16 @@ public class CountriesPopulationReportTest {
         when(stmt.executeQuery()).thenReturn(rset);
     }
 
+    /**
+     * Test case for fetching population data of all countries.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testFetchAllCountries() throws Exception {
         when(con.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rset);
+
         // Mock the ResultSet to simulate database behavior
         when(rset.next()).thenReturn(true, false); // Simulate one row returned, then end
         when(rset.getString("c.Code")).thenReturn("Code1");
@@ -63,6 +75,11 @@ public class CountriesPopulationReportTest {
         verify(rset, atLeastOnce()).next();
     }
 
+    /**
+     * Test case for generating population report by continent.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGenerateContinentReport() throws Exception {
         String continent = "Asia";
@@ -81,6 +98,11 @@ public class CountriesPopulationReportTest {
         verifyOutputContains("Code\tName\tContinent\tRegion\tPopulation\tCapital");
     }
 
+    /**
+     * Test case for generating population report by region.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGenerateRegionReport() throws Exception {
         String region = "Europe";
