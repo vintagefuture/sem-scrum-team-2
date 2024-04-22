@@ -18,7 +18,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Unit Tests
-        run: mvn test
+        run: mvn '-Dtest=com.napier.sem.*Test' test
       - name: CodeCov
         uses: codecov/codecov-action@v4
         with:
@@ -45,14 +45,14 @@ jobs:
         run: |
           docker build -t database ./db 
           docker run --name world -dp 3306:3306 database
-          mvn verify          
+          mvn '-Dtest=com.napier.sem.*IT' test          
           docker stop world
           docker rm world
           docker image rm database
       - name: CodeCov
         uses: codecov/codecov-action@v4
         with:
-          token: ${{ secrets.CODECOV_TOKEN }} # now required for public repos
+          token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./target/site/jacoco
           flags: Integration Tests
           verbose: true
