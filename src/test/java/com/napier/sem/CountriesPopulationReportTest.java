@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for the CountriesPopulationReport class.
+ * Unit tests for the {@link CountriesPopulationReport} class.
  */
 @ExtendWith(MockitoExtension.class)
 public class CountriesPopulationReportTest {
@@ -28,17 +28,31 @@ public class CountriesPopulationReportTest {
      * Setting up the test environment.
      */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    /** Mocked database connection. */
     @Mock
     private Connection con;
+
+    /** Mocked prepared statement. */
     @Mock
     private PreparedStatement stmt;
+
+    /** Mocked result set. */
     @Mock
     private ResultSet rset;
+
+    /** Injected mocks for CountriesPopulationReport. */
     @InjectMocks
     private CountriesPopulationReport countriesPopulationReport;
+
+    /** Argument captor for SQL queries. */
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * @throws Exception if setup fails
+     */
     @BeforeEach
     void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
@@ -68,8 +82,6 @@ public class CountriesPopulationReportTest {
         countriesPopulationReport.getCountriesPopulationInTheWorldReport();
 
         // Verify `printReport` was called with the correct parameters
-        // This requires modifying `WorldPopulationReport` to make `printReport` verifiable or inspecting console output
-
         verify(con).prepareStatement(anyString());
         verify(stmt).executeQuery();
         verify(rset, atLeastOnce()).next();
@@ -124,12 +136,22 @@ public class CountriesPopulationReportTest {
                 "Output should contain the correct column headers.");
     }
 
+    /**
+     * Mocks the result set for countries.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     private void mockResultSetForCountries() throws Exception {
         when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
         when(rset.getString(any())).thenReturn("TestData");
         when(rset.getInt(any())).thenReturn(100000);
     }
 
+    /**
+     * Verifies that the output contains the expected content.
+     *
+     * @param expectedContent the content expected in the output
+     */
     private void verifyOutputContains(String expectedContent) {
         assertTrue(outContent.toString().replaceAll("\\s\\s+", "\t").contains(expectedContent),
                 "The output should contain: " + expectedContent);

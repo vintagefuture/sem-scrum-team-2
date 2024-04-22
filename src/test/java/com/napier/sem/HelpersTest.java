@@ -8,8 +8,14 @@ import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for the {@link Helpers} class.
+ */
 public class HelpersTest {
 
+    /**
+     * Test case for printing a report with data.
+     */
     @Test
     public void testPrintReport() {
         // Redirect System.out to capture printed output
@@ -18,12 +24,14 @@ public class HelpersTest {
 
         Helpers helpers = new Helpers();
 
+        // Define test data
         String title = "Test Report";
         List<String> columnNames = Arrays.asList("Name", "Age", "City");
         List<List<String>> rows = new ArrayList<>();
         rows.add(Arrays.asList("John Doe", "30", "New York"));
         rows.add(Arrays.asList("Jane Smith", "25", "Los Angeles"));
 
+        // Invoke the method under test
         helpers.printReport(title, columnNames, rows);
 
         // Verify printed output
@@ -36,6 +44,9 @@ public class HelpersTest {
         assertEquals("Jane Smith  25   Los Angeles  ", lines[5]);
     }
 
+    /**
+     * Test case for printing a report with empty data.
+     */
     @Test
     public void testPrintReport_EmptyData() {
         // Redirect System.out to capture printed output
@@ -44,10 +55,12 @@ public class HelpersTest {
 
         Helpers helpers = new Helpers();
 
+        // Define test data
         String title = "Empty Report";
         List<String> columnNames = Arrays.asList("Name", "Age", "City");
         List<List<String>> rows = new ArrayList<>();
 
+        // Invoke the method under test
         helpers.printReport(title, columnNames, rows);
 
         // Verify printed output

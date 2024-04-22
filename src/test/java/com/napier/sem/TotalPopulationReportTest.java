@@ -10,35 +10,48 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 
+/**
+ * Unit tests for TotalPopulationReport class using Mockito.
+ */
 public class TotalPopulationReportTest {
 
     private Connection mockConnection;
     private PreparedStatement mockPreparedStatement;
     private ResultSet mockResultSet;
 
-    @Captor
-    private ArgumentCaptor<String> sqlCaptor;
-
+    /**
+     * Setup method executed before each test.
+     *
+     * @throws Exception if any setup operation fails
+     */
     @BeforeEach
     public void setUp() throws Exception {
+        // Initialize Mockito annotations
         MockitoAnnotations.openMocks(this);
+
+        // Mock objects initialization
         mockConnection = mock(Connection.class);
         mockPreparedStatement = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
 
+        // Define behavior for mocked objects
         when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
     }
 
+    /**
+     * Test case for getting total population of the world.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInWorld() throws Exception {
         // Mock data
         when(mockResultSet.next()).thenReturn(true);
         when(mockResultSet.getLong("total_population")).thenReturn(1000000L);
 
+        // Instantiate TotalPopulationReport with mocked connection
         TotalPopulationReport totalPopulationReport = new TotalPopulationReport(mockConnection);
         totalPopulationReport.getTotalPopulationInWorld();
 
@@ -46,6 +59,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for getting total population of a continent.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInContinent() throws Exception {
         // Mock data
@@ -64,6 +82,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for getting total population of a region.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInRegion() throws Exception {
         // Mock data
@@ -82,6 +105,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for getting total population of a country.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInCountry() throws Exception {
         // Mock data
@@ -99,6 +127,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for getting total population of a district.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInDistrict() throws Exception {
         // Mock data
@@ -118,6 +151,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for getting total population of a city.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGetTotalPopulationInCity() throws Exception {
         // Mock data
@@ -137,6 +175,11 @@ public class TotalPopulationReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Test case for generating total population data from a query.
+     *
+     * @throws Exception if any error occurs during the test
+     */
     @Test
     public void testGenerateTotalPopulationData() throws Exception {
         // Mock data

@@ -15,15 +15,27 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
+/**
+ * Unit tests for the {@link CitiesReport} class.
+ */
 public class CitiesReportTest {
 
+    /** Mocked database connection. */
     private Connection mockConnection;
+
+    /** Mocked prepared statement. */
     private PreparedStatement mockPreparedStatement;
+
+    /** Mocked result set. */
     private ResultSet mockResultSet;
 
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * @throws Exception if setup fails
+     */
     @BeforeEach
     public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
@@ -35,6 +47,10 @@ public class CitiesReportTest {
         when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
     }
 
+    /**
+     * Tests the retrieval of cities population report in the world.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetCitiesPopulationReportInTheWorld() throws Exception {
         // Mock data
@@ -51,6 +67,10 @@ public class CitiesReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Tests the retrieval of cities population report in a continent.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetCitiesPopulationInContinent() throws Exception {
         // Mock data
@@ -76,6 +96,10 @@ public class CitiesReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Tests the retrieval of cities population report in a country.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetCitiesPopulationReportInCountry() throws Exception {
         // Mock data
@@ -107,6 +131,10 @@ public class CitiesReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
+    /**
+     * Tests the retrieval of cities population report in a district.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetCitiesPopulationReportInDistrict() throws Exception {
         // Mock data
@@ -138,7 +166,10 @@ public class CitiesReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
-
+    /**
+     * Tests the retrieval of cities population report in a region.
+     * @throws Exception if an error occurs during the test
+     */
    @Test
     public void testGetCitiesPopulationInRegion() throws Exception {
         // Mock data
@@ -164,7 +195,10 @@ public class CitiesReportTest {
         verify(mockPreparedStatement).executeQuery();
     }
 
-
+    /**
+     * Tests the retrieval of a city report of a region.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGenerateCityData() throws Exception {
         // Mock data
@@ -190,6 +224,3 @@ public class CitiesReportTest {
         assert cities.get(0).getPopulation() == 1000000;
     }
 }
-
-
-

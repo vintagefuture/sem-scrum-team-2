@@ -23,21 +23,39 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the {@link CapitalCitiesPopulationReport} class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class CapitalCitiesPopulationReportTest {
 
+    /** Output stream for capturing printed content. */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    /** Mocked database connection. */
     @Mock
     private Connection con;
+
+    /** Mocked prepared statement. */
     @Mock
     private PreparedStatement stmt;
+
+    /** Mocked result set. */
     @Mock
     private ResultSet rset;
+
+    /** Instance of the class under test. */
     @InjectMocks
     private CapitalCitiesPopulationReport capitalCityPopulationReport;
+
+    /** Argument captor for SQL queries. */
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * @throws Exception if setup fails
+     */
     @BeforeEach
     void setUp() throws Exception {
         System.setOut(new PrintStream(outContent));
@@ -45,6 +63,10 @@ public class CapitalCitiesPopulationReportTest {
         when(stmt.executeQuery()).thenReturn(rset);
     }
 
+    /**
+     * Tests the generation of capital city data.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     void testGenerateCapitalCityData() throws Exception {
         String query = "SELECT ci.Name, c.Name AS Country, ci.Population\n" +
@@ -68,6 +90,10 @@ public class CapitalCitiesPopulationReportTest {
         assertEquals(1000, cities.get(0).getPopulation());
     }
 
+    /**
+     * Tests the retrieval of capital cities report of a continent.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetCapitalCitiesReportOfContinent() throws Exception {
         // Mock data
@@ -91,6 +117,10 @@ public class CapitalCitiesPopulationReportTest {
         verify(stmt).executeQuery();
     }
 
+    /**
+     * Tests the retrieval of capital city report of a region.
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     void testGetCapitalCityReportOfRegion() throws Exception {
         String regionName = "Caribbean";
@@ -104,10 +134,20 @@ public class CapitalCitiesPopulationReportTest {
         assertSqlContains(executedSQL, "ct.Region = '" + regionName + "'");
     }
 
+    /**
+     * Asserts that the executed SQL contains the expected string.
+     * @param executedSQL the executed SQL query
+     * @param expected the expected string in the SQL query
+     */
     private void assertSqlContains(String executedSQL, String expected) {
         assertTrue(executedSQL.contains(expected),
                 "Expected SQL to contain: " + expected + ", but was: " + executedSQL);
     }
+
+    /**
+     * Mocks the result set for capital city.
+     * @throws Exception if an error occurs during mocking
+     */
     private void mockResultSetForCapitalCity() throws Exception {
         when(rset.next()).thenReturn(true, false); // Simulate one row returned
         when(rset.getString(any())).thenReturn("TestData");

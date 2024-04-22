@@ -21,6 +21,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+/**
+ * Unit tests for the {@link TopCapitalCitiesPopulationReport} class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class TopCapitalCitiesPopulationReportTest {
 
@@ -36,14 +39,29 @@ public class TopCapitalCitiesPopulationReportTest {
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 
+    /**
+     * Sets up the test environment before each test method.
+     *
+     * @throws Exception if an error occurs during setup
+     */
     @BeforeEach
     void setUp() throws Exception {
+        // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
+
+        // Mock behavior of the PreparedStatement and ResultSet
         when(con.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rset);
     }
+
+    /**
+     * Test case for generating a report on the top capital cities in the world.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGetTopCapitalCitiesInTheWorldReport() throws Exception {
+        // Set up mock behavior for ResultSet
         when(rset.next()).thenReturn(true, true, true, true, true, false); // Simulate five rows returned
         when(rset.getString(eq("Name"))).thenReturn("Beijing");
         when(rset.getString(eq("Country"))).thenReturn("China");
@@ -52,6 +70,7 @@ public class TopCapitalCitiesPopulationReportTest {
         int limit = 5;
         topCapitalCitiesPopulationReport.getTopCapitalCitiesInTheWorldReport(limit);
 
+        // Verify the SQL query executed
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
         String expectedQuery = "SELECT city.Name, country.Name AS Country, city.Population " +
@@ -61,13 +80,18 @@ public class TopCapitalCitiesPopulationReportTest {
         assertTrue(executedSQL.contains(expectedQuery),
                 "The SQL should contain the correct LIMIT clause for the capital city.");
 
-        // Verify printReport invocation indirectly by checking the console output
+        // Verify the output contains expected values
         String output = outContent.toString();
         assertTrue(output.contains("Top " + limit + " Populated Capital Cities in the World"), "Output should contain the report title.");
         assertTrue(output.replaceAll("\\s\\s+", "\t").contains("Name\tCountry\tPopulation"),
                 "Output should contain the correct column headers.");
     }
 
+    /**
+     * Test case for generating a report on the top capital cities in a continent.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGetTopCapitalCitiesInTheContinentReport() throws Exception {
         when(rset.next()).thenReturn(true, true, true, true, true, false); // Simulate five rows returned
@@ -97,6 +121,11 @@ public class TopCapitalCitiesPopulationReportTest {
                 "Output should contain the correct column headers.");
     }
 
+    /**
+     * Test case for generating a report on the top capital cities in a region.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGetTopCapitalCitiesInTheRegionReport() throws Exception {
         when(rset.next()).thenReturn(true, true, true, true, true, false); // Simulate five rows returned

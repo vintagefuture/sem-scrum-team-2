@@ -11,29 +11,49 @@ import java.sql.DriverManager;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Integration tests for the {@link PopulationReport} class.
+ */
 public class PopulationReportIT {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private Connection con;
     private PopulationReport report;
 
+    /**
+     * Sets up the test environment before each test method.
+     *
+     * @throws Exception if an error occurs during setup
+     */
     @BeforeEach
     public void setUp() throws Exception {
         // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
 
+        // Establish a database connection
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
 
+        // Initialize the PopulationReport instance
         report = new PopulationReport(con);
     }
 
+    /**
+     * Cleans up the test environment after each test method.
+     *
+     * @throws Exception if an error occurs during teardown
+     */
     @AfterEach
     public void tearDown() throws Exception {
+        // Close the database connection
         con.close();
     }
 
+    /**
+     * Test case for generating population report comparing city and non-city populations by country.
+     */
     @Test
     void testGeneratePopulationInCitiesVSNonCityByCountry() {
+        // Invoke the method under test
         report.generatePopulationInCitiesVSNonCityByCountry();
 
         // Verify the output contains expected values

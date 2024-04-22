@@ -11,12 +11,24 @@ import java.sql.DriverManager;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Integration test class for CapitalCitiesPopulationReport.
+ */
 public class CapitalCitiesPopulationReportIT {
 
+    /** Stream to capture the output. */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    /** Database connection object. */
     private Connection con;
+
+    /** CapitalCitiesPopulationReport instance. */
     private CapitalCitiesPopulationReport report;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * @throws Exception if setup fails
+     */
     @BeforeEach
     public void setUp() throws Exception {
         // Redirect System.out to capture the output
@@ -27,11 +39,18 @@ public class CapitalCitiesPopulationReportIT {
         report = new CapitalCitiesPopulationReport(con);
     }
 
+    /**
+     * Cleans up the test environment after each test method is executed.
+     * @throws Exception if tear down fails
+     */
     @AfterEach
     public void tearDown() throws Exception {
         con.close();
     }
 
+    /**
+     * Tests the retrieval of capital cities population report in the world.
+     */
     @Test
     void testGetCitiesPopulationReportInTheWorld() {
         report.getCapitalCitiesReportOfTheWorld();
