@@ -10,7 +10,7 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <junit.jupiter.version>5.7.0</junit.jupiter.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <maven.failsafe.plugin.version>2.22.2</maven.failsafe.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,32 +35,24 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>3.6.0</version>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.6.0</version>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.31</version> <!-- Use the latest version compatible with your MySQL server -->
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>2.2.222</version>
-            <scope>test</scope>
+            <version>8.0.33</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -86,23 +78,12 @@
                     <finalName>HumanPopulationInsights</finalName>
                 </configuration>
             </plugin>
-
-
-            <!-- Maven Surefire plugin to run unit tests -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
-                <configuration>
-                    <!-- No additional configuration required for basic JUnit 5 support -->
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
+                    <finalName>HumanPopulationInsights</finalName>
                     <archive>
                         <manifest>
                             <mainClass>com.napier.sem.App</mainClass>
@@ -112,7 +93,6 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                     <appendAssemblyId>false</appendAssemblyId>
-                    <finalName>HumanPopulationInsights</finalName>
                 </configuration>
                 <executions>
                     <execution>
@@ -123,14 +103,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
             </plugin>
 
             <!-- Maven Surefire plugin for unit tests -->
