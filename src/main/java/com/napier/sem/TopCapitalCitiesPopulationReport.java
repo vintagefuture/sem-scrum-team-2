@@ -3,8 +3,11 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -14,18 +17,19 @@ import java.util.List;
  * - The top `N` populated capital cities in a region where `N` is provided by the user.
  */
 public class TopCapitalCitiesPopulationReport {
-
+    private static final Logger LOGGER = Logger.getLogger(PopulationReport.class.getName());
     private final Connection con;
+    Helpers helpers = new Helpers();
 
     public TopCapitalCitiesPopulationReport(Connection con) {
         this.con = con;
     }
 
-    Helpers helpers = new Helpers();
-
-    // The top `N` populated capital cities in the world  where `N` is provided by the user
+    /**
+     * The top `N` populated capital cities in the world  where `N` is provided by the user
+     * @param N Top filter
+     */
     public void getTopCapitalCitiesInTheWorldReport(int N) {
-
         // SQL query to select the top N populated capital cities in the world
         String query =
                 "SELECT city.Name, country.Name AS Country, city.Population " +
@@ -50,9 +54,12 @@ public class TopCapitalCitiesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // The top `N` populated capital cities in a continent where `N` is provided by the user
+    /**
+     *  The top `N` populated capital cities in a continent where `N` is provided by the user
+     * @param N Top filter
+     * @param continent The chosen continent
+     */
     public void getTopCapitalCitiesInTheContinentReport(int N, String continent) {
-
         // SQL query to select the top N populated capital cities in the continent
         String query =
                 "SELECT city.Name, country.Name AS Country, city.Population " +
@@ -77,9 +84,10 @@ public class TopCapitalCitiesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
-    // The top `N` populated capital cities in a region where `N` is provided by the user
+    /**
+     * The top `N` populated capital cities in a region where `N` is provided by the user
+     */
     public void getTopCapitalCitiesInTheRegionReport(int N, String region) {
-
         // SQL query to select the top N populated capital cities in the region
         String query =
                 "SELECT city.Name, country.Name AS Country, city.Population " +
@@ -104,6 +112,11 @@ public class TopCapitalCitiesPopulationReport {
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * Helper method for populating the City class
+     * @param query The SQL query to parse the data from
+     * @return cities
+     */
     public ArrayList<City> generateCapitalCitiesData(String query) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
@@ -115,8 +128,8 @@ public class TopCapitalCitiesPopulationReport {
                 city.setPopulation(rset.getInt("Population"));
                 cities.add(city);
             }
-        } catch (Exception e) {
-            e.printStackTrace(); // Proper error handling is recommended
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating country data: " + e.getMessage(), e);
         }
         return cities;
     }

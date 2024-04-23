@@ -11,29 +11,46 @@ import java.sql.DriverManager;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Integration tests for TotalPopulationReport class.
+ */
 public class TotalPopulationReportIT {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
     private Connection con;
     private TotalPopulationReport report;
 
+    /**
+     * Setup method executed before each test.
+     *
+     * @throws Exception if any setup operation fails
+     */
     @BeforeEach
     public void setUp() throws Exception {
-
         // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
 
         // Connect to the database
         con = DriverManager.getConnection("jdbc:mysql://localhost:3306/world?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
 
+        // Initialize TotalPopulationReport with database connection
         report = new TotalPopulationReport(con);
     }
 
+    /**
+     * Tear down method executed after each test.
+     *
+     * @throws Exception if any tear down operation fails
+     */
     @AfterEach
     public void tearDown() throws Exception {
+        // Close the database connection
         con.close();
     }
 
+    /**
+     * Test case for getting total population of the world.
+     */
     @Test
     public void testGetTotalPopulationInWorld() {
         // Execute the method under test
@@ -48,6 +65,9 @@ public class TotalPopulationReportIT {
         assertTrue(output.contains(expectedOutput));
     }
 
+    /**
+     * Test case for getting total population of a continent.
+     */
     @Test
     public void testGetTotalPopulationInContinent() {
         // Execute the method under test
@@ -62,6 +82,9 @@ public class TotalPopulationReportIT {
         assertTrue(output.contains(expectedOutput));
     }
 
+    /**
+     * Test case for getting total population of a region.
+     */
     @Test
     public void testGetTotalPopulationInRegion() {
         // Execute the method under test
@@ -76,6 +99,9 @@ public class TotalPopulationReportIT {
         assertTrue(output.contains(expectedOutput));
     }
 
+    /**
+     * Test case for getting total population of a country.
+     */
     @Test
     public void testGetTotalPopulationInCountry() {
         // Execute the method under test
@@ -90,6 +116,9 @@ public class TotalPopulationReportIT {
         assertTrue(output.contains(expectedOutput));
     }
 
+    /**
+     * Test case for getting total population of a district.
+     */
     @Test
     public void testGetTotalPopulationInDistrict() {
         // Execute the method under test
@@ -104,6 +133,9 @@ public class TotalPopulationReportIT {
         assertTrue(output.contains(expectedOutput));
     }
 
+    /**
+     * Test case for getting total population of a city.
+     */
     @Test
     public void testGetTotalPopulationInCity() {
         // Execute the method under test

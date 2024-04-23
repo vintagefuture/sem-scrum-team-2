@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the {@link PopulationReport} class.
+ */
 @ExtendWith(MockitoExtension.class)
 public class PopulationReportTest {
 
@@ -35,23 +38,39 @@ public class PopulationReportTest {
     @Captor
     private ArgumentCaptor<String> sqlCaptor;
 
+    /**
+     * Sets up the test environment before each test method.
+     *
+     * @throws Exception if an error occurs during setup
+     */
     @BeforeEach
     void setUp() throws Exception {
+        // Redirect System.out to capture the output
         System.setOut(new PrintStream(outContent));
+
+        // Mock behavior of the PreparedStatement and ResultSet
         when(con.prepareStatement(anyString())).thenReturn(stmt);
         when(stmt.executeQuery()).thenReturn(rset);
     }
 
+    /**
+     * Test case for generating population report comparing city and non-city populations by continent.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGeneratePopulationInCitiesVSNonCityByContinent() throws Exception {
-        when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
+        // Set up mock behavior for ResultSet
+        when(rset.next()).thenReturn(true, true, false);
         when(rset.getString("Continent")).thenReturn("Asia");
         when(rset.getBigDecimal("TotalPopulation")).thenReturn(new BigDecimal(10000));
         when(rset.getBigDecimal("PopulationInCities")).thenReturn(new BigDecimal(8000));
         when(rset.getBigDecimal("PopulationInNonCityAreas")).thenReturn(new BigDecimal(2000));
 
+        // Call the method under test
         cityPopulationReport.generatePopulationInCitiesVSNonCityByContinent();
 
+        // Verify that the expected SQL query is executed
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
         String expectedQuery =
@@ -65,10 +84,9 @@ public class PopulationReportTest {
                         "LEFT JOIN (SELECT c.CountryCode, SUM(c.Population) AS CityPopulation FROM city c GROUP BY c.CountryCode) ci ON co.Code = ci.CountryCode " +
                         "GROUP BY co.Continent " +
                         "ORDER BY TotalPopulation DESC";
+        assertTrue(executedSQL.contains(expectedQuery), "The SQL should contain the correct population city vs non-city query.");
 
-        assertTrue(executedSQL.contains(expectedQuery),
-                "The SQL should contain the correct population city vs non city.");
-        // Verify printReport invocation indirectly by checking the console output
+        // Verify the output contains expected values
         String output = outContent.toString();
         assertTrue(output.contains("The population of people, people living in cities, and people not living in cities in each continent"),
                 "Output should contain the report title.");
@@ -76,16 +94,24 @@ public class PopulationReportTest {
                 "Output should contain the correct column headers.");
     }
 
+    /**
+     * Test case for generating population report comparing city and non-city populations by region.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGeneratePopulationInCitiesVSNonCityByRegion() throws Exception {
-        when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
+        // Set up mock behavior for ResultSet
+        when(rset.next()).thenReturn(true, true, false);
         when(rset.getString("Region")).thenReturn("Eastern Asia");
         when(rset.getBigDecimal("TotalPopulation")).thenReturn(new BigDecimal(10000));
         when(rset.getBigDecimal("PopulationInCities")).thenReturn(new BigDecimal(8000));
         when(rset.getBigDecimal("PopulationInNonCityAreas")).thenReturn(new BigDecimal(2000));
 
+        // Call the method under test
         cityPopulationReport.generatePopulationInCitiesVSNonCityByRegion();
 
+        // Verify that the expected SQL query is executed
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
         String expectedQuery =
@@ -98,10 +124,10 @@ public class PopulationReportTest {
                         "FROM country " +
                         "GROUP BY country.region " +
                         "ORDER BY TotalPopulation DESC";
-
         assertTrue(executedSQL.contains(expectedQuery),
                 "The SQL should contain the correct population city vs non city.");
-        // Verify printReport invocation indirectly by checking the console output
+
+        // Verify the output contains expected values
         String output = outContent.toString();
         assertTrue(output.replaceAll("\\s\\s+", "\t").contains("The population of people, people living in cities, and people not living in cities in each region"),
                 "Output should contain the report title.");
@@ -109,6 +135,11 @@ public class PopulationReportTest {
                 "Output should contain the correct column headers.");
     }
 
+    /**
+     * Test case for generating population report comparing city and non-city populations by country.
+     *
+     * @throws Exception if an error occurs during execution
+     */
     @Test
     void testGeneratePopulationInCitiesVSNonCityByCountry() throws Exception {
         when(rset.next()).thenReturn(true, true, false); // Simulate two rows returned
@@ -117,8 +148,10 @@ public class PopulationReportTest {
         when(rset.getBigDecimal("population_in_cities")).thenReturn(new BigDecimal(8000));
         when(rset.getBigDecimal("population_not_in_cities")).thenReturn(new BigDecimal(2000));
 
+        // Call the method under test
         cityPopulationReport.generatePopulationInCitiesVSNonCityByCountry();
 
+        // Verify that the expected SQL query is executed
         verify(con).prepareStatement(sqlCaptor.capture());
         String executedSQL = sqlCaptor.getValue();
         String expectedQuery =
@@ -137,10 +170,10 @@ public class PopulationReportTest {
                         "co.code, co.name, co.population " +
                         "ORDER BY " +
                         "total_population DESC";
-
         assertTrue(executedSQL.contains(expectedQuery),
                 "The SQL should contain the correct population city vs non city.");
-        // Verify printReport invocation indirectly by checking the console output
+
+        // Verify the output contains expected values
         String output = outContent.toString();
         assertTrue(output.contains("The population of people, people living in cities, and people not living in cities in each country"),
                 "Output should contain the report title.");
@@ -149,4 +182,3 @@ public class PopulationReportTest {
     }
 
 }
-

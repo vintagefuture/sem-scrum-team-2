@@ -124,8 +124,9 @@ public class App {
                 // The population of a city
                 totalPopulationReport.getTotalPopulationInCity("Amsterdam");
 
-                // Total number of people, with percentage of world population, who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
-
+                // Total number of people who speak Chinese, English, Hindi, Spanish, Arabic, from greatest number to smallest
+                LanguagesPopulationReport languagesPopulationReport = new LanguagesPopulationReport(con);
+                languagesPopulationReport.getTotalPopulationForLanguages();
 
                 DatabaseConnection.closeConnection();
             }

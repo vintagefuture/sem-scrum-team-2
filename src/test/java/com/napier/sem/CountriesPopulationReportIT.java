@@ -11,12 +11,24 @@ import java.sql.DriverManager;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Integration tests for the {@link CountriesPopulationReport} class.
+ */
 public class CountriesPopulationReportIT {
 
+    /** Stream to capture the output. */
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    /** Database connection object. */
     private Connection con;
+
+    /** CountriesPopulationReport instance. */
     private CountriesPopulationReport report;
 
+    /**
+     * Sets up the test environment before each test method is executed.
+     * @throws Exception if setup fails
+     */
     @BeforeEach
     public void setUp() throws Exception {
         // Redirect System.out to capture the output
@@ -27,11 +39,18 @@ public class CountriesPopulationReportIT {
         report = new CountriesPopulationReport(con);
     }
 
+    /**
+     * Cleans up the test environment after each test method is executed.
+     * @throws Exception if teardown fails
+     */
     @AfterEach
     public void tearDown() throws Exception {
         con.close();
     }
 
+    /**
+     * Tests the generation of countries population report in a continent.
+     */
     @Test
     void testGetCountriesPopulationInContinentReport() {
         report.getCountriesPopulationInContinentReport("Asia");
@@ -58,6 +77,9 @@ public class CountriesPopulationReportIT {
         assertTrue(output.contains(expectedOutput)); // Example assertion
     }
 
+    /**
+     * Tests the generation of countries population report in a region.
+     */
     @Test
     void testGetCountriesPopulationInRegionReport() {
         report.getCountriesPopulationInRegionReport("North America");

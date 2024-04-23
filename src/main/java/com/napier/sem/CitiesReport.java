@@ -3,8 +3,11 @@ package com.napier.sem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class provides the functionality for:
@@ -16,20 +19,20 @@ import java.util.List;
  */
 public class CitiesReport
 {
+    private static final Logger LOGGER = Logger.getLogger(CitiesReport.class.getName());
+
     private final Connection con;
+    Helpers helpers = new Helpers();
 
     public CitiesReport(Connection con) {
         this.con = con;
     }
 
-    Helpers helpers = new Helpers();
-
-    // All the cities in a district organised by largest population to smallest.
-
-    
-
-    // All the cities in the world organised by largest population to smallest
+    /**
+     * All the cities in the world organised by largest population to smallest
+     */
     public void getCitiesPopulationReportInTheWorld() {
+        // Prepare the SQL query
         String query =
                 "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
                 "FROM city ci " +
@@ -56,8 +59,12 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
-    // All the cities in a continent organised by largest population to smallest
+    /**
+     * All the cities in a continent organised by largest population to smallest
+     * @param continent the chosen continent
+     */
     public void getCitiesPopulationInContinent(String continent) {
+        // Prepare the SQL query
         String query =
                 "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
                         "FROM city ci " +
@@ -85,9 +92,11 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
-    // All the cities in a country organised by largest population to smallest
+    /**
+     * All the cities in a country organised by largest population to smallest
+     * @param country the chosen country
+     */
     public void getCitiesPopulationReportInCountry(String country) {
-
         // Prepare the SQL query
         String query =
                 "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
@@ -116,6 +125,9 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * All the cities in a district organised by largest population to smallest.
+     */
     public void getCitiesPopulationReportInDistrict(String districtName) {
         // Prepare the SQL query
         String query =
@@ -145,7 +157,12 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * All the cities in a region organised by largest population to smallest.
+     * @param region the chosen region
+     */
     public void getCitiesPopulationInRegion(String region) {
+        // Prepare the SQL query
         String query =
                 "SELECT ci.Name AS Name, c.Name AS Country, ci.District, ci.Population " +
                         "FROM city ci " +
@@ -173,6 +190,11 @@ public class CitiesReport
         helpers.printReport(title, columnNames, rows);
     }
 
+    /**
+     * Helper method for populating the City class
+     * @param query The SQL query to parse the data from
+     * @return cities
+     */
     public ArrayList<City> generateCityData(String query) {
         ArrayList<City> cities = new ArrayList<>();
         try (PreparedStatement stmt = con.prepareStatement(query)) {
@@ -186,8 +208,8 @@ public class CitiesReport
                 city.setPopulation(rset.getInt("Population"));
                 cities.add(city);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Error while generating city data: " + e.getMessage(), e);
         }
         return cities;
     }
